@@ -8,7 +8,7 @@ import Register from '../pages/Register/Regiser';
 const WelcomeRoute = () => (
   <Switch>
     <Route path="/" exact element={ <Login /> } />
-    <Route path="/register" exact element={ <Register /> } />
+    <Route path="/cadastro" exact element={ <Register /> } />
   </Switch>
 );
 

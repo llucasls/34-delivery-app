@@ -3,4 +3,6 @@ import styled from 'styled-components';
 import { StyledContainer as Container, StyledText as Text } from '../Login/styles';
 
 export const StyledContainer = styled(Container)``;
-export const StyledText = styled(Text)``;
+export const StyledText = styled(Text)`
+  font-size: 20px;
+`;
