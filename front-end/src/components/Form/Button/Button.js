@@ -14,6 +14,6 @@ const Button = ({ size, title, ...rest }) => (
 export default Button;
 
 Button.propTypes = {
-  size: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 };
