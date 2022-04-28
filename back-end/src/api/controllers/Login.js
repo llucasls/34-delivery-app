@@ -25,7 +25,7 @@ const Login = async (req, res) => {
 };
 
 const Register = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, role } = req.body;
   const userTest = await userService.getUser({ email, name });
 
   if (userTest) {
@@ -35,12 +35,12 @@ const Register = async (req, res) => {
   }
 
   const hash = crypto.createHash('md5').update(password).digest('hex');
-  const user = await userService.createUser({ email, password: hash, name, role: 'customer' });
+  const user = await userService.createUser({ email, password: hash, name, role });
 
   return res.status(HTTPCodes.CREATED).json({
-    token: sign({ email, role: 'customer' }),
+    token: sign({ email, role }),
     name: user.name,
-    role: 'customer',
+    role: user.role,
   });
 };
 
