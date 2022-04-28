@@ -1,32 +1,49 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { configureStore } from '@reduxjs/toolkit';
-import { applyMiddleware } from 'redux';
 import { render } from '@testing-library/react';
 
-import ExempleSlice from '../store/slices/slice.exemple';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import reducer from '../store/slices/slice.exemple';
 
-export const getStore = (initialState) => {
-  if (!initialState) return configureStore(ExempleSlice, applyMiddleware(thunk));
-  return configureStore(ExempleSlice, initialState, applyMiddleware(thunk));
-};
+const renderWithRouterAndRedux = (
+  component, // componente a ser renderizado
+  {
+    // estado inicial para o nosso reducer
+    initialState = {},
 
-export const renderWithRouterAndStore = (component, routeConfigs = {}, initialState) => {
-  const route = routeConfigs.route || '/';
-  const store = getStore(initialState);
-  const history = routeConfigs.history
-    || createMemoryHistory({ initialEntries: [route] });
+    // caso você passe uma store por parâmetro ela será utilizada
+    // caso contrário vai chamar a função createStore e criar uma nova
+    store = configureStore(reducer, initialState),
 
-  return {
-    ...render(
+    // rota inicial da nossa aplicação
+    initialEntries = ['/'],
+
+    // caso você passe um history por parâmetro ele será utilizado
+    // caso contrário vai chamar a função createMemotryHistory e criar um novo
+    history = createMemoryHistory({ initialEntries }),
+  } = {},
+) => ({ // arrow function que retorna um objeto
+
+  // spread do retorno do render { getByTestId, getByRole, etc }
+  ...render(
+    <Router history={ history }>
       <Provider store={ store }>
-        <Router history={ history }>{component}</Router>
-      </Provider>,
-    ),
-    history,
-    store,
-  };
-};
+        {component}
+      </Provider>
+    </Router>,
+  ),
+
+  // history usado acima
+  history,
+
+  // store usada acima
+  store,
+});
+
+// resultado dessa função:
+// renderiza o componente no teste
+// retorna um objeto contendo { store, history, getByTestId, getByRole, etc }
+
+export default renderWithRouterAndRedux;
