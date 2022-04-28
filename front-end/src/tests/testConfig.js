@@ -22,8 +22,8 @@ export const renderWithRouterAndStore = (component, routeConfigs = {}, initialSt
 
   return {
     ...render(
-      <Provider store={store}>
-        <Router history={history}>{component}</Router>
+      <Provider store={ store }>
+        <Router history={ history }>{component}</Router>
       </Provider>,
     ),
     history,
