@@ -46,7 +46,7 @@ const Login = () => {
           style={ { marginBottom: 0, backgroundColor: 'transparent', color: '#036B52' } }
           type="button"
           data-testid="button-register"
-          onClick={ () => goTo('/cadastro') }
+          onClick={ () => goTo('/register') }
           title="Ainda não tenho conta"
           size={ 12 }
         />

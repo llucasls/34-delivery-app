@@ -14,8 +14,7 @@ const Label = ({ size, children, ...rest }) => (
 export default Label;
 
 Label.propTypes = {
-  title: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

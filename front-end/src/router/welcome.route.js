@@ -3,12 +3,12 @@ import { Routes as Switch, Route } from 'react-router-dom';
 
 // pages
 import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Regiser';
+import Register from '../pages/Register/Register';
 
 const WelcomeRoute = () => (
   <Switch>
     <Route path="/" exact element={ <Login /> } />
-    <Route path="/cadastro" exact element={ <Register /> } />
+    <Route path="/register" exact element={ <Register /> } />
   </Switch>
 );
 
