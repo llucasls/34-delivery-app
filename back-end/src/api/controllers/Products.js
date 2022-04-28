@@ -1,9 +1,18 @@
 const productsService = require('../services/Products');
+const HTTPCodes = require('../../utils/HTTPCodes');
 
 const getAll = async (req, res) => {
   const products = await productsService.getAll();
 
-  res.status(200).json(products);
+  res.status(HTTPCodes.OK).json(products);
 };
 
-module.exports = { getAll };
+const getById = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await productsService.getById(id);
+
+  res.status(HTTPCodes.OK).json(product);
+};
+
+module.exports = { getAll, getById };

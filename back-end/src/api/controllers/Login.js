@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const userService = require('../services/User');
-const CreateJWT = require('../Utils/CreateJWT');
-const HTTPCodes = require('../Utils/HTTPCodes');
+const { sign } = require('../../utils/jwt');
+const HTTPCodes = require('../../utils/HTTPCodes');
 
 const Login = async (req, res) => {
   const { email, password } = req.body;
@@ -18,7 +18,7 @@ const Login = async (req, res) => {
   const { role, name } = user;
 
   return res.status(HTTPCodes.OK).json({
-    token: CreateJWT({ email, role }),
+    token: sign({ email, role }),
     name,
     role,
   });
@@ -38,7 +38,7 @@ const Register = async (req, res) => {
   const user = await userService.createUser({ email, password: hash, name, role: 'customer' });
 
   return res.status(HTTPCodes.CREATED).json({
-    token: CreateJWT({ email, role: 'customer' }),
+    token: sign({ email, role: 'customer' }),
     name: user.name,
     role: 'customer',
   });

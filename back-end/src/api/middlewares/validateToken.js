@@ -1,7 +1,5 @@
-const Jwt = require('jsonwebtoken');
-const HTTPCodes = require('../Utils/HTTPCodes');
-
-const secret = 'secret';
+const { verify } = require('../../utils/jwt');
+const HTTPCodes = require('../../utils/HTTPCodes');
 
 const validateToken = (req, res, next) => {
   const token = req.headers.authorization;
@@ -13,7 +11,7 @@ const validateToken = (req, res, next) => {
   }
 
   try {
-    const decoded = Jwt.verify(token, secret);
+    const decoded = verify(token);
     req.user = decoded;
     next();
   } catch (_err) {
