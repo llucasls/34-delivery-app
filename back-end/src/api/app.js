@@ -2,14 +2,16 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const validateLogin = require('./middlewares/validateLogin');
+const validateRegister = require('./middlewares/validateRegister');
 const errorHandler = require('./middlewares/errorHandler');
-const Login = require('./controllers/Login');
+const { Login, Register } = require('./controllers/Login');
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/login', validateLogin, rescue(Login));
+app.get('/login', validateLogin, rescue(Login));
+app.post('/register', validateRegister, rescue(Register));
 
 app.use(errorHandler);
 
