@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
-import loginSchema from '../../schemas/login';
 import { useAppDispatch } from '../../store';
 import { SET_USER } from '../../store/slices/user';
+import loginSchema from '../../schemas/login';
 
 import { Input, Button, Label } from '../../components';
 import { StyledContainer, StyledContainerForm, StyledText } from './styles';
 
 const Login = () => {
+  const formRef = useRef(null);
   const goTo = useNavigate();
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLogin = async (dataForm) => {
     try {
@@ -31,7 +33,7 @@ const Login = () => {
 
   const handleSubmit = async (dataForm) => {
     try {
-      await loginSchema.validate(dataForm);
+      await loginSchema.validate(dataForm, { abortEarly: false });
       formRef.current.setErrors({});
 
       await handleLogin(dataForm);
@@ -52,6 +54,7 @@ const Login = () => {
     <StyledContainer>
       <StyledContainerForm>
         <Form
+          ref={ formRef }
           style={ {
             display: 'flex',
             flexDirection: 'column' } }
@@ -87,7 +90,7 @@ const Login = () => {
           } }
           type="button"
           data-testid="button-register"
-          onClick={ () => goTo('/cadastro') }
+          onClick={ () => goTo('/register') }
           title="Ainda não tenho conta"
           size={ 14 }
         />
