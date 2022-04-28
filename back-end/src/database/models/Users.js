@@ -13,13 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Users.associate((model) => {
-    Users.hasMany(model.Sales, { foreignKey: 'userId', as: 'user' });
-  });
+  console.log(Users);
 
-  Users.associate((model) => {
+  Users.associate = (model) => {
+    Users.hasMany(model.Sales, { foreignKey: 'userId', as: 'user' });
     Users.hasMany(model.Sales, { foreignKey: 'sellerId', as: 'seller' });
-  });
+  };
 
   return Users;
 };

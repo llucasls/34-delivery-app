@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  SalesProducts.associate((model) => {
+  SalesProducts.associate = (model) => {
     model.Sales.belongsToMany(
       model.Products, {
         as: 'products',
@@ -19,9 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'product_id',
       }
     );
-  });
 
-  SalesProducts.associate((model) => {
     model.Products.belongsToMany(
       model.Sales, {
         as: 'sales',
@@ -30,8 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'sales_id',
       }
     );
-  });
-
+  };
 
   return SalesProducts;
 };

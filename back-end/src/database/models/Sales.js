@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Sales.associate((model) => {
+  Sales.associate = (model) => {
     Sales.belongsTo(model.Users,
       {
         foreignKey: 'user_id',
@@ -25,10 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
       },
     );
-  });
-
-  Sales.associate((model) => {
-    Sales.belongsTo(model.Users,
+        Sales.belongsTo(model.Users,
       {
         foreignKey: 'seller_id',
         as: 'seller',
@@ -36,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
       },
     );
-  });
+  };
 
   return Sales;
 };
