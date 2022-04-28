@@ -6,8 +6,8 @@ import { renderWithRouterAndStore } from '../testConfig';
 
 const INPUT_EMAIL_TEST_ID = 'input-email';
 const INPUT_PASSWORD_TEST_ID = 'input-password';
-const BUTTON_TEST_LOGIN = 'button-login';
-const BUTTON_TEST_REGISTER = 'button-register';
+const BUTTON_LOGIN_TEST_ID = 'button-login';
+const BUTTON_REGISTER_TEST_ID = 'button-register';
 
 // afterEach(() => jest.clearAllMocks());
 
@@ -29,21 +29,21 @@ describe('1) Página inicial de login com os seguintes campos e características
   it('A rota deve ter o botão com o texto "LOGIN"', () => {
     renderWithRouterAndStore(<App />, '/');
 
-    const button = screen.getByTestId(BUTTON_TEST_LOGIN);
+    const button = screen.getByTestId(BUTTON_LOGIN_TEST_ID);
     expect(button).toBeInTheDocument();
   });
 
   it('A rota deve ter o botão com o texto "Ainda não tenho conta"', () => {
     renderWithRouterAndStore(<App />, '/');
 
-    const button = screen.getByTestId(BUTTON_TEST_REGISTER);
+    const button = screen.getByTestId(BUTTON_REGISTER_TEST_ID);
     expect(button).toBeInTheDocument();
   });
 
   it('A rota deve ser mudada para "/cadastro" após o clique no botão, com o texto "Ainda não tenho conta"', () => {
     const { history } = renderWithRouterAndStore(<App />, '/');
 
-    const button = screen.getByTestId(BUTTON_TEST_REGISTER);
+    const button = screen.getByTestId(BUTTON_REGISTER_TEST_ID);
 
     fireEvent.click(button);
 
