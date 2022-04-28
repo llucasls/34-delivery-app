@@ -6,7 +6,7 @@ const validateRegister = require('./middlewares/validateRegister');
 const errorHandler = require('./middlewares/errorHandler');
 const { Login, Register } = require('./controllers/Login');
 const validateToken = require('./middlewares/validateToken');
-const ProductsRouter = require('./routes/Products');
+const { productsRouter, usersRouter, salesRouter } = require('./routes');
 
 const app = express();
 
@@ -17,7 +17,9 @@ app.post('/register', validateRegister, rescue(Register));
 
 app.use(validateToken);
 
-app.use('/products', ProductsRouter);
+app.use('/products', productsRouter);
+app.use('/users', usersRouter);
+app.use('/sales', salesRouter);
 
 app.use(errorHandler);
 
