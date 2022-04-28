@@ -3,7 +3,7 @@ import { Routes as Switch, Route } from 'react-router-dom';
 
 // pages
 import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Regiser';
+import Register from '../pages/Register/Register';
 
 const WelcomeRoute = () => (
   <Switch>
