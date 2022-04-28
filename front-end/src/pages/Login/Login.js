@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store';
+import { api } from '../../service/api';
 import { SET_USER } from '../../store/slices/user';
 import loginSchema from '../../schemas/login';
 
@@ -16,16 +17,20 @@ const Login = () => {
 
   const handleLogin = async (dataForm) => {
     try {
+      // console.log(dataForm);
       // requesição de login
+
       const { data } = await api.post('/login', dataForm);
       // salva o token jwt no localStorage
-      localStorage.setItem('@token', data.token);
+
+      console.log(data);
+      // localStorage.setItem('@token', data.token);
 
       // salva info do usuario na store do redux
-      dispatch(SET_USER(data.user));
+      // dispatch(SET_USER(data.user));
 
       // navega até a home pagina
-      goTo('/');
+      // goTo('/');
     } catch (error) {
       console.log(error);
     }
@@ -44,6 +49,8 @@ const Login = () => {
         error.inner.forEach((err) => {
           errorMessages[err.path] = err.message;
         });
+
+        console.log(errorMessages);
 
         formRef.current.setErrors(errorMessages);
       }

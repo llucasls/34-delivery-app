@@ -1,49 +1,47 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { render } from '@testing-library/react';
-
+import { BrowserRouter } from 'react-router-dom';
+// import { createMemoryHistory } from 'history';
+import { render as rtlRender } from '@testing-library/react';
+// import { configureStore } from '@reduxjs/toolkit';
+import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import reducer from '../store/slices/slice.exemple';
+// import userReducer from '../store/slices/user';
+import defaultTheme from '../theme';
+import { store } from '../store';
+import '@testing-library/jest-dom';
 
-const renderWithRouterAndRedux = (
-  component, // componente a ser renderizado
-  {
-    // estado inicial para o nosso reducer
-    initialState = {},
+// const routeConfig = {}
+// const storeConfig = {}
 
-    // caso você passe uma store por parâmetro ela será utilizada
-    // caso contrário vai chamar a função createStore e criar uma nova
-    store = configureStore(reducer, initialState),
+// export const getStore = () => {
+//   const store = configureStore({ reducer: { user: userReducer } });
 
-    // rota inicial da nossa aplicação
-    initialEntries = ['/'],
+//   return store;
+// };
 
-    // caso você passe um history por parâmetro ele será utilizado
-    // caso contrário vai chamar a função createMemotryHistory e criar um novo
-    history = createMemoryHistory({ initialEntries }),
-  } = {},
-) => ({ // arrow function que retorna um objeto
+// initialEntries = ['/'],
+// history = createMemoryHistory({ initialEntries }),
 
-  // spread do retorno do render { getByTestId, getByRole, etc }
-  ...render(
-    <Router history={ history }>
+function render(component) {
+  // const store = getStore();
+  // const route = routeConfigs.route || '/';
+  // const history = routeConfigs.history
+  // || createMemoryHistory({ initialEntries: [route] });
+
+  return {
+    ...rtlRender(
       <Provider store={ store }>
-        {component}
-      </Provider>
-    </Router>,
-  ),
+        <ThemeProvider theme={ defaultTheme }>
+          <BrowserRouter>
+            {component}
+          </BrowserRouter>
+        </ThemeProvider>
+      </Provider>,
+    ),
+  };
+}
 
-  // history usado acima
-  history,
-
-  // store usada acima
-  store,
-});
-
-// resultado dessa função:
-// renderiza o componente no teste
-// retorna um objeto contendo { store, history, getByTestId, getByRole, etc }
-
-export default renderWithRouterAndRedux;
+// re-export everything
+export * from '@testing-library/react';
+// override render method
+export { render };
