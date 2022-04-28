@@ -1,15 +1,17 @@
 import React from 'react';
-import './App.css';
-import rockGlass from './images/rockGlass.svg';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import { store } from './store';
+import defaultTheme from './theme';
+import Route from './router';
 
 function App() {
   return (
-    <div className="App">
-      <span className="logo">TRYBE</span>
-      <object className="rocksGlass" type="image/svg+xml" data={ rockGlass }>
-        Glass
-      </object>
-    </div>
+    <Provider store={ store }>
+      <ThemeProvider theme={ defaultTheme }>
+        <Route />
+      </ThemeProvider>
+    </Provider>
   );
 }
 
