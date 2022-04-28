@@ -7,7 +7,7 @@ import { StyledContainer, StyledInput } from './styles';
 const Input = ({ name, ...rest }) => {
   const inputRef = useRef(null);
 
-  const { fieldName, defaultValue, registerField } = useField(name);
+  const { fieldName, defaultValue, registerField, clearError } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -25,7 +25,12 @@ const Input = ({ name, ...rest }) => {
 
   return (
     <StyledContainer>
-      <StyledInput ref={ inputRef } defaultValue={ defaultValue } { ...rest } />
+      <StyledInput
+        onFocus={ clearError }
+        ref={ inputRef }
+        defaultValue={ defaultValue }
+        { ...rest }
+      />
     </StyledContainer>
   );
 };
