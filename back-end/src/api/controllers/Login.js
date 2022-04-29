@@ -25,7 +25,7 @@ const Login = async (req, res) => {
 
 const Register = async (req, res) => {
   const { email, password, name } = req.body;
-  const userTest = await userService.getUser({ email, name });
+  const userTest = await userService.getUser({ name }) || await userService.getUser({ email }); 
 
   if (userTest) {
     return res.status(HTTPCodes.CONFLICT).json({
