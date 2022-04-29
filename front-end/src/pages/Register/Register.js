@@ -17,7 +17,7 @@ const Register = () => {
   const handleLogin = async (dataForm) => {
     try {
       const { data } = await api.post('/register', dataForm);
-      console.log(data);
+
       dispatch(SET_USER(data.user));
     } catch (error) {
       console.log(error);
