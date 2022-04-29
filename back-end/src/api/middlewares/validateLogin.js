@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const HTTPCodes = require('../Utils/HTTPCodes');
+const HTTPCodes = require('../../utils/HTTPCodes');
 
 const loginSchema = Joi.object().keys({
   email: Joi.string().email().required(),
