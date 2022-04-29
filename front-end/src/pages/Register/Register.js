@@ -12,11 +12,12 @@ import schemaRegister from '../../schemas/register.user';
 const Register = () => {
   const formRef = useRef(null);
   const dispatch = useAppDispatch();
+  // const user = useAppSelector((state) => state.userReducer.user);
 
   const handleLogin = async (dataForm) => {
     try {
       const { data } = await api.post('/register', dataForm);
-
+      console.log(data);
       dispatch(SET_USER(data.user));
     } catch (error) {
       console.log(error);
@@ -95,6 +96,7 @@ const Register = () => {
             data-testid="button-register"
             type="submit"
             title="CADASTRAR"
+            className="button"
             size={ 20 }
           />
         </Form>
