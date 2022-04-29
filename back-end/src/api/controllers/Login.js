@@ -6,17 +6,16 @@ const HTTPCodes = require('../../utils/HTTPCodes');
 const Login = async (req, res) => {
   const { email, password } = req.body;
   const user = await userService.getUser({ email });
+
+  const unauthorized = () => res.status(HTTPCodes.UNAUTHORIZED).json({
+    error: 'Invalid email or password',
+  });
+  if (!user) return unauthorized();
   const userPassword = user.password;
   const hash = crypto.createHash('md5').update(password).digest('hex');
-
-  if (userPassword !== hash) {
-    return res.status(HTTPCodes.UNAUTHORIZED).json({
-      error: 'Invalid email or password',
-    });
-  }
+  if (userPassword !== hash) return unauthorized();
 
   const { role, name } = user;
-
   return res.status(HTTPCodes.OK).json({
     token: sign({ email, role }),
     name,
