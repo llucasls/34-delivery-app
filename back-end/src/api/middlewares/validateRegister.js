@@ -5,7 +5,6 @@ const registerSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().required().min(6),
   name: Joi.string().required().min(12),
-  role: Joi.string().valid('admin', 'seller', 'buyer').required(),
 });
 
 const validateLogin = (req, res, next) => {
@@ -19,4 +18,4 @@ const validateLogin = (req, res, next) => {
 
   return next();
 };
-module.exports = validateLogin; 
+module.exports = validateLogin;
