@@ -81,6 +81,8 @@ role pode ser: 'admin', 'seller' ou 'buyer'
 
 ### Create (POST)
 
+`localhost:3001/sales`
+
 `body: {
     sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status
 }`
