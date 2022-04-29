@@ -34,9 +34,13 @@ const Register = async (req, res) => {
   }
 
   const hash = crypto.createHash('md5').update(password).digest('hex');
-  const user = await userService.createUser({ email, password: hash, name, role: 'customer' });
+  const user = await userService.createUser({ email, password: hash, name, role: 'buyer' });
 
-  return res.status(HTTPCodes.CREATED).json(user);
+  return res.status(HTTPCodes.CREATED).json({
+    token: sign({ email, role: 'buyer' }),
+    name: user.name,
+    role: user.role,
+  });
 };
 
 module.exports = { Login, Register };
