@@ -18,7 +18,7 @@ describe('Testa página login', () => {
     expect(history.location.pathname).toBe('/');
   });
 
-  it('A rota deve ter os input "email e senha"', () => {
+  it('Deve ter os input "email e senha"', () => {
     render(<Login />);
 
     const email = screen.getByTestId(INPUT_EMAIL_TEST_ID);
@@ -28,14 +28,14 @@ describe('Testa página login', () => {
     expect(senha).toBeInTheDocument();
   });
 
-  test('A rota deve ter o botão com o texto "LOGIN"', () => {
+  test('Deve ter o botão com o texto "LOGIN"', () => {
     render(<Login />);
 
     const button = screen.getByTestId(BUTTON_LOGIN_TEST_ID);
     expect(button).toBeInTheDocument();
   });
 
-  test('A rota deve ter o botão com o texto "Ainda não tenho conta"', () => {
+  test('Deve ter o botão com o texto "Ainda não tenho conta"', () => {
     render(<Login />);
 
     const button = screen.getByTestId(BUTTON_REGISTER_TEST_ID);
