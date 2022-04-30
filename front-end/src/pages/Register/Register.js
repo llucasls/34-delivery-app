@@ -13,12 +13,15 @@ const Register = () => {
   const formRef = useRef(null);
   const dispatch = useAppDispatch();
   const [axiosError, setAxiosError] = useState(null);
+  const [sucess, setSucess] = useState('');
   // const user = useAppSelector((state) => state.userReducer.user);
   const handleLogin = async (dataForm) => {
     try {
       const { data } = await api.post('/register', dataForm);
 
       dispatch(SET_USER(data.user));
+
+      setSucess('Cadastro realizado com sucesso!');
     } catch (error) {
       setAxiosError(error.response.data.error);
       console.log(error);
@@ -101,15 +104,23 @@ const Register = () => {
             size={ 20 }
           />
           {
-            axiosError && (
+            axiosError ? (
               <StyledText
                 data-testid="common_register__element-invalid_register"
                 style={ { color: 'red' } }
               >
                 { axiosError }
               </StyledText>
+            ) : (
+              <StyledText
+                data-testid="common_register__element-valid_register"
+                style={ { color: 'green' } }
+              >
+                { sucess }
+              </StyledText>
             )
           }
+
         </Form>
       </StyledContainerForm>
     </StyledContainer>
