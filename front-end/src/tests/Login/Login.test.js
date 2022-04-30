@@ -11,7 +11,7 @@ const BUTTON_REGISTER_TEST_ID = 'button-register';
 
 afterEach(() => jest.clearAllMocks());
 
-describe('Página inicial de login com os seguintes campos e características:', () => {
+describe('Testa página login', () => {
   it('A rota para esta página deve ser "/"', () => {
     const history = createMemoryHistory();
     history.push("/");
