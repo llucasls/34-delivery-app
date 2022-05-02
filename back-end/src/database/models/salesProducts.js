@@ -6,7 +6,9 @@ module.exports = (sequelize, DataTypes) => {
       quantity: DataTypes.INTEGER,
     },
     {
+      tableName: 'SalesProducts',
       timestamps: false,
+      underscored: true,
     },
   );
 
@@ -15,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       model.Products, {
         as: 'products',
         through: SalesProducts,
-        foreignKey: 'sales_id',
-        otherKey: 'product_id',
+        foreignKey: 'saleId',
+        otherKey: 'productId',
       }
     );
 
@@ -24,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       model.Sales, {
         as: 'sales',
         through: SalesProducts,
-        foreignKey: 'product_id',
-        otherKey: 'sales_id',
+        foreignKey: 'productId',
+        otherKey: 'saleId',
       }
     );
   };

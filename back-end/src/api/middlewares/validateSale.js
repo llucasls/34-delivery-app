@@ -7,7 +7,10 @@ const saleSchema = Joi.object().keys({
   deliveryAddress: Joi.string().required(),
   deliveryNumber: Joi.string().required(),
   saleDate: Joi.date(),
-  status: Joi.string().valid('pending', 'preparing', 'in_route', 'delivered').required(),
+  products: Joi.array().items(Joi.object().keys({
+    productId: Joi.number().integer().required(),
+    quantity: Joi.number().integer().required(),
+  })).required(),
 });
 
 const validateSale = (req, res, next) => {

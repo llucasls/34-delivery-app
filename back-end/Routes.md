@@ -16,7 +16,7 @@ token, name, role
 `localhost:3001/register`
 `
 body: {
-    email, password, name, role
+    email, password, name
 }
 `
 `response:{
@@ -71,7 +71,7 @@ role pode ser: 'admin', 'seller' ou 'buyer'
 
 `localhost:3001/sales`
 
-`response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status}[]`
+`response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status, products:[{product_id, quantity}]}[]`
 
 ### Get by Id (GET)
 
@@ -84,10 +84,10 @@ role pode ser: 'admin', 'seller' ou 'buyer'
 `localhost:3001/sales`
 
 `body: {
-    sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status
+    sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate, products: [{productId, quantity}]
 }`
 
-`response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status}`
+`response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status, products: [{productId, quantity}]}`
 
 status pode ser: 'pending', 'preparing', 'in_route', 'delivered'
 
