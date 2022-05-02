@@ -4,10 +4,10 @@ import { createMemoryHistory } from 'history';
 
 import { render, fireEvent, screen } from '../testConfig';
 
-const INPUT_EMAIL_TEST_ID = 'input-email';
-const INPUT_PASSWORD_TEST_ID = 'input-password';
-const BUTTON_LOGIN_TEST_ID = 'button-login';
-const BUTTON_REGISTER_TEST_ID = 'button-register';
+const INPUT_EMAIL_TEST_ID = 'common_login__input-email';
+const INPUT_PASSWORD_TEST_ID = 'common_login__input-password';
+const BUTTON_LOGIN_TEST_ID = 'common_login__button-login';
+const BUTTON_REGISTER_TEST_ID = 'common_login__button-register';
 
 afterEach(() => jest.clearAllMocks());
 

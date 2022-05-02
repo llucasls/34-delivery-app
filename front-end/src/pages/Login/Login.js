@@ -90,7 +90,7 @@ const Login = () => {
           <Label size={ 18 }>
             <StyledText style={ { marginLeft: 5 } } size={ 12 }>Email</StyledText>
             <Input
-              data-testid="input-email"
+              data-testid="common_login__input-email"
               style={ { width: 300, height: 40 } }
               name="email"
               placeholder="email"
@@ -99,7 +99,7 @@ const Login = () => {
           <Label size={ 18 }>
             <StyledText style={ { marginLeft: 5 } } size={ 12 }>Senha</StyledText>
             <Input
-              data-testid="input-password"
+              data-testid="common_login__input-password"
               style={ { width: 300, height: 40 } }
               name="password"
               type="password"
@@ -108,7 +108,7 @@ const Login = () => {
           </Label>
 
           <Button
-            data-testid="button-login"
+            data-testid="common_login__button-login"
             type="submit"
             title="LOGIN"
             size={ 20 }
@@ -123,7 +123,7 @@ const Login = () => {
             border: '1px solid #036B52',
           } }
           type="button"
-          data-testid="button-register"
+          data-testid="common_login__button-register"
           onClick={ () => goTo('/register') }
           title="Ainda não tenho conta"
           size={ 20 }
