@@ -25,7 +25,7 @@ const Login = async (req, res) => {
 
 const Register = async (req, res) => {
   const { email, password, name } = req.body;
-  const userTest = await userService.getUser({ name }) || await userService.getUser({ email }); 
+  const userTest = await userService.getUser({ name }) || await userService.getUser({ email });
 
   if (userTest) {
     return res.status(HTTPCodes.CONFLICT).json({
@@ -37,7 +37,6 @@ const Register = async (req, res) => {
   const user = await userService.createUser({ email, password: hash, name, role: 'customer' });
 
   return res.status(HTTPCodes.CREATED).json({
-    token: sign({ email, role: 'customer' }),
     name: user.name,
     role: user.role,
   });
