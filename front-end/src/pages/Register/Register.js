@@ -31,7 +31,7 @@ const Register = () => {
     try {
       const { data } = await api.post('/register', dataForm);
 
-      dispatch(SET_USER({email: data.email, role: data.role}));
+      dispatch(SET_USER({ email: data.email, role: data.role }));
 
       setSucess('Cadastro realizado com sucesso!');
     } catch (error) {
