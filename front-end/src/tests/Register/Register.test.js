@@ -6,10 +6,10 @@ import { render } from '../testConfig';
 import Register from '../../pages/Register/Register';
 import { act } from 'react-dom/test-utils';
 
-const INPUT_NAME_TEST_ID = 'input-name'
-const INPUT_EMAIL_TEST_ID = 'input-email';
-const INPUT_PASSWORD_TEST_ID = 'input-password';
-const BUTTON_REGISTER_TEST_ID = 'button-register';
+const INPUT_NAME_TEST_ID = 'common_register__input-name'
+const INPUT_EMAIL_TEST_ID = 'common_register__input-email';
+const INPUT_PASSWORD_TEST_ID = 'common_register__input-password';
+const BUTTON_REGISTER_TEST_ID = 'common_register__button-register';
 const TEXT_SUCESS_TEST_ID = 'common_register__element-valid_register';
 
 
