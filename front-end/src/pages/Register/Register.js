@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useAppDispatch } from '../../store';
@@ -14,11 +14,23 @@ const Register = () => {
   const dispatch = useAppDispatch();
   const [axiosError, setAxiosError] = useState(null);
   const [sucess, setSucess] = useState('');
-  // const user = useAppSelector((state) => state.userReducer.user);
-  const handleLogin = async (dataForm) => {
+  const [dsb, setDsb] = useState(true);
+  const [register, setRegister] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  console.log(dsb);
+  const handleChange = (event) => {
+    const { title, value } = event.target;
+
+    setRegister({ ...register, [title]: value });
+  };
+
+  const handleRegister = async (dataForm) => {
     try {
       const { data } = await api.post('/register', dataForm);
-
+      console.log(data);
       dispatch(SET_USER(data.user));
 
       setSucess('Cadastro realizado com sucesso!');
@@ -29,11 +41,13 @@ const Register = () => {
   };
 
   const handleSubmit = async (dataForm) => {
-    try {
-      await schemaRegister.validate(dataForm, { abortEarly: false });
-      formRef.current.setErrors({});
+    await handleRegister(dataForm);
+  };
 
-      await handleLogin(dataForm);
+  const validate = useCallback(async () => {
+    try {
+      await schemaRegister.validate(register, { abortEarly: false });
+      return setDsb(false);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errorMessages = {};
@@ -42,12 +56,25 @@ const Register = () => {
           errorMessages[err.path] = err.message;
         });
 
-        console.log(errorMessages);
-
         formRef.current.setErrors(errorMessages);
       }
     }
-  };
+    return setDsb(true);
+  }, [register]);
+
+  useEffect(() => {
+    validate();
+  });
+
+  useEffect(() => {
+    const FIVE_THOUSAND_MILLISECONDS = 5000;
+
+    if (axiosError) {
+      setTimeout(() => {
+        setAxiosError(null);
+      }, FIVE_THOUSAND_MILLISECONDS);
+    }
+  }, [axiosError]);
 
   return (
     <StyledContainer>
@@ -70,7 +97,9 @@ const Register = () => {
               style={ { width: 300, height: 40 } }
               data-testid="input-name"
               name="name"
+              title="name"
               placeholder="Seu nome"
+              onChange={ handleChange }
             />
           </Label>
           <Label size={ 18 }>
@@ -81,7 +110,9 @@ const Register = () => {
               data-testid="input-email"
               style={ { width: 300, height: 40 } }
               name="email"
+              title="email"
               placeholder="seuemail@email.com"
+              onChange={ handleChange }
             />
           </Label>
           <Label size={ 18 }>
@@ -93,7 +124,9 @@ const Register = () => {
               style={ { width: 300, height: 40 } }
               name="password"
               type="password"
+              title="password"
               placeholder="***********"
+              onChange={ handleChange }
             />
           </Label>
           <Button
@@ -102,6 +135,7 @@ const Register = () => {
             title="CADASTRAR"
             className="button"
             size={ 20 }
+            disabled={ dsb }
           />
           {
             axiosError ? (
