@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ const Login = () => {
   const formRef = useRef(null);
   const goTo = useNavigate();
   const dispatch = useAppDispatch();
+  const [axiosError, setAxiosError] = useState(null);
 
   const handleLogin = async (dataForm) => {
     try {
@@ -23,16 +24,15 @@ const Login = () => {
       const { data } = await api.post('/login', dataForm);
       // salva o token jwt no localStorage
 
-      console.log(data);
-      // localStorage.setItem('@token', data.token);
+      localStorage.setItem('@token', data.token);
 
       // salva info do usuario na store do redux
-      // dispatch(SET_USER(data.user));
+      dispatch(SET_USER(data.user));
 
       // navega até a home pagina
       // goTo('/');
     } catch (error) {
-      console.log(error);
+      setAxiosError(error.response.data.error);
     }
   };
 
@@ -57,6 +57,16 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    const FIVE_THOUSAND_MILLISECONDS = 5000;
+
+    if (axiosError) {
+      setTimeout(() => {
+        setAxiosError(null);
+      }, FIVE_THOUSAND_MILLISECONDS);
+    }
+  }, [axiosError]);
+
   return (
     <StyledContainer>
       <StyledContainerForm>
@@ -67,25 +77,39 @@ const Login = () => {
             flexDirection: 'column' } }
           onSubmit={ handleSubmit }
         >
-          <Label size={ 13 }>
+          {
+            axiosError && (
+              <StyledText style={ { color: 'red' } }>
+                {axiosError}
+              </StyledText>
+            )
+          }
+          <Label size={ 18 }>
             <StyledText style={ { marginLeft: 5 } } size={ 12 }>Email</StyledText>
             <Input
               data-testid="input-email"
+              style={ { width: 300, height: 40 } }
               name="email"
               placeholder="email"
             />
           </Label>
-          <Label size={ 13 }>
+          <Label size={ 18 }>
             <StyledText style={ { marginLeft: 5 } } size={ 12 }>Senha</StyledText>
             <Input
               data-testid="input-password"
+              style={ { width: 300, height: 40 } }
               name="password"
               type="password"
               placeholder="senha"
             />
           </Label>
 
-          <Button data-testid="button-login" type="submit" title="LOGIN" size={ 14 } />
+          <Button
+            data-testid="button-login"
+            type="submit"
+            title="LOGIN"
+            size={ 20 }
+          />
 
         </Form>
         <Button
@@ -99,7 +123,7 @@ const Login = () => {
           data-testid="button-register"
           onClick={ () => goTo('/register') }
           title="Ainda não tenho conta"
-          size={ 14 }
+          size={ 20 }
         />
 
       </StyledContainerForm>
