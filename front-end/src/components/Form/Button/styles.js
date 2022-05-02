@@ -19,4 +19,8 @@ export const StyledButton = styled.button`
   padding: 7px;
   margin-bottom: 10px;
   cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
