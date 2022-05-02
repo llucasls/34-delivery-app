@@ -20,7 +20,7 @@ const Register = () => {
     email: '',
     password: '',
   });
-  console.log(dsb);
+
   const handleChange = (event) => {
     const { title, value } = event.target;
 
@@ -30,8 +30,8 @@ const Register = () => {
   const handleRegister = async (dataForm) => {
     try {
       const { data } = await api.post('/register', dataForm);
-      console.log(data);
-      dispatch(SET_USER(data.user));
+
+      dispatch(SET_USER({email: data.email, role: data.role}));
 
       setSucess('Cadastro realizado com sucesso!');
     } catch (error) {
