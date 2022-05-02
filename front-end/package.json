@@ -62,5 +62,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "index.js",
+      "serviceWorker.js",
+      "reportWebVitals.js",
+      "./services/renderWithRouter",
+      "./services/history"
+    ]
   }
 }
