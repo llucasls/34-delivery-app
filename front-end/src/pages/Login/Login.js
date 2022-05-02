@@ -79,7 +79,10 @@ const Login = () => {
         >
           {
             axiosError && (
-              <StyledText style={ { color: 'red' } }>
+              <StyledText
+                data-testid="common_login__element-invalid-email"
+                style={ { color: 'red' } }
+              >
                 {axiosError}
               </StyledText>
             )
