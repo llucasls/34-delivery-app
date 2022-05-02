@@ -4,9 +4,6 @@ import { Routes as Switch, Route, Navigate } from 'react-router-dom';
 // pages
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
-// import useAppSelector from '../store';
-
-// const loggedIn = useAppSelector((state) => state.userReducer.user.email);
 
 const WelcomeRoute = () => (
   <Switch>
