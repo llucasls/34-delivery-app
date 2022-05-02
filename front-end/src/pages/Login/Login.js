@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,17 @@ const Login = () => {
   const goTo = useNavigate();
   const dispatch = useAppDispatch();
   const [axiosError, setAxiosError] = useState(null);
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  });
+  const [dsb, setDsb] = useState(true);
+
+  const handleChange = (event) => {
+    const { title, value } = event.target;
+
+    setLogin({ ...login, [title]: value });
+  };
 
   const handleLogin = async (dataForm) => {
     try {
@@ -37,11 +48,13 @@ const Login = () => {
   };
 
   const handleSubmit = async (dataForm) => {
-    try {
-      await loginSchema.validate(dataForm, { abortEarly: false });
-      formRef.current.setErrors({});
+    await handleLogin(dataForm);
+  };
 
-      await handleLogin(dataForm);
+  const validate = useCallback(async () => {
+    try {
+      await loginSchema.validate(login, { abortEarly: false });
+      return setDsb(false);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errorMessages = {};
@@ -50,12 +63,15 @@ const Login = () => {
           errorMessages[err.path] = err.message;
         });
 
-        console.log(errorMessages);
-
         formRef.current.setErrors(errorMessages);
       }
     }
-  };
+    return setDsb(true);
+  }, [login]);
+
+  useEffect(() => {
+    validate();
+  });
 
   useEffect(() => {
     const FIVE_THOUSAND_MILLISECONDS = 5000;
@@ -93,7 +109,9 @@ const Login = () => {
               data-testid="common_login__input-email"
               style={ { width: 300, height: 40 } }
               name="email"
+              title="email"
               placeholder="email"
+              onChange={ handleChange }
             />
           </Label>
           <Label size={ 18 }>
@@ -104,6 +122,8 @@ const Login = () => {
               name="password"
               type="password"
               placeholder="senha"
+              title="password"
+              onChange={ handleChange }
             />
           </Label>
 
@@ -112,6 +132,7 @@ const Login = () => {
             type="submit"
             title="LOGIN"
             size={ 20 }
+            disabled={ dsb }
           />
 
         </Form>

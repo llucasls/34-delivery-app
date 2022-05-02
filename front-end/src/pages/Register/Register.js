@@ -40,7 +40,6 @@ const Register = () => {
       setSucess('Cadastro realizado com sucesso!');
     } catch (error) {
       setAxiosError(error.response.data.error);
-      console.log(error);
     }
   };
 
