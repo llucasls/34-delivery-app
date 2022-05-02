@@ -15,7 +15,12 @@ export const StyledButton = styled.button`
   border: none;
   border-radius: 5px;
   color: ${({ theme }) => theme.colors.white};
-  padding: 5px;
+  font-weight: 400;
+  padding: 7px;
   margin-bottom: 10px;
   cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;

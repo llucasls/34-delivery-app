@@ -10,10 +10,13 @@ export const StyledContainer = styled.div`
 
 export const StyledText = styled.p`
   font-family: ${(props) => props.theme.fonts.roboto};
+  margin: 0;
 `;
 
 export const StyledContainerForm = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 20px;
+  background-color: ${({ theme }) => theme.colors.green_withe};
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;

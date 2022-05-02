@@ -1,32 +1,27 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { render as rtlRender } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { configureStore } from '@reduxjs/toolkit';
-import { applyMiddleware } from 'redux';
-import { render } from '@testing-library/react';
+import defaultTheme from '../theme';
+import { store } from '../store';
+import '@testing-library/jest-dom';
 
-import ExempleSlice from '../store/slices/slice.exemple';
-
-export const getStore = (initialState) => {
-  if (!initialState) return configureStore(ExempleSlice, applyMiddleware(thunk));
-  return configureStore(ExempleSlice, initialState, applyMiddleware(thunk));
-};
-
-export const renderWithRouterAndStore = (component, routeConfigs = {}, initialState) => {
-  const route = routeConfigs.route || '/';
-  const store = getStore(initialState);
-  const history = routeConfigs.history
-    || createMemoryHistory({ initialEntries: [route] });
-
+function render(component) {
   return {
-    ...render(
+    ...rtlRender(
       <Provider store={ store }>
-        <Router history={ history }>{component}</Router>
+        <ThemeProvider theme={ defaultTheme }>
+          <BrowserRouter>
+            {component}
+          </BrowserRouter>
+        </ThemeProvider>
       </Provider>,
     ),
-    history,
-    store,
   };
-};
+}
+
+// re-export everything
+export * from '@testing-library/react';
+// override render method
+export { render };
