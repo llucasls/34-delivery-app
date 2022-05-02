@@ -37,7 +37,6 @@ const Register = async (req, res) => {
   const user = await userService.createUser({ email, password: hash, name, role: 'customer' });
 
   return res.status(HTTPCodes.CREATED).json({
-    token: sign({ email, role: 'customer' }),
     name: user.name,
     role: user.role,
   });

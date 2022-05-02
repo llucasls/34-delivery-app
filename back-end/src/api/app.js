@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/login', validateLogin, rescue(Login));
+app.post('/login', validateLogin, rescue(Login));
 app.post('/register', validateRegister, rescue(Register));
 
 app.use(validateToken);
