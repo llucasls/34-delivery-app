@@ -50,20 +50,20 @@ const Register = () => {
   };
 
   const validate = useCallback(async () => {
-    // try {
-    await schemaRegister.validate(register, { abortEarly: false });
-    return setDsb(false);
-    // } catch (error) {
-    //   if (error instanceof Yup.ValidationError) {
-    //     const errorMessages = {};
+    try {
+      await schemaRegister.validate(register, { abortEarly: false });
+      return setDsb(false);
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errorMessages = {};
 
-    //     error.inner.forEach((err) => {
-    //       errorMessages[err.path] = err.message;
-    //     });
+        error.inner.forEach((err) => {
+          errorMessages[err.path] = err.message;
+        });
 
-    //     formRef.current.setErrors(errorMessages);
-    //   }
-    // }
+        formRef.current.setErrors(errorMessages);
+      }
+    }
     return setDsb(true);
   }, [register]);
 
