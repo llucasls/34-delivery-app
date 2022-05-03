@@ -19,7 +19,7 @@ const Login = () => {
     email: '',
     password: '',
   });
-  const [dsb, setDsb] = useState(true);
+  const [dsb, setDsb] = useState(null);
 
   const handleChange = (event) => {
     const { title, value } = event.target;
@@ -40,8 +40,7 @@ const Login = () => {
       // salva info do usuario na store do redux
       dispatch(SET_USER({ email: data.email, role: data.role }));
 
-      // navega até a home pagina
-      // goTo('/');
+      goTo('/customer/products');
     } catch (error) {
       setAxiosError(error.response.data.error);
     }
