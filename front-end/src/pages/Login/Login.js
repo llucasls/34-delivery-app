@@ -2,9 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../store';
 import { api } from '../../service/api';
-import { SET_USER } from '../../store/slices/user';
 import loginSchema from '../../schemas/login';
 
 import { Input, Button, Label } from '../../components';
@@ -13,7 +11,6 @@ import { StyledContainer, StyledContainerForm, StyledText } from './styles';
 const Login = () => {
   const formRef = useRef(null);
   const goTo = useNavigate();
-  const dispatch = useAppDispatch();
   const [axiosError, setAxiosError] = useState(null);
   const [login, setLogin] = useState({
     email: '',
@@ -27,20 +24,34 @@ const Login = () => {
     setLogin({ ...login, [title]: value });
   };
 
+  const handleNavigate = (role) => {
+    switch (role) {
+    case 'seller':
+      goTo('/seller/orders');
+      break;
+    case 'admin':
+      goTo('/');
+      break;
+    default:
+      goTo('/');
+      break;
+    }
+  };
+
   const handleLogin = async (dataForm) => {
     try {
-      // console.log(dataForm);
-      // requesição de login
-
       const { data } = await api.post('/login', dataForm);
-      // salva o token jwt no localStorage
 
-      localStorage.setItem('@token', data.token);
+      // salva o token no localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify({
+        name: data.name,
+        email: data.email,
+        role: data.role,
+      }));
 
-      // salva info do usuario na store do redux
-      dispatch(SET_USER({ name: data.name, email: data.email, role: data.role }));
-
-      goTo('/customer/products');
+      goTo('/seller/orders');
+      handleNavigate(data.role);
     } catch (error) {
       setAxiosError(error.response.data.error);
     }

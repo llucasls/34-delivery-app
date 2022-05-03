@@ -4,7 +4,7 @@ import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store';
 import { api } from '../../service/api';
-import { SET_USER } from '../../store/slices/user';
+import { SET_USER, SET_IS_LOGGED } from '../../store/slices/user';
 import { Input, Button, Label } from '../../components';
 
 import { StyledContainer, StyledTitle, StyledContainerForm, StyledText } from './styles';
@@ -38,6 +38,9 @@ const Register = () => {
         email: data.email,
         role: data.role,
       }));
+      dispatch(SET_IS_LOGGED(true));
+
+      console.log(data);
 
       goTo('/customer/products');
     } catch (error) {
