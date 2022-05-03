@@ -16,7 +16,7 @@ const Register = () => {
   const goTo = useNavigate();
 
   const [axiosError, setAxiosError] = useState(null);
-  const [dsb, setDsb] = useState(null);
+  const [dsb, setDsb] = useState(true);
   const [register, setRegister] = useState({
     name: '',
     email: '',
@@ -50,21 +50,20 @@ const Register = () => {
   };
 
   const validate = useCallback(async () => {
+    const errorMessages = {};
     try {
       await schemaRegister.validate(register, { abortEarly: false });
-      return setDsb(false);
+      formRef.current.setErrors(errorMessages);
+      setDsb(false);
+      return;
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        const errorMessages = {};
-
         error.inner.forEach((err) => {
           errorMessages[err.path] = err.message;
         });
-
-        formRef.current.setErrors(errorMessages);
       }
+      setDsb(true);
     }
-    return setDsb(true);
   }, [register]);
 
   useEffect(() => {
