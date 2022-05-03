@@ -7,7 +7,7 @@ const Login = async (req, res) => {
   const { email, password } = req.body;
   const user = await userService.getUser({ email });
 
-  const unauthorized = () => res.status(HTTPCodes.UNAUTHORIZED).json({
+  const unauthorized = () => res.status(HTTPCodes.NOT_FOUND).json({
     error: 'Invalid email or password',
   });
   if (!user) return unauthorized();
