@@ -5,6 +5,7 @@ const registerSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().required().min(6),
   name: Joi.string().required().min(12),
+  role: Joi.string().valid('customer', 'seller'),
 });
 
 const validateLogin = (req, res, next) => {

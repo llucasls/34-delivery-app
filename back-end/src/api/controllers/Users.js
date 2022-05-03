@@ -13,4 +13,24 @@ const getUser = async (req, res) => {
   res.status(HTTPCodes.OK).json(user);
 };
 
-module.exports = { getSellers, getUser };
+const getAllUsers = async (req, res) => {
+  const users = await usersService.getAllUsers();
+
+  res.status(HTTPCodes.OK).json(users);
+};
+
+const deleteUser = async (req, res) => {
+  const { email } = req.params;
+
+  const user = await usersService.deleteUser(email);
+
+  if (!user) {
+    return res.status(HTTPCodes.NOT_FOUND).json({
+      message: 'User not found',
+    });
+  }
+
+  return res.status(HTTPCodes.OK).json({ message: 'User deleted successfully' });
+};
+
+module.exports = { getSellers, getUser, getAllUsers, deleteUser };
