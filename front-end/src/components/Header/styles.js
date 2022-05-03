@@ -15,10 +15,8 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledText = styled.p`
-  font-family: ${({ theme }) => theme.fonts.roboto};
   font-size: 1.2rem;
   text-align: center;
-  margin: 0;
 `;
 
 export const StyledContainerInfoUser = styled.div`
@@ -37,8 +35,7 @@ export const StyledRow = styled.div`
 export const StyledButton = styled.button`
   width: ${({ size }) => width * size}px;
   font-size: 1.2rem;
-  font-family: ${({ theme }) => theme.fonts.roboto};
-  background-color: 'transparent';
+  font-weight: 600;
   border: none;
   cursor: pointer;
 `;

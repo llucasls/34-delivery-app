@@ -7,4 +7,5 @@ export const StyledContainer = styled(Container)`
   flex-direction: column;
   width: 100%;
 `;
+
 export const StyledText = styled(Text)``;
