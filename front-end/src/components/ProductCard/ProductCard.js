@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyledCard, StyledLabel, StyledInputContainer, StyledButton } from './styles';
 
 const ProductCard = () => {
   // verifica se o usuário colocou um número no input
@@ -8,19 +9,22 @@ const ProductCard = () => {
     }
   };
 
+  // imagem provisória
+  const beer = 'https://uploads-ssl.webflow.com/5d822e148992386c1ec80483/5da3bc9020ae1b76bd397815_TCBC-Images-OnTap.jpg';
+
   return (
-    <div id="product-card">
+    <StyledCard>
       { /* placeholder tag */ }
-      <div id="product-image" />
-      <div id="product-label">
+      <img alt="product" src={ beer } />
+      <StyledLabel>
         descrição do produto
-      </div>
-      <div id="product-amount">
-        <button type="button">-</button>
+      </StyledLabel>
+      <StyledInputContainer>
+        <StyledButton type="button">-</StyledButton>
         <input type="text" onChange={ validateInput } />
-        <button type="button">+</button>
-      </div>
-    </div>
+        <StyledButton type="button">+</StyledButton>
+      </StyledInputContainer>
+    </StyledCard>
   );
 };
 
