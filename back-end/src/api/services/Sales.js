@@ -3,7 +3,9 @@ const { Sales, SalesProducts, Products } = require('../../database/models');
 const getAll = async (id) => Sales.findAll({ 
   include: [{ model: Products, as: 'products' }], where: { userId: id } });
 
-const getById = async (id) => Sales.findOne({ raw: true, where: { id } });
+const getById = async (id) => Sales.findOne({ raw: true,
+  include: [{ model: Products, as: 'products' }],
+   where: { id } });
 
 const create = async (data) => {
   const { userId, sellerId,
