@@ -1,19 +1,37 @@
-import React from 'react';
-import { StyledCard, StyledLabel, StyledInputContainer, StyledButton } from './styles';
+import React, { useState } from 'react';
+import {
+  StyledCard,
+  StyledSpan,
+  StyledLabel,
+  StyledInputContainer,
+  StyledButton,
+} from './styles';
 
 const ProductCard = () => {
+  const [amount, setAmount] = useState(0);
+
+  const increaseAmount = () => {
+    setAmount(amount + 1);
+  };
+
+  const decreaseAmount = () => {
+    setAmount(Math.max(amount - 1, 0));
+  };
+
   // imagem provisória
   const beer = 'https://uploads-ssl.webflow.com/5d822e148992386c1ec80483/5da3bc9020ae1b76bd397815_TCBC-Images-OnTap.jpg';
 
   return (
     <StyledCard>
-      <img alt="product" src={ beer } />
+      { /* placeholder tag */ }
+      <img alt="product" src={ beer } width="250px" height="200px" />
       <StyledLabel>
         descrição do produto
       </StyledLabel>
       <StyledInputContainer>
-        <StyledButton type="button">-</StyledButton>
-        <StyledButton type="button">+</StyledButton>
+        <StyledButton type="button" onClick={ decreaseAmount }>-</StyledButton>
+        <StyledSpan>{ amount }</StyledSpan>
+        <StyledButton type="button" onClick={ increaseAmount }>+</StyledButton>
       </StyledInputContainer>
     </StyledCard>
   );
