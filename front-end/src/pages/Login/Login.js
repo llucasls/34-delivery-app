@@ -38,7 +38,7 @@ const Login = () => {
       localStorage.setItem('@token', data.token);
 
       // salva info do usuario na store do redux
-      dispatch(SET_USER({ email: data.email, role: data.role }));
+      dispatch(SET_USER({ name: data.name, email: data.email, role: data.role }));
 
       goTo('/customer/products');
     } catch (error) {
