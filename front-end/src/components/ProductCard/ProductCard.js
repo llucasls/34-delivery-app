@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useAppSelector } from '../../store';
+
 import {
   StyledCard,
   StyledSpan,
@@ -9,7 +11,8 @@ import {
 
 const ProductCard = () => {
   const [amount, setAmount] = useState(0);
-
+  const products = useAppSelector((state) => state.productsReducer.products);
+  console.log(products);
   const increaseAmount = () => {
     setAmount(amount + 1);
   };
@@ -23,7 +26,6 @@ const ProductCard = () => {
 
   return (
     <StyledCard>
-      { /* placeholder tag */ }
       <img alt="product" src={ beer } width="250px" height="200px" />
       <StyledLabel>
         descrição do produto
