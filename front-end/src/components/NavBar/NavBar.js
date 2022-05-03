@@ -12,16 +12,16 @@ const NavBar = () => {
   const { name } = useAppSelector((state) => state.userReducer.user);
   return (
     <StyledNavBar>
-      <StyledLinkProducts data-testid="element-navbar-link-products">
+      <StyledLinkProducts data-testid="customer_products__element-navbar-link-products">
         Produtos
       </StyledLinkProducts>
-      <StyledLinkOrders data-testid="element-navbar-link-orders">
+      <StyledLinkOrders data-testid="customer_products__element-navbar-link-orders">
         Meus Pedidos
       </StyledLinkOrders>
-      <StyledUserName data-testid="element-navbar-user-full-name">
+      <StyledUserName data-testid="customer_products__element-navbar-user-full-name">
         { name }
       </StyledUserName>
-      <StyledLinkLogout data-testid="element-navbar-link-logout">
+      <StyledLinkLogout data-testid="customer_products__element-navbar-link-logout">
         Sair
       </StyledLinkLogout>
     </StyledNavBar>
