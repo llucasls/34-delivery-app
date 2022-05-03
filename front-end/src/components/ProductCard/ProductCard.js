@@ -1,12 +1,21 @@
-import React from 'react';
-import { StyledCard, StyledLabel, StyledInputContainer, StyledButton } from './styles';
+import React, { useState } from 'react';
+import {
+  StyledCard,
+  StyledSpan,
+  StyledLabel,
+  StyledInputContainer,
+  StyledButton,
+} from './styles';
 
 const ProductCard = () => {
-  // verifica se o usuário colocou um número no input
-  const validateInput = ({ target }) => {
-    if (Number.isNaN(Number(target.value))) {
-      target.value = 0;
-    }
+  const [amount, setAmount] = useState(0);
+
+  const increaseAmount = () => {
+    setAmount(amount + 1);
+  };
+
+  const decreaseAmount = () => {
+    setAmount(Math.max(amount - 1, 0));
   };
 
   // imagem provisória
@@ -15,14 +24,14 @@ const ProductCard = () => {
   return (
     <StyledCard>
       { /* placeholder tag */ }
-      <img alt="product" src={ beer } />
+      <img alt="product" src={ beer } width="250px" height="200px" />
       <StyledLabel>
         descrição do produto
       </StyledLabel>
       <StyledInputContainer>
-        <StyledButton type="button">-</StyledButton>
-        <input type="text" onChange={ validateInput } />
-        <StyledButton type="button">+</StyledButton>
+        <StyledButton type="button" onClick={ decreaseAmount }>-</StyledButton>
+        <StyledSpan>{ amount }</StyledSpan>
+        <StyledButton type="button" onClick={ increaseAmount }>+</StyledButton>
       </StyledInputContainer>
     </StyledCard>
   );

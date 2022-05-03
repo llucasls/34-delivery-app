@@ -13,3 +13,8 @@ export const StyledInputContainer = styled.div`
 
 export const StyledButton = styled.button`
 `;
+
+export const StyledSpan = styled.span`
+  padding: 0 10px;
+  border: 1px solid;
+`;
