@@ -6,6 +6,5 @@ export const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: #f00;
 `;
 export const StyledText = styled(Text)``;

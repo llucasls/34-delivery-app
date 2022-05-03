@@ -3,11 +3,14 @@ import styled from 'styled-components';
 const { width } = window.screen;
 
 export const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   width: 100%;
-  height: 100px;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  position: fixed;
+  left: 0;
+  top: 0;
   background-color: ${(props) => props.theme.colors.primary};
 `;
 

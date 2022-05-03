@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Header } from '../../components';
-import { StyledContainer, StyledText } from './styles';
+import { StyledContainer } from './styles';
 
 const SellerRequest = () => (
   <StyledContainer>
