@@ -6,10 +6,10 @@ import { render } from '../testConfig';
 import Register from '../../pages/Register/Register';
 import { act } from 'react-dom/test-utils';
 
-const INPUT_NAME_TEST_ID = 'input-name'
-const INPUT_EMAIL_TEST_ID = 'input-email';
-const INPUT_PASSWORD_TEST_ID = 'input-password';
-const BUTTON_REGISTER_TEST_ID = 'button-register';
+const INPUT_NAME_TEST_ID = 'common_register__input-name'
+const INPUT_EMAIL_TEST_ID = 'common_register__input-email';
+const INPUT_PASSWORD_TEST_ID = 'common_register__input-password';
+const BUTTON_REGISTER_TEST_ID = 'common_register__button-register';
 const TEXT_SUCESS_TEST_ID = 'common_register__element-valid_register';
 
 
@@ -38,7 +38,7 @@ describe('Testa Página Register', () => {
     expect(button).toBeInTheDocument();
   });
 
-  describe('Testa implementações do register', () => {
+  describe.only('Testa implementações do register', () => {
     let expectName ,expectedEmail, expectedPassword;
     expectName = 'Rodolfo de Freitas do Santos'
     expectedEmail = 'validemail@hotmail.com';
@@ -50,7 +50,6 @@ describe('Testa Página Register', () => {
       const email = screen.getByTestId(INPUT_EMAIL_TEST_ID);
       const password = screen.getByTestId(INPUT_PASSWORD_TEST_ID);
       const button = screen.getByTestId(BUTTON_REGISTER_TEST_ID);
-      const sucessRegister = screen.getAllByTestId(TEXT_SUCESS_TEST_ID);
 
       await act(async ()=> {
         fireEvent.change(name, {target: {value: expectName}});
@@ -59,7 +58,7 @@ describe('Testa Página Register', () => {
         fireEvent.click(button);
       })
 
-      expect(sucessRegister).toHaveLength(1);
+      expect(button).toHaveProperty('disabled', false);
     });
   });
 })

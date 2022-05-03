@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store';
 import { api } from '../../service/api';
 import { SET_USER } from '../../store/slices/user';
@@ -12,8 +13,9 @@ import schemaRegister from '../../schemas/register.user';
 const Register = () => {
   const formRef = useRef(null);
   const dispatch = useAppDispatch();
+  const goTo = useNavigate();
+
   const [axiosError, setAxiosError] = useState(null);
-  const [sucess, setSucess] = useState('');
   const [dsb, setDsb] = useState(true);
   const [register, setRegister] = useState({
     name: '',
@@ -37,10 +39,9 @@ const Register = () => {
         role: data.role,
       }));
 
-      setSucess('Cadastro realizado com sucesso!');
+      goTo('/customer/products');
     } catch (error) {
       setAxiosError(error.response.data.error);
-      console.log(error);
     }
   };
 
@@ -49,21 +50,20 @@ const Register = () => {
   };
 
   const validate = useCallback(async () => {
+    const errorMessages = {};
     try {
       await schemaRegister.validate(register, { abortEarly: false });
-      return setDsb(false);
+      formRef.current.setErrors(errorMessages);
+      setDsb(false);
+      return;
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        const errorMessages = {};
-
         error.inner.forEach((err) => {
           errorMessages[err.path] = err.message;
         });
-
-        formRef.current.setErrors(errorMessages);
       }
+      setDsb(true);
     }
-    return setDsb(true);
   }, [register]);
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const Register = () => {
             </StyledText>
             <Input
               style={ { width: 300, height: 40 } }
-              data-testid="input-name"
+              data-testid="common_register__input-name"
               name="name"
               title="name"
               placeholder="Seu nome"
@@ -111,7 +111,7 @@ const Register = () => {
               Email
             </StyledText>
             <Input
-              data-testid="input-email"
+              data-testid="common_register__input-email"
               style={ { width: 300, height: 40 } }
               name="email"
               title="email"
@@ -124,7 +124,7 @@ const Register = () => {
               Senha
             </StyledText>
             <Input
-              data-testid="input-password"
+              data-testid="common_register__input-password"
               style={ { width: 300, height: 40 } }
               name="password"
               type="password"
@@ -134,7 +134,7 @@ const Register = () => {
             />
           </Label>
           <Button
-            data-testid="button-register"
+            data-testid="common_register__button-register"
             type="submit"
             title="CADASTRAR"
             className="button"
@@ -142,23 +142,15 @@ const Register = () => {
             disabled={ dsb }
           />
           {
-            axiosError ? (
+            axiosError && (
               <StyledText
                 data-testid="common_register__element-invalid_register"
                 style={ { color: 'red' } }
               >
                 { axiosError }
               </StyledText>
-            ) : (
-              <StyledText
-                data-testid="common_register__element-valid_register"
-                style={ { color: 'green' } }
-              >
-                { sucess }
-              </StyledText>
             )
           }
-
         </Form>
       </StyledContainerForm>
     </StyledContainer>

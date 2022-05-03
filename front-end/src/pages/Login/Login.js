@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,17 @@ const Login = () => {
   const goTo = useNavigate();
   const dispatch = useAppDispatch();
   const [axiosError, setAxiosError] = useState(null);
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  });
+  const [dsb, setDsb] = useState(true);
+
+  const handleChange = (event) => {
+    const { title, value } = event.target;
+
+    setLogin({ ...login, [title]: value });
+  };
 
   const handleLogin = async (dataForm) => {
     try {
@@ -29,33 +40,36 @@ const Login = () => {
       // salva info do usuario na store do redux
       dispatch(SET_USER({ email: data.email, role: data.role }));
 
-      // navega até a home pagina
-      // goTo('/');
+      goTo('/customer/products');
     } catch (error) {
       setAxiosError(error.response.data.error);
     }
   };
 
   const handleSubmit = async (dataForm) => {
-    try {
-      await loginSchema.validate(dataForm, { abortEarly: false });
-      formRef.current.setErrors({});
+    await handleLogin(dataForm);
+  };
 
-      await handleLogin(dataForm);
+  const validate = useCallback(async () => {
+    const errorMessages = {};
+    try {
+      await loginSchema.validate(login, { abortEarly: false });
+      formRef.current.setErrors(errorMessages);
+      setDsb(false);
+      return;
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        const errorMessages = {};
-
         error.inner.forEach((err) => {
           errorMessages[err.path] = err.message;
         });
-
-        console.log(errorMessages);
-
-        formRef.current.setErrors(errorMessages);
       }
+      setDsb(true);
     }
-  };
+  }, [login]);
+
+  useEffect(() => {
+    validate();
+  });
 
   useEffect(() => {
     const FIVE_THOUSAND_MILLISECONDS = 5000;
@@ -90,28 +104,33 @@ const Login = () => {
           <Label size={ 18 }>
             <StyledText style={ { marginLeft: 5 } } size={ 12 }>Email</StyledText>
             <Input
-              data-testid="input-email"
+              data-testid="common_login__input-email"
               style={ { width: 300, height: 40 } }
               name="email"
+              title="email"
               placeholder="email"
+              onChange={ handleChange }
             />
           </Label>
           <Label size={ 18 }>
             <StyledText style={ { marginLeft: 5 } } size={ 12 }>Senha</StyledText>
             <Input
-              data-testid="input-password"
+              data-testid="common_login__input-password"
               style={ { width: 300, height: 40 } }
               name="password"
               type="password"
               placeholder="senha"
+              title="password"
+              onChange={ handleChange }
             />
           </Label>
 
           <Button
-            data-testid="button-login"
+            data-testid="common_login__button-login"
             type="submit"
             title="LOGIN"
             size={ 20 }
+            disabled={ dsb }
           />
 
         </Form>
@@ -123,7 +142,7 @@ const Login = () => {
             border: '1px solid #036B52',
           } }
           type="button"
-          data-testid="button-register"
+          data-testid="common_login__button-register"
           onClick={ () => goTo('/register') }
           title="Ainda não tenho conta"
           size={ 20 }
