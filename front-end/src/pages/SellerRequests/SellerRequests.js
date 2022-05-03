@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import CardRequests from './CardRequests/CardRequests';
 import { Header } from '../../components';
 import { StyledContainer, StyledText } from './styles';
@@ -10,7 +9,7 @@ const SellerRequest = () => {
 
   const getRequests = async () => {
     try {
-      const { data } = await api.get('/sales');
+      const { data } = await api.get('/users/sellers');
 
       setRequests(data);
     } catch (error) {

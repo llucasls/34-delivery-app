@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes as Switch, Route, Navigate } from 'react-router-dom';
 
 // pages
@@ -33,7 +33,7 @@ const MainRoute = () => {
         <Route path="/" exact element={ <Navigate to="/login" /> } />
         <Route path="/login" exact element={ <Login /> } />
         <Route path="/register" exact element={ <Register /> } />
-        { useMemo(returnRoleRoute, [role])}
+        {returnRoleRoute()}
       </Switch>
     </BrowserRouter>
   );

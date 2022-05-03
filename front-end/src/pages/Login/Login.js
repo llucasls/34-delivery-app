@@ -39,6 +39,7 @@ const Login = () => {
         role: data.role,
       }));
 
+      goTo('/seller/orders');
       handleNavigate(data.role);
     } catch (error) {
       setAxiosError(error.response.data.error);

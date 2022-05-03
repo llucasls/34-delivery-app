@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {
@@ -11,6 +12,13 @@ import {
 
 const Header = ({ consumer = true }) => {
   const user = JSON.parse(localStorage.getItem('user'));
+  const goTo = useNavigate();
+
+  const handleLoggout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    goTo('/login');
+  };
 
   return (
     <StyledContainer>
@@ -43,6 +51,7 @@ const Header = ({ consumer = true }) => {
         <StyledButton
           style={ { backgroundColor: '#056CF9', color: '#fff' } }
           size={ 0.05 }
+          onClick={ () => handleLoggout() }
         >
           Sair
         </StyledButton>
