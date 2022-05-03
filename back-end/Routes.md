@@ -90,7 +90,18 @@ role pode ser: 'customer', 'administrator', 'seller'
 
 `response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status, products: [{productId, quantity}]}`
 
-status pode ser: 'pending', 'preparing', 'in_route', 'delivered'
+### Update (PATCH)
+
+`localhost:3001/:id`
+
+`body: {
+    status
+}`
+
+`response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status, products: [{productId, quantity}]}`
+
+status pode ser: 'Pendente', 'Preparando', 'Em Trânsito', 'Entregue'
+
 
 # ADMIN ROUTES
 

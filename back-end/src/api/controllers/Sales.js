@@ -40,4 +40,19 @@ const create = async (req, res) => {
   res.status(HTTPCodes.OK).json(sale);
 };
 
-module.exports = { getAll, getById, create };
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const sale = await salesService.update({ id, status });
+
+  if (!sale) {
+    return res.status(HTTPCodes.NOT_FOUND).json({
+      error: 'No sale found',
+    });
+  }
+
+  return res.status(HTTPCodes.OK).json({ sale });
+};
+
+module.exports = { getAll, getById, create, update };
