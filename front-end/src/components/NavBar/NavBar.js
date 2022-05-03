@@ -29,8 +29,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-// 11: customer_products - element-navbar-link-products
-// 12: customer_products - element-navbar-link-orders
-// 13: customer_products - element-navbar-user-full-name
-// 14: customer_products - element-navbar-link-logout
