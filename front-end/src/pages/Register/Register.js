@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { useAppDispatch } from '../../store';
 import { api } from '../../service/api';
-import { SET_USER } from '../../store/slices/user';
+import { SET_USER, SET_IS_LOGGED } from '../../store/slices/user';
 import { Input, Button, Label } from '../../components';
 
 import { StyledContainer, StyledTitle, StyledContainerForm, StyledText } from './styles';
@@ -31,12 +31,14 @@ const Register = () => {
     try {
       const { data } = await api.post('/register', dataForm);
 
-      dispatch(SET_USER({ user: {
+      dispatch(SET_USER({
         name: data.name,
         email: data.email,
         role: data.role,
-      },
       }));
+      dispatch(SET_IS_LOGGED(true));
+
+      console.log(data);
 
       setSucess('Cadastro realizado com sucesso!');
     } catch (error) {
