@@ -2,10 +2,10 @@ import React from 'react';
 
 import { StyledContainer, StyledText } from './styles';
 
-const Products = () => (
+const SellerDetails = () => (
   <StyledContainer>
-    <StyledText>costumer/products</StyledText>
+    <StyledText>SellerDetails</StyledText>
   </StyledContainer>
 );
 
-export default Products;
+export default SellerDetails;

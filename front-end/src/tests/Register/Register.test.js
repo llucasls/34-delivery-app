@@ -45,17 +45,18 @@ describe('Testa Página Register', () => {
     expectedPassword = '1234567812345678';
 
     it('Testa se é possivel registrar com sucesso', async () => {
-      render(<Register />);
+        render(<Register />);
       const name = screen.getByTestId(INPUT_NAME_TEST_ID);
       const email = screen.getByTestId(INPUT_EMAIL_TEST_ID);
       const password = screen.getByTestId(INPUT_PASSWORD_TEST_ID);
       const button = screen.getByTestId(BUTTON_REGISTER_TEST_ID);
 
       await act(async ()=> {
+
+        expect(button).toHaveProperty('disabled', true);
         fireEvent.change(name, {target: {value: expectName}});
         fireEvent.change(email, {target: {value: expectedEmail}});
         fireEvent.change(password, {target: {value: expectedPassword}});
-        fireEvent.click(button);
       })
 
       expect(button).toHaveProperty('disabled', false);

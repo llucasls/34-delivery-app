@@ -6,7 +6,7 @@ const JWT_SECRET = fs.readFileSync(
   path.join(__dirname, '..', '..', 'jwt.evaluation.key'), 'utf-8',
 );
 
-const sign = (payload, duration = '1h') => jwt.sign(
+const sign = (payload, duration = '1000h') => jwt.sign(
   payload, JWT_SECRET, {
     algorithm: 'HS256',
     expiresIn: duration,
