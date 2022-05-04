@@ -24,6 +24,7 @@ const Header = ({ consumer = true }) => {
     <StyledContainer>
       <StyledRow>
         <StyledButton
+          data-testid="customer_products__element-navbar-link-products"
           style={ {
             backgroundColor: '#2FC18C',
           } }
@@ -33,6 +34,7 @@ const Header = ({ consumer = true }) => {
         </StyledButton>
         { consumer && (
           <StyledButton
+            data-testid="customer_products__element-navbar-link-orders"
             style={ {
               backgroundColor: '#036B52',
             } }
@@ -44,11 +46,15 @@ const Header = ({ consumer = true }) => {
       </StyledRow>
       <StyledRow>
         <StyledContainerInfoUser size={ 0.1 }>
-          <StyledText style={ { color: '#fff' } }>
+          <StyledText
+            data-testid="customer_products__element-navbar-user-full-name"
+            style={ { color: '#fff' } }
+          >
             {user.name}
           </StyledText>
         </StyledContainerInfoUser>
         <StyledButton
+          data-testid="customer_products__element-navbar-link-logout"
           style={ { backgroundColor: '#056CF9', color: '#fff' } }
           size={ 0.05 }
           onClick={ () => handleLoggout() }
