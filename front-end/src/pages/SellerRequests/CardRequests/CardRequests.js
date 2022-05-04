@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { StyledContainer, StyledText } from './styles';
 
@@ -13,6 +14,10 @@ const CardRequests = ({ data }) => {
       <StyledText>CardRequests</StyledText>
     </StyledContainer>
   );
+};
+
+CardRequests.propTypes = {
+  data: PropTypes.shape({}).isRequired,
 };
 
 export default CardRequests;
