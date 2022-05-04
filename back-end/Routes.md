@@ -118,4 +118,3 @@ Essa rota Não retorna os usuários admin
 ### Delete one (DELETE)
 
 `localhost:3001/users/:email`
-
