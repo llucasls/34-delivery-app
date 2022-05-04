@@ -22,37 +22,39 @@ const ProductCard = ({ product }) => {
     setAmount(Math.max(amount - 1, 0));
   };
 
+  const { id } = product;
+
   return (
     <StyledCard>
       <StyledImage
-        data-testid="customer_products__img-card-bg-image-"
+        data-testid={ `customer_products__img-card-bg-image--${id}` }
         src={ product.url_image }
         alt={ product.name }
       />
-      <StyledLabel data-testid="customer_products__element-card-title-">
+      <StyledLabel data-testid={ `customer_products__element-card-title--${id}` }>
         {product.name}
       </StyledLabel>
       <StyledSpan
-        data-testid="customer_products__element-card-price-"
+        data-testid={ `customer_products__element-card-price--${id}` }
       >
         {`R$ ${product.price}`}
       </StyledSpan>
       <StyledInputContainer>
         <StyledButton
           type="button"
-          data-testid="customer_products__button-card-rm-item-"
+          data-testid={ `customer_products__button-card-rm-item--${id}` }
           onClick={ decreaseAmount }
         >
           -
         </StyledButton>
         <StyledAmount
-          data-testid="customer_products__input-card-quantity-"
+          data-testid={ `customer_products__input-card-quantity--${id}` }
         >
           { amount }
         </StyledAmount>
         <StyledButton
           type="button"
-          data-testid="customer_products__button-card-add-item-"
+          data-testid={ `customer_products__button-card-add-item--${id}` }
           onClick={ increaseAmount }
         >
           +
