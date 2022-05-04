@@ -28,7 +28,13 @@ role pode ser: 'customer', 'administrator', 'seller'
 
 ## Images (GET)
 
+`localhost:3001/images/`
+
+retorna um objeto com a chave availableImages, sendo array com todas as imagens possíveis
+
 `localhost:3001/images/image_file_name`
+
+retorna o arquivo da imagem
 
 ## ROTAS COM TOKEN
 
