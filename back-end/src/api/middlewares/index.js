@@ -5,6 +5,7 @@ const validateToken = require('./validateToken');
 const validateSale = require('./validateSale');
 const validateAdmin = require('./validateAdmin');
 const validateEditSale = require('./validateEditSale');
+const notFound = require('./notFound');
 
 module.exports = {
   errorHandler,
@@ -14,4 +15,5 @@ module.exports = {
   validateSale,
   validateAdmin,
   validateEditSale,
+  notFound,
 };
