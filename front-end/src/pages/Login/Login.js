@@ -33,7 +33,7 @@ const Login = () => {
       goTo('/');
       break;
     default:
-      goTo('/');
+      goTo('/customer/products');
       break;
     }
   };
@@ -50,7 +50,6 @@ const Login = () => {
         role: data.role,
       }));
 
-      goTo('/seller/orders');
       handleNavigate(data.role);
     } catch (error) {
       setAxiosError(error.response.data.error);
