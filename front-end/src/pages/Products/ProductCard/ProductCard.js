@@ -27,34 +27,38 @@ const ProductCard = ({ product }) => {
   return (
     <StyledCard>
       <StyledImage
-        data-testid={ `customer_products__img-card-bg-image--${id}` }
+        data-testid={ `customer_products__img-card-bg-image-${id}` }
         src={ product.url_image }
         alt={ product.name }
       />
-      <StyledLabel data-testid={ `customer_products__element-card-title--${id}` }>
+      <StyledLabel
+        data-testid={ `customer_products__element-card-title-${id}` }
+      >
         {product.name}
       </StyledLabel>
       <StyledSpan
-        data-testid={ `customer_products__element-card-price--${id}` }
+        data-testid={ `customer_products__element-card-price-${id}` }
       >
         {`R$ ${product.price}`}
       </StyledSpan>
       <StyledInputContainer>
         <StyledButton
           type="button"
-          data-testid={ `customer_products__button-card-rm-item--${id}` }
+          data-testid={ `customer_products__button-card-rm-item-${id}` }
           onClick={ decreaseAmount }
         >
           -
         </StyledButton>
         <StyledAmount
-          data-testid={ `customer_products__input-card-quantity--${id}` }
-        >
-          { amount }
-        </StyledAmount>
+          data-testid={ `customer_products__input-card-quantity-${id}` }
+          value={ amount }
+          type="number"
+        />
         <StyledButton
           type="button"
-          data-testid={ `customer_products__button-card-add-item--${id}` }
+          data-testid={
+            `customer_products__button-card-add-item-${id}`
+          }
           onClick={ increaseAmount }
         >
           +
