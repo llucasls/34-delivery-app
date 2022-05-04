@@ -52,7 +52,7 @@ const ProductCard = ({ product }) => {
         <StyledAmount
           data-testid={ `customer_products__input-card-quantity-${id}` }
           value={ amount }
-          type="number"
+          type="text"
         />
         <StyledButton
           type="button"
