@@ -32,7 +32,7 @@ export const StyledButton = styled.button`
   font-size: 40px;
 `;
 
-export const StyledAmount = styled.span`
+export const StyledAmount = styled.input`
   display: flex;
   font-size: 30px;
   font-weight: bold;
