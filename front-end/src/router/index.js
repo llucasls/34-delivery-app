@@ -7,6 +7,8 @@ import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import SellerRequest from '../pages/SellerRequests/SellerRequests';
 import SellerDetails from '../pages/SellerDetails/SellerDetails';
+import Products from '../pages/Products/Products';
+import ProductsCheckout from '../pages/ProductsCheckout/ProductsCheckout';
 
 const MainRoute = () => {
   const role = JSON.parse(localStorage.getItem('user'))?.role;
@@ -23,7 +25,7 @@ const MainRoute = () => {
     case 'admin':
       return <Route path="/" exact element={ <Home /> } />;
     default:
-      return <Route path="/" exact element={ <Home /> } />;
+      return <Route path="/customer/products" exact element={ <Products /> } />;
     }
   };
 
@@ -33,6 +35,7 @@ const MainRoute = () => {
         <Route path="/" exact element={ <Navigate to="/login" /> } />
         <Route path="/login" exact element={ <Login /> } />
         <Route path="/register" exact element={ <Register /> } />
+        <Route path="/customer/checkout" exact element={ <ProductsCheckout /> } />
         {returnRoleRoute()}
       </Switch>
     </BrowserRouter>

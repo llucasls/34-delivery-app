@@ -40,8 +40,6 @@ const Register = () => {
       }));
       dispatch(SET_IS_LOGGED(true));
 
-      console.log(data);
-
       goTo('/customer/products');
     } catch (error) {
       setAxiosError(error.response.data.error);
