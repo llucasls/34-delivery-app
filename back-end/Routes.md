@@ -24,7 +24,17 @@ token, name, role
 }
 `
 
-role pode ser: 'admin', 'seller' ou 'buyer'
+role pode ser: 'customer', 'administrator', 'seller'
+
+## Images (GET)
+
+`localhost:3001/images/`
+
+retorna um objeto com a chave availableImages, sendo array com todas as imagens possíveis
+
+`localhost:3001/images/image_file_name`
+
+retorna o arquivo da imagem
 
 ## ROTAS COM TOKEN
 
@@ -37,7 +47,7 @@ role pode ser: 'admin', 'seller' ou 'buyer'
 `localhost:3001/users/sellers`
 
 `response:{
- id, name, email, password, role
+ id, name, email, role
 }[]
 `  
 
@@ -46,8 +56,9 @@ role pode ser: 'admin', 'seller' ou 'buyer'
 `localhost:3001/users/:id`
 
 `response:{
- id, name, email, password, role
+ id, name, email, role
 }`
+
 
 ## Products
 
@@ -89,5 +100,31 @@ role pode ser: 'admin', 'seller' ou 'buyer'
 
 `response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status, products: [{productId, quantity}]}`
 
-status pode ser: 'pending', 'preparing', 'in_route', 'delivered'
+### Update (PATCH)
 
+`localhost:3001/:id`
+
+`body: {
+    status
+}`
+
+`response: {id, user_id, seller_id, total_price, delivery_address, delivery_number, sale_date, status, products: [{productId, quantity}]}`
+
+status pode ser: 'Pendente', 'Preparando', 'Em Trânsito', 'Entregue'
+
+
+# ADMIN ROUTES
+
+## Users
+
+### Get All (GET)
+
+Essa rota Não retorna os usuários admin
+
+`localhost:3001/users`
+
+`response: {id, name, email, role}`
+
+### Delete one (DELETE)
+
+`localhost:3001/users/:email`

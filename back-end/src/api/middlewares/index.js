@@ -3,6 +3,10 @@ const validateLogin = require('./validateLogin');
 const validateRegister = require('./validateRegister');
 const validateToken = require('./validateToken');
 const validateSale = require('./validateSale');
+const validateAdmin = require('./validateAdmin');
+const validateEditSale = require('./validateEditSale');
+const notFound = require('./notFound');
+const imagesMiddleware = require('./images');
 
 module.exports = {
   errorHandler,
@@ -10,4 +14,8 @@ module.exports = {
   validateRegister,
   validateToken,
   validateSale,
+  validateAdmin,
+  validateEditSale,
+  notFound,
+  imagesMiddleware,
 };
