@@ -17,7 +17,12 @@ const CardRequests = ({ data }) => {
 };
 
 CardRequests.propTypes = {
-  data: PropTypes.arrayOf(shape({})).isRequired,
+  data: PropTypes.arrayOf(shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default CardRequests;
