@@ -26,6 +26,8 @@ token, name, role
 
 role pode ser: 'customer', 'administrator', 'seller'
 
+`localhost:3001/`
+
 ## ROTAS COM TOKEN
 
 `o token deve estar nos headers da req. na chave authorization`
@@ -37,7 +39,7 @@ role pode ser: 'customer', 'administrator', 'seller'
 `localhost:3001/users/sellers`
 
 `response:{
- id, name, email, password, role
+ id, name, email, role
 }[]
 `  
 
@@ -46,7 +48,7 @@ role pode ser: 'customer', 'administrator', 'seller'
 `localhost:3001/users/:id`
 
 `response:{
- id, name, email, password, role
+ id, name, email, role
 }`
 
 
