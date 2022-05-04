@@ -17,6 +17,8 @@ app.use(express.json());
 app.post('/login', validateLogin, rescue(Login));
 app.post('/register', validateRegister, rescue(Register));
 
+app.use('/images', express.static('public'));
+
 app.use(validateToken);
 
 app.use('/products', productsRouter);
