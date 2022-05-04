@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const rescue = require('express-rescue');
 const { validateLogin, 
-  validateRegister, errorHandler, validateToken, notFound, imagesMiddleware } = require('./middlewares');
+  validateRegister, errorHandler, validateToken, 
+  notFound, imagesMiddleware } = require('./middlewares');
 const { Login, Register } = require('./controllers/Login');
 const { productsRouter, usersRouter, salesRouter } = require('./routes');
 
