@@ -26,7 +26,9 @@ token, name, role
 
 role pode ser: 'customer', 'administrator', 'seller'
 
-`localhost:3001/`
+## Images (GET)
+
+`localhost:3001/images/image_file_name`
 
 ## ROTAS COM TOKEN
 

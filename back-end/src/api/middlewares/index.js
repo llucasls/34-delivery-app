@@ -6,6 +6,7 @@ const validateSale = require('./validateSale');
 const validateAdmin = require('./validateAdmin');
 const validateEditSale = require('./validateEditSale');
 const notFound = require('./notFound');
+const imagesMiddleware = require('./images');
 
 module.exports = {
   errorHandler,
@@ -16,4 +17,5 @@ module.exports = {
   validateAdmin,
   validateEditSale,
   notFound,
+  imagesMiddleware,
 };
