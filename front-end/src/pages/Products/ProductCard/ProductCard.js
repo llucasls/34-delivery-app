@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import currencyBrl from '../../../helpers/currencyBrl';
 
 import {
   StyledCard,
@@ -39,7 +40,7 @@ const ProductCard = ({ product }) => {
       <StyledSpan
         data-testid={ `customer_products__element-card-price-${id}` }
       >
-        {`R$ ${product.price}`}
+        {`${currencyBrl(Number(product.price))}`}
       </StyledSpan>
       <StyledInputContainer>
         <StyledButton
