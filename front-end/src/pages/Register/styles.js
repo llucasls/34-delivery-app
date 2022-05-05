@@ -6,8 +6,14 @@ import { StyledContainer as Container,
 export const StyledContainer = styled(Container)``;
 export const StyledContainerForm = styled(ContainerForm)``;
 
-export const StyledText = styled.h2`
+export const StyledTitle = styled.h2`
 display: flex;
 justify-content: center;
+font-family: ${(props) => props.theme.fonts.roboto};
+`;
+
+export const StyledText = styled.p`
+margin: 0;
+margin-left: 5px;
 font-family: ${(props) => props.theme.fonts.roboto};
 `;

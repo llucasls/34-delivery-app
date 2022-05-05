@@ -1,5 +1,6 @@
 // import rescue from 'express-rescue';
 const express = require('express');
+const cors = require('cors');
 const rescue = require('express-rescue');
 const validateLogin = require('./middlewares/validateLogin');
 const validateRegister = require('./middlewares/validateRegister');
@@ -9,10 +10,11 @@ const validateToken = require('./middlewares/validateToken');
 const { productsRouter, usersRouter, salesRouter } = require('./routes');
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 
-app.get('/login', validateLogin, rescue(Login));
+app.post('/login', validateLogin, rescue(Login));
 app.post('/register', validateRegister, rescue(Register));
 
 app.use(validateToken);

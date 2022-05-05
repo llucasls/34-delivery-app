@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { StyledViewButton, StyledButton } from './styles';
 
 const Button = ({ size, title, ...rest }) => (

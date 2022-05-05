@@ -1,24 +1,26 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
-import App from '../../App';
+import Login from '../../pages/Login/Login';
+import { createMemoryHistory } from 'history';
 
-import { renderWithRouterAndStore } from '../testConfig';
+import { render, fireEvent, screen } from '../testConfig';
 
-const INPUT_EMAIL_TEST_ID = 'input-email';
-const INPUT_PASSWORD_TEST_ID = 'input-password';
-const BUTTON_TEST_LOGIN = 'button-login';
-const BUTTON_TEST_REGISTER = 'button-register';
+const INPUT_EMAIL_TEST_ID = 'common_login__input-email';
+const INPUT_PASSWORD_TEST_ID = 'common_login__input-password';
+const BUTTON_LOGIN_TEST_ID = 'common_login__button-login';
+const BUTTON_REGISTER_TEST_ID = 'common_login__button-register';
 
-// afterEach(() => jest.clearAllMocks());
+afterEach(() => jest.clearAllMocks());
 
-describe('1) Página inicial de login com os seguintes campos e características:', () => {
-  it('A rota para esta página deve ser inicialmente "/"', () => {
-    const { history } = renderWithRouterAndStore(<App />, '/');
+describe('Testa página login', () => {
+  it('A rota para esta página deve ser "/"', () => {
+    const history = createMemoryHistory();
+    history.push("/");
     expect(history.location.pathname).toBe('/');
   });
 
-  it('A rota deve ter os input "email e senha"', () => {
-    renderWithRouterAndStore(<App />, '/');
+  it('Deve ter os input "email e senha"', () => {
+    render(<Login />);
+
     const email = screen.getByTestId(INPUT_EMAIL_TEST_ID);
     const senha = screen.getByTestId(INPUT_PASSWORD_TEST_ID);
 
@@ -26,27 +28,28 @@ describe('1) Página inicial de login com os seguintes campos e características
     expect(senha).toBeInTheDocument();
   });
 
-  it('A rota deve ter o botão com o texto "LOGIN"', () => {
-    renderWithRouterAndStore(<App />, '/');
+  test('Deve ter o botão com o texto "LOGIN"', () => {
+    render(<Login />);
 
-    const button = screen.getByTestId(BUTTON_TEST_LOGIN);
+    const button = screen.getByTestId(BUTTON_LOGIN_TEST_ID);
     expect(button).toBeInTheDocument();
   });
 
-  it('A rota deve ter o botão com o texto "Ainda não tenho conta"', () => {
-    renderWithRouterAndStore(<App />, '/');
+  test('Deve ter o botão com o texto "Ainda não tenho conta"', () => {
+    render(<Login />);
 
-    const button = screen.getByTestId(BUTTON_TEST_REGISTER);
+    const button = screen.getByTestId(BUTTON_REGISTER_TEST_ID);
     expect(button).toBeInTheDocument();
   });
 
-  it('A rota deve ser mudada para "/cadastro" após o clique no botão, com o texto "Ainda não tenho conta"', () => {
-    const { history } = renderWithRouterAndStore(<App />, '/');
-
-    const button = screen.getByTestId(BUTTON_TEST_REGISTER);
+  test('A rota deve ser mudada para "/register" após o clique no botão, com o texto "Ainda não tenho conta"', () => {
+    render(<Login />);
+    const history = createMemoryHistory();
+    const button = screen.getByTestId(BUTTON_REGISTER_TEST_ID);
 
     fireEvent.click(button);
+    history.push("/register");
 
-    expect(history.location.pathname).toBe('/cadastro');
+    expect(history.location.pathname).toBe('/register');
   });
 });
