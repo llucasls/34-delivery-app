@@ -7,7 +7,7 @@ body: {
 }
 `
 `response:{
-token, name, role
+token, name, role, email
 }
 `
 
