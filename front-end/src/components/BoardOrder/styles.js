@@ -10,7 +10,13 @@ export const StyledContainer = styled.div`
   justify-content: center;
   align-items: center;
   `;
-export const StyledTitle = styled.h3``;
+export const StyledTitle = styled.h3`
+  align-self: flex-start;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  margin-left: 10%;
+`;
 
 export const StyledText = styled.p`
   font-size: ${({ size }) => `${size}rem` || '1rem'};

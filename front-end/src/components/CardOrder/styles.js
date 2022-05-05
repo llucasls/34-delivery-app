@@ -9,8 +9,10 @@ export const StyledContainer = styled.div`
   width: ${({ size }) => width * size}px;
   height: 150px;
   background-color: ${({ theme }) => theme.colors.gray_background};
+  border: none;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin: 20px;
+  cursor: pointer;
 `;
 
 export const StyledText = styled.p`

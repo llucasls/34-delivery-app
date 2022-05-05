@@ -20,7 +20,7 @@ import {
 } from './styles';
 import formatedCurrencyBRL from '../../helpers/formatedCurrencyBRL';
 
-const BoardOrder = ({ data }) => {
+const BoardOrder = ({ data, title }) => {
   const [total, setTotal] = useState(0);
 
   const getTotal = () => {
@@ -64,7 +64,10 @@ const BoardOrder = ({ data }) => {
           >
             {item.id}
           </StyledContainerTableColumn>
-          <StyledContainerTableColumn style={ { textAlign: 'left' } }>
+          <StyledContainerTableColumn
+            style={ {
+              textAlign: 'left', backgroundColor: '#EAF1EF' } }
+          >
             {item.name}
           </StyledContainerTableColumn>
           <StyledContainerTableColumn
@@ -78,7 +81,7 @@ const BoardOrder = ({ data }) => {
             style={ {
               backgroundColor: '#421981', color: '#FFF' } }
           >
-            {item.price}
+            {formatedCurrencyBRL(`${item.price}`)}
           </StyledContainerTableColumn>
           <StyledContainerTableColumn
             style={ { backgroundColor: '#056CF9',
@@ -86,7 +89,7 @@ const BoardOrder = ({ data }) => {
               borderBottomRightRadius: 5,
               color: '#FFF' } }
           >
-            {Number(item.price) * item.SalesProducts.quantity}
+            {formatedCurrencyBRL(`${Number(item.price) * item.SalesProducts.quantity}`)}
           </StyledContainerTableColumn>
         </StyledContainerTableRow>
       ))}
@@ -175,7 +178,7 @@ const BoardOrder = ({ data }) => {
 
   return (
     <StyledContainer>
-      <StyledTitle>{data.id}</StyledTitle>
+      <StyledTitle>{title}</StyledTitle>
       <StyledContainerBoard>
         <StyledHeaderBoard>
           <StyledRow style={ { width: '35%', justifyContent: 'space-between' } }>
@@ -211,4 +214,5 @@ BoardOrder.propTypes = {
       quantity: PropTypes.number,
     })).isRequired,
   }).isRequired,
+  title: PropTypes.string.isRequired,
 };

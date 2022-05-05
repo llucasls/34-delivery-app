@@ -19,3 +19,8 @@ export const StyledContainerOrders = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
 `;
+
+export const StyledBaseButton = styled.button`
+  border: none;
+  background-color: transparent;
+`;

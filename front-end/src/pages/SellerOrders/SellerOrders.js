@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../../service/api';
 
 import { Header, CardOrder } from '../../components';
-import { StyledContainer, StyledText, StyledContainerOrders } from './styles';
+import {
+  StyledContainer,
+  StyledText,
+  StyledContainerOrders,
+  StyledBaseButton,
+} from './styles';
 
 const SellerRequest = () => {
   const [orders, setOrders] = useState(null);
+  const navigate = useNavigate();
+
+  const handleNavigate = (id) => {
+    navigate(`/seller/orders/${id}`);
+  };
 
   const getOrder = async () => {
     try {
@@ -29,7 +40,11 @@ const SellerRequest = () => {
     }
 
     return (
-      orders.map((order, index) => <CardOrder key={ index } data={ order } />)
+      orders.map((order, index) => (
+        <StyledBaseButton key={ index } onClick={ () => handleNavigate(order.id) }>
+          <CardOrder data={ order } />
+        </StyledBaseButton>
+      ))
     );
   };
 

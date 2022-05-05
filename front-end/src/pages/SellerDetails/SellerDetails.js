@@ -31,7 +31,7 @@ const SellerDetails = () => {
       {console.log(order)}
       { !order
         ? <StyledText>Carregando...</StyledText>
-        : <BoardOrder data={ order } />}
+        : <BoardOrder data={ order } title="Detalhe do Pedido" />}
     </StyledContainer>
   );
 };

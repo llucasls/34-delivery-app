@@ -7,7 +7,7 @@ import formatedCurrencyBRL from '../../helpers/formatedCurrencyBRL';
 
 import { StyledContainer, StyledRow, StyledColumn, StyledText } from './styles';
 
-const CardOrder = ({ data }) => {
+const CardOrder = ({ data, ...rest }) => {
   const renderIdOrder = () => (
     <StyledColumn
       style={ {
@@ -66,7 +66,7 @@ const CardOrder = ({ data }) => {
   );
 
   return (
-    <StyledContainer size={ 0.25 }>
+    <StyledContainer size={ 0.25 } { ...rest }>
       {useMemo(renderIdOrder, [data.id])}
       <StyledColumn
         style={ {
