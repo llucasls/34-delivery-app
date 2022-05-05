@@ -37,6 +37,7 @@ export const StyledAmount = styled.input`
   font-size: 30px;
   font-weight: bold;
   margin: 0 10px;
+  width: 75px;
 `;
 
 export const StyledSpan = styled.span`
