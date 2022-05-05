@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 import { StyledRow as Row, StyledColumn as Column } from '../CardOrder/styles';
 
-const { width, height } = window.screen;
-
 export const StyledContainer = styled.div`
   width: 100%;
   height: 100vh;
@@ -42,7 +40,23 @@ export const StyledHeaderBoard = styled.div`
   background-color: ${({ theme }) => theme.colors.gray_background};
 `;
 
-export const StyledContainerItem = styled.div``;
+export const StyledContainerTable = styled.table`
+  padding: 2rem;
+  border-spacing: 0 0.8rem;
+`;
+
+export const StyledContainerTableHeader = styled.thead``;
+
+export const StyledContainerTableRow = styled.tr`
+  height: 40px;
+  font-weight: 600;
+  font-size: 1rem;
+`;
+
+export const StyledContainerTableColumn = styled.td`
+  text-align: center;
+  padding: 0 1rem;
+`;
 
 export const StyledRow = styled(Row)``;
 export const StyledColumn = styled(Column)``;
