@@ -20,6 +20,7 @@ const Login = async (req, res) => {
     token: sign({ email, role }),
     name,
     role,
+    email,
   });
 };
 
