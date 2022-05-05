@@ -5,7 +5,7 @@ import { BrowserRouter, Routes as Switch, Route, Navigate } from 'react-router-d
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
-import SellerRequest from '../pages/SellerRequests/SellerRequests';
+import SellerOrders from '../pages/SellerOrders/SellerOrders';
 import SellerDetails from '../pages/SellerDetails/SellerDetails';
 import Products from '../pages/Products/Products';
 import ProductsCheckout from '../pages/ProductsCheckout/ProductsCheckout';
@@ -18,7 +18,7 @@ const MainRoute = () => {
     case 'seller':
       return (
         <>
-          <Route path="/seller/orders" exact element={ <SellerRequest /> } />
+          <Route path="/seller/orders" exact element={ <SellerOrders /> } />
           <Route path="/seller/orders/:id" exact element={ <SellerDetails /> } />
         </>
       );
