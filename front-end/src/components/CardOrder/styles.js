@@ -8,7 +8,7 @@ export const StyledContainer = styled.div`
   justify-content: space-between;
   width: ${({ size }) => width * size}px;
   height: 150px;
-  background-color: #EAF1EF;
+  background-color: ${({ theme }) => theme.colors.gray_background};
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin: 20px;
 `;

@@ -7,6 +7,7 @@ const defaultTheme = {
     black: '#000',
     white: '#fff',
     green_withe: '#F2FFFC',
+    gray_background: '#EAF1EF',
     dark_text: '#001813',
   },
   fonts: {
