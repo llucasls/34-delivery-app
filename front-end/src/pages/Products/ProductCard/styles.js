@@ -32,11 +32,14 @@ export const StyledButton = styled.button`
   font-size: 40px;
 `;
 
-export const StyledAmount = styled.span`
+export const StyledAmount = styled.input`
   display: flex;
   font-size: 30px;
+  text-align: center;
+  border-radius: 5px;
   font-weight: bold;
   margin: 0 10px;
+  width: 75px;
 `;
 
 export const StyledSpan = styled.span`

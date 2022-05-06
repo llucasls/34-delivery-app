@@ -9,7 +9,6 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const goTo = useNavigate();
 
-  console.log(products);
   const productsApi = async () => {
     try {
       const { data } = await api.get('/products');
@@ -28,7 +27,7 @@ const Products = () => {
       <Header />
       <StyledProducts>
         {
-          products.map((product) => (
+          products.slice(0, Number('11')).map((product) => (
             <ProductCard key={ product.id } product={ product } />
           ))
         }

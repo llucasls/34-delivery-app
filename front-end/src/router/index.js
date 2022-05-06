@@ -25,7 +25,7 @@ const MainRoute = () => {
     case 'admin':
       return <Route path="/" exact element={ <Home /> } />;
     default:
-      return <Route path="/customer/products" exact element={ <Products /> } />;
+      return <Route path="/customer/products" element={ <Products /> } />;
     }
   };
 
