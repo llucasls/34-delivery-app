@@ -13,16 +13,13 @@ const handleAddToCart = (product, total) => {
   } else {
     localStorage.setItem('cart', JSON.stringify([{ ...product, total }]));
   }
-
-  return cartTotal();
 };
 
 export const handleRemoveToCart = (product) => {
   const cart = JSON.parse(localStorage.getItem('cart'));
-  const newCart = cart.filter((item) => item.id !== product.id);
-  localStorage.setItem('cart', JSON.stringify(newCart));
-
-  return cartTotal();
+  const newCart = cart.indexOf(product);
+  cart.splice(newCart, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
 };
 
 export default handleAddToCart;
