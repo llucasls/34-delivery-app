@@ -79,6 +79,8 @@ const ProductCard = ({ product }) => {
           data-testid={ `customer_products__input-card-quantity-${id}` }
           value={ amount }
           name="amount"
+          title="numeric digits"
+          pattern="\d+"
           type="text"
         />
         <StyledButton
