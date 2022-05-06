@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => {
     const newAmount = amount - 1;
     setAmount(Math.max(0, newAmount));
     setTotal((newAmount) * product.price);
-    handleRemoveToCart(product);
+    handleRemoveToCart(product.id);
   };
 
   // const handleChange = ({ target }) => {
@@ -45,10 +45,6 @@ const ProductCard = ({ product }) => {
     dispatch(SET_ADD_AMOUNT({ amount }));
     dispatch(SET_ADD_TO_CART({ total }));
   }, [amount, dispatch, total]);
-
-  // useEffect(() => {
-  //   handleAddToCart(product, total.toFixed(2));
-  // });
 
   const { id } = product;
 

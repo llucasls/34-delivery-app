@@ -5,12 +5,12 @@ import ProductCard from './ProductCard/ProductCard';
 import { api } from '../../service/api';
 import Header from '../../components/Header/Header';
 import { cartTotal } from '../../helpers/saveCartLocalStorage';
-// import { useAppSelector } from '../../store';
+import { useAppSelector } from '../../store';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  // const total = useAppSelector((state) => state.ProductCartTotal.product_cart_total);
-  // console.log(total);
+  const total = useAppSelector((state) => state.ProductCartTotal.product_cart_total);
+  console.log(total);
   const goTo = useNavigate();
   const productsApi = async () => {
     try {
