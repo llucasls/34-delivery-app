@@ -25,12 +25,14 @@ const Login = () => {
   };
 
   const handleNavigate = (role) => {
+    console.log(role);
+
     switch (role) {
     case 'seller':
       goTo('/seller/orders');
       break;
-    case 'admin':
-      goTo('/');
+    case 'administrator':
+      goTo('/admin');
       break;
     default:
       goTo('/customer/products');

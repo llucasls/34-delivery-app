@@ -49,16 +49,18 @@ const SellerRequest = () => {
   };
 
   return (
-    <StyledContainer>
+    <>
       <Header />
-      { !orders
-        ? <StyledText>Carregando...</StyledText>
-        : (
-          <StyledContainerOrders>
-            {renderOrders()}
-          </StyledContainerOrders>
-        )}
-    </StyledContainer>
+      <StyledContainer>
+        { !orders
+          ? <StyledText>Carregando...</StyledText>
+          : (
+            <StyledContainerOrders>
+              {renderOrders()}
+            </StyledContainerOrders>
+          )}
+      </StyledContainer>
+    </>
   );
 };
 

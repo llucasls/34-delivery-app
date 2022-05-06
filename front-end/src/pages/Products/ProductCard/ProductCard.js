@@ -5,6 +5,8 @@ import handleAddToCart,
 { handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
 import { useAppDispatch } from '../../../store';
 
+import { Counter } from '../../../components';
+
 import { SET_ADD_TO_CART, SET_ADD_AMOUNT } from '../../../store/slices/ProductCartTotal';
 
 import {

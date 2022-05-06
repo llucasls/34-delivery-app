@@ -26,13 +26,15 @@ const SellerDetails = () => {
   }, []);
 
   return (
-    <StyledContainer>
+    <>
       <Header />
-      {console.log(order)}
-      { !order
-        ? <StyledText>Carregando...</StyledText>
-        : <BoardOrder data={ order } title="Detalhe do Pedido" />}
-    </StyledContainer>
+      <StyledContainer>
+        {console.log(order)}
+        { !order
+          ? <StyledText>Carregando...</StyledText>
+          : <BoardOrder data={ order } title="Detalhe do Pedido" />}
+      </StyledContainer>
+    </>
   );
 };
 

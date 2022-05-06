@@ -1,5 +1,20 @@
 import React from 'react';
 
-const Counter = () => <div />;
+import {
+  StyledContainer,
+  StyledRow,
+  StyledBaseButton,
+  StyledAmountInput,
+} from './styles';
+
+const Counter = () => (
+  <StyledContainer>
+    <StyledRow>
+      <StyledBaseButton left>-</StyledBaseButton>
+      <StyledAmountInput />
+      <StyledBaseButton right>+</StyledBaseButton>
+    </StyledRow>
+  </StyledContainer>
+);
 
 export default Counter;
