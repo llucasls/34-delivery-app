@@ -1,7 +1,7 @@
 const defaultTheme = {
   colors: {
     primary: '#036B52',
-    secundary: '#2FC18C',
+    secundary: '',
     tertiary: '#421981',
     quaternary: '#056CF9',
     black: '#000',

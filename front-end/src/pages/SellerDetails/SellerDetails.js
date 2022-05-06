@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { api } from '../../service/api';
 
-import { Header, BoardOrder } from '../../components';
+import { Header, Board } from '../../components';
 import { StyledContainer, StyledText } from './styles';
 
 const SellerDetails = () => {
@@ -29,10 +29,25 @@ const SellerDetails = () => {
     <>
       <Header />
       <StyledContainer>
-        {console.log(order)}
         { !order
           ? <StyledText>Carregando...</StyledText>
-          : <BoardOrder data={ order } title="Detalhe do Pedido" />}
+          : (
+            <Board
+              tableColuns={ ['item', 'nome', 'email', 'tipo', 'excluir'] }
+              tableRows={ allUsers
+                .map((item, index) => {
+                  const { name, email, role } = item;
+
+                  return {
+                    item: index,
+                    nome: name,
+                    email,
+                    tipo: role,
+                    excluir: 'excluir',
+                  };
+                }) }
+              title="Lista de usuários"
+            />)}
       </StyledContainer>
     </>
   );

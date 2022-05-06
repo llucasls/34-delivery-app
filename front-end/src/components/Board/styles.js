@@ -26,7 +26,7 @@ export const StyledText = styled.p`
 
 export const StyledContainerBoard = styled.div`
   width: 80%;
-  height: 70%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -62,6 +62,15 @@ export const StyledContainerTableRow = styled.tr`
 export const StyledContainerTableColumn = styled.td`
   text-align: center;
   padding: 0 1rem;
+  font-size: 16px;
+  &:first-child {
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+  &:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  }
 `;
 
 export const StyledRow = styled(Row)``;
