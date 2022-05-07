@@ -18,33 +18,45 @@ import {
 } from './styles';
 
 const ProductCard = ({ product }) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
 
-  const increaseAmount = () => {
-    const newAmount = amount + 1;
-    setAmount(newAmount);
-    setTotal((newAmount) * product.price);
-    handleAddToCart(product, total.toFixed(2));
+  // transforma o valor em 0 caso não seja um número
+  const handleChange = ({ target }) => {
+    if (Number.isNaN(Number(target.value))) {
+      target.value = 0;
+    }
+    setAmount(Number(target.value));
   };
 
-  const decreaseAmount = () => {
-    const newAmount = amount - 1;
-    setAmount(Math.max(0, newAmount));
-    setTotal((newAmount) * product.price);
-    handleRemoveToCart(product.id);
+  // aumenta a quantidade em 1 e chama o handleChange
+  const increaseAmount = ({ target }) => {
+    const input = target.previousSibling;
+    input.value = Number(input.value) + 1;
+    handleChange({ target: input });
   };
+
+  // diminui a quantidade em 1 e chama o handleChange
+  const decreaseAmount = ({ target }) => {
+    const input = target.nextSibling;
+    input.value = Math.max(Number(input.value) - 1, 0);
+    handleChange({ target: input });
+  };
+
+  useEffect(() => {
+    if (amount !== 0) setTotal(amount * product.price);
+  }, [amount, setTotal]);
 
   // const handleChange = ({ target }) => {
   //   const { name, value } = target;
   //   dispatch(SET_ADD_AMOUNT({ amount: { [name]: Number(value) } }));
   // };
 
-  useEffect(() => {
-    dispatch(SET_ADD_AMOUNT({ amount }));
-    dispatch(SET_ADD_TO_CART({ total }));
-  }, [amount, dispatch, total]);
+  // useEffect(() => {
+  //   dispatch(SET_ADD_AMOUNT({ amount }));
+  //   dispatch(SET_ADD_TO_CART({ total }));
+  // }, [amount, dispatch, total]);
 
   const { id } = product;
 
@@ -63,9 +75,9 @@ const ProductCard = ({ product }) => {
       <StyledSpan
         data-testid={ `customer_products__element-card-price-${id}` }
       >
-        {`${currencyBrl(Number(product.price))}`}
+        { `${currencyBrl(Number(product.price))}` }
       </StyledSpan>
-      <StyledSpan>{ currencyBrl(total) }</StyledSpan>
+      <StyledSpan>{ currencyBrl(amount + Number(product.price)) }</StyledSpan>
 
       <StyledInputContainer>
         <StyledButton
@@ -79,6 +91,7 @@ const ProductCard = ({ product }) => {
           data-testid={ `customer_products__input-card-quantity-${id}` }
           name="amount"
           type="text"
+          onChange={ handleChange }
         />
         <StyledButton
           type="button"
