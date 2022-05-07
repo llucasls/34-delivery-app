@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import currencyBrl from '../../../helpers/currencyBrl';
 import handleAddToCart,
 { handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
+import { SET_ADD_TO_CART } from '../../../store/slices/ProductCartTotal';
 import { useAppDispatch } from '../../../store';
-
-import { SET_ADD_TO_CART, SET_ADD_AMOUNT } from '../../../store/slices/ProductCartTotal';
 
 import {
   StyledCard,
@@ -26,25 +25,22 @@ const ProductCard = ({ product }) => {
     const newAmount = amount + 1;
     setAmount(newAmount);
     setTotal((newAmount) * product.price);
-    handleAddToCart(product, total.toFixed(2));
+    handleAddToCart(product);
   };
 
   const decreaseAmount = () => {
     const newAmount = amount - 1;
     setAmount(Math.max(0, newAmount));
     setTotal((newAmount) * product.price);
-    handleRemoveToCart(product.id);
+    handleRemoveToCart(product);
   };
 
-  // const handleChange = ({ target }) => {
-  //   const { name, value } = target;
-  //   dispatch(SET_ADD_AMOUNT({ amount: { [name]: Number(value) } }));
-  // };
-
   useEffect(() => {
-    dispatch(SET_ADD_AMOUNT({ amount }));
-    dispatch(SET_ADD_TO_CART({ total }));
-  }, [amount, dispatch, total]);
+    const addTotal = () => {
+      dispatch(SET_ADD_TO_CART({ product_cart_total: total }));
+    };
+    addTotal();
+  }, [dispatch, total]);
 
   const { id } = product;
 
@@ -65,7 +61,6 @@ const ProductCard = ({ product }) => {
       >
         {`${currencyBrl(Number(product.price))}`}
       </StyledSpan>
-      <StyledSpan>{ currencyBrl(total) }</StyledSpan>
 
       <StyledInputContainer>
         <StyledButton
