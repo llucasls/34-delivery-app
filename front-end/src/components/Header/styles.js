@@ -8,9 +8,6 @@ export const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  position: fixed;
-  left: 0;
-  top: 0;
   background-color: ${(props) => props.theme.colors.primary};
 `;
 

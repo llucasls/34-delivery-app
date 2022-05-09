@@ -1,6 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import * as Yup from 'yup';
-import { Form } from '@unform/web';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../service/api';
 import loginSchema from '../../schemas/login';
@@ -9,18 +7,16 @@ import { Input, Button, Label } from '../../components';
 import { StyledContainer, StyledContainerForm, StyledText } from './styles';
 
 const Login = () => {
-  const formRef = useRef(null);
-  const goTo = useNavigate();
   const [axiosError, setAxiosError] = useState(null);
+  const [disableButton, setDisableButton] = useState(true);
   const [login, setLogin] = useState({
     email: '',
     password: '',
   });
-  const [dsb, setDsb] = useState(true);
+  const goTo = useNavigate();
 
   const handleChange = (event) => {
     const { title, value } = event.target;
-
     setLogin({ ...login, [title]: value });
   };
 
@@ -29,8 +25,8 @@ const Login = () => {
     case 'seller':
       goTo('/seller/orders');
       break;
-    case 'admin':
-      goTo('/');
+    case 'administrator':
+      goTo('/admin');
       break;
     default:
       goTo('/customer/products');
@@ -38,9 +34,9 @@ const Login = () => {
     }
   };
 
-  const handleLogin = async (dataForm) => {
+  const handleLogin = async () => {
     try {
-      const { data } = await api.post('/login', dataForm);
+      const { data } = await api.post('/login', login);
 
       localStorage.clear();
       // salva o token no localStorage
@@ -58,26 +54,15 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (dataForm) => {
-    await handleLogin(dataForm);
-  };
+  const validate = async () => {
+    const isValid = await loginSchema.validate(login, { abortEarly: false });
 
-  const validate = useCallback(async () => {
-    const errorMessages = {};
-    try {
-      await loginSchema.validate(login, { abortEarly: false });
-      formRef.current.setErrors(errorMessages);
-      setDsb(false);
-      return;
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        error.inner.forEach((err) => {
-          errorMessages[err.path] = err.message;
-        });
-      }
-      setDsb(true);
+    if (isValid) {
+      setDisableButton(false);
+    } else {
+      setDisableButton(true);
     }
-  }, [login]);
+  };
 
   useEffect(() => {
     validate();
@@ -96,56 +81,50 @@ const Login = () => {
   return (
     <StyledContainer>
       <StyledContainerForm>
-        <Form
-          ref={ formRef }
-          style={ {
-            display: 'flex',
-            flexDirection: 'column' } }
-          onSubmit={ handleSubmit }
-        >
-          {
-            axiosError && (
-              <StyledText
-                data-testid="common_login__element-invalid-email"
-                style={ { color: 'red' } }
-              >
-                {axiosError}
-              </StyledText>
-            )
-          }
-          <Label size={ 18 }>
-            <StyledText style={ { marginLeft: 5 } } size={ 12 }>Email</StyledText>
-            <Input
-              data-testid="common_login__input-email"
-              style={ { width: 300, height: 40 } }
-              name="email"
-              title="email"
-              placeholder="email"
-              onChange={ handleChange }
-            />
-          </Label>
-          <Label size={ 18 }>
-            <StyledText style={ { marginLeft: 5 } } size={ 12 }>Senha</StyledText>
-            <Input
-              data-testid="common_login__input-password"
-              style={ { width: 300, height: 40 } }
-              name="password"
-              type="password"
-              placeholder="senha"
-              title="password"
-              onChange={ handleChange }
-            />
-          </Label>
-
-          <Button
-            data-testid="common_login__button-login"
-            type="submit"
-            title="LOGIN"
-            size={ 20 }
-            disabled={ dsb }
+        {
+          axiosError && (
+            <StyledText
+              data-testid="common_login__element-invalid-email"
+              style={ { color: 'red' } }
+            >
+              {axiosError}
+            </StyledText>
+          )
+        }
+        <Label size={ 18 }>
+          <StyledText style={ { marginLeft: 5 } } size={ 12 }>Email</StyledText>
+          <Input
+            data-testid="common_login__input-email"
+            style={ { width: 300, height: 40 } }
+            name="email"
+            title="email"
+            placeholder="email"
+            onChange={ handleChange }
           />
+        </Label>
+        <Label size={ 18 }>
+          <StyledText style={ { marginLeft: 5 } } size={ 12 }>Senha</StyledText>
+          <Input
+            data-testid="common_login__input-password"
+            style={ { width: 300, height: 40 } }
+            name="password"
+            type="password"
+            placeholder="senha"
+            title="password"
+            onChange={ handleChange }
+          />
+        </Label>
 
-        </Form>
+        <Button
+          data-testid="common_login__button-login"
+          type="submit"
+          title="LOGIN"
+          size={ 20 }
+          onClick={ async () => {
+            await handleLogin();
+          } }
+          disabled={ disableButton }
+        />
         <Button
           style={ {
             marginBottom: 0,
@@ -155,7 +134,9 @@ const Login = () => {
           } }
           type="button"
           data-testid="common_login__button-register"
-          onClick={ () => goTo('/register') }
+          onClick={ () => {
+            goTo('/register');
+          } }
           title="Ainda não tenho conta"
           size={ 20 }
         />

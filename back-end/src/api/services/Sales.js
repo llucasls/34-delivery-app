@@ -5,7 +5,7 @@ const getAll = async (id) => Sales.findAll({
   include: [{ model: Products, as: 'products' }], 
   where: { [Op.or]: [{ userId: id }, { sellerId: id }] } });
 
-const getById = async (id) => Sales.findOne({ raw: true,
+const getById = async (id) => Sales.findOne({
   include: [{ model: Products, as: 'products' }],
    where: { id } });
 

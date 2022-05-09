@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import currencyBrl from '../../../helpers/currencyBrl';
 import handleAddToCart,
-{ handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
+{ handleInputAddToCart,
+  handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
 import { SET_ADD_TO_CART } from '../../../store/slices/ProductCartTotal';
 import { useAppDispatch } from '../../../store';
 
@@ -20,14 +21,21 @@ const ProductCard = ({ product }) => {
   const dispatch = useAppDispatch();
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
-
+  // const cart = JSON.parse(localStorage.getItem('cart'));
   // transforma o valor em 0 caso não seja um número
   const handleChange = ({ target }) => {
     if (Number.isNaN(Number(target.value))) {
       target.value = 0;
     }
+
+    handleInputAddToCart(product, Number(target.value));
     setAmount(Number(target.value));
   };
+
+  // useEffect(() => {
+  //   const result = cart?.reduce((acc, curr) => acc + Number(curr.price) * curr.amount, 0);
+  //   setTotal(result);
+  // }, [cart]);
 
   // aumenta a quantidade em 1 e chama o handleChange
   const increaseAmount = ({ target }) => {
@@ -87,6 +95,7 @@ const ProductCard = ({ product }) => {
           data-testid={ `customer_products__input-card-quantity-${id}` }
           name="amount"
           defaultValue="0"
+          value={ amount }
           type="text"
           onChange={ handleChange }
         />

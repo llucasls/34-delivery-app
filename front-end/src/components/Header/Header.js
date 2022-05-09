@@ -10,7 +10,7 @@ import {
   StyledContainerInfoUser,
 } from './styles';
 
-const Header = ({ consumer = true }) => {
+const Header = ({ type = 'consumer' }) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const goTo = useNavigate();
 
@@ -20,27 +20,57 @@ const Header = ({ consumer = true }) => {
     goTo('/login');
   };
 
+  const renderMainButton = () => {
+    switch (type) {
+    case 'seller':
+      return (
+        <StyledButton
+          style={ { backgroundColor: '#2FC18C' } }
+          size={ 0.15 }
+          onClick={ () => goTo('/seller/orders') }
+        >
+          PEDIDOS
+        </StyledButton>
+      );
+    case 'admin':
+      return (
+        <StyledButton
+          style={ { backgroundColor: '#2FC18C' } }
+          size={ 0.15 }
+          onClick={ () => goTo('/admin') }
+        >
+          GERENCIAR USUÁRIOS
+        </StyledButton>
+      );
+    default:
+      return (
+        <StyledButton
+          data-testid="customer_products__element-navbar-link-products"
+          style={ { backgroundColor: '#2FC18C' } }
+          size={ 0.15 }
+          onClick={ () => goTo('/customer/products') }
+        >
+          PRODUTOS
+        </StyledButton>
+      );
+    }
+  };
+
   return (
     <StyledContainer>
       <StyledRow>
-        <StyledButton
-          data-testid="customer_products__element-navbar-link-products"
-          style={ {
-            backgroundColor: '#2FC18C',
-          } }
-          size={ 0.1 }
-        >
-          Produtos
-        </StyledButton>
-        { consumer && (
+        { renderMainButton() }
+        { type === 'consumer' && (
           <StyledButton
             data-testid="customer_products__element-navbar-link-orders"
             style={ {
               backgroundColor: '#036B52',
-            } }
-            size={ 0.1 }
+              color: '#fff',
+              textTransform: 'uppercase' } }
+            size={ 0.15 }
+            onClick={ () => goTo('/customer/checkout') }
           >
-            Meus Produtos
+            MEUS PEDIDOS
           </StyledButton>
         )}
       </StyledRow>
@@ -69,5 +99,5 @@ const Header = ({ consumer = true }) => {
 export default Header;
 
 Header.propTypes = {
-  consumer: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
 };

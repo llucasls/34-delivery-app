@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyledViewButton, StyledButton } from './styles';
+import StyledButton from './styles';
 
 const Button = ({ size, title, ...rest }) => (
-  <StyledViewButton>
-    <StyledButton size={ size } { ...rest }>
-      {title}
-    </StyledButton>
-  </StyledViewButton>
+  <StyledButton size={ size } { ...rest }>
+    {title}
+  </StyledButton>
 );
 
 export default Button;
