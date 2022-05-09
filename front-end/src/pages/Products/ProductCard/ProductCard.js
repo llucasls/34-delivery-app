@@ -77,7 +77,7 @@ const ProductCard = ({ product }) => {
       >
         { `${currencyBrl(Number(product.price))}` }
       </StyledSpan>
-      <StyledSpan>{ currencyBrl(amount + Number(product.price)) }</StyledSpan>
+      <StyledSpan>{ currencyBrl(amount * Number(product.price)) }</StyledSpan>
 
       <StyledInputContainer>
         <StyledButton
