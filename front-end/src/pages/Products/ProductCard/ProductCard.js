@@ -17,10 +17,9 @@ import {
 } from './styles';
 
 const ProductCard = ({ product }) => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
-  console.log(total);
 
   // transforma o valor em 0 caso não seja um número
   const handleChange = ({ target }) => {
