@@ -2,12 +2,32 @@ import styled from 'styled-components';
 
 export const StyledContainer = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 65vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   `;
+
+export const StyledContainerAdress = styled.div`
+  width: 100%;
+  height: 35vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StyledContainerAdressBoard = styled.div`
+width: 80%;
+height: 90%;
+display: flex;
+flex-direction: column;
+border-radius: 5px;
+background-color: ${({ theme }) => theme.colors.white};
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
+
 export const StyledTitle = styled.h3`
   align-self: flex-start;
   font-size: 1.5rem;

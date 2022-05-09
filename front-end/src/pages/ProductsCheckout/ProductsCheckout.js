@@ -13,6 +13,8 @@ import {
   StyledContainerTableRow,
   StyledContainerTableColumn,
   StyledColumn,
+  StyledContainerAdress,
+  StyledContainerAdressBoard,
 } from './styles';
 
 const ProductsCheckout = () => {
@@ -150,6 +152,11 @@ const ProductsCheckout = () => {
           </StyledHeaderBoard>
         </StyledContainerBoard>
       </StyledContainer>
+      <StyledContainerAdress>
+        <StyledContainerAdressBoard>
+          <StyledTitle>Endereço de entrega</StyledTitle>
+        </StyledContainerAdressBoard>
+      </StyledContainerAdress>
     </>
   );
 };

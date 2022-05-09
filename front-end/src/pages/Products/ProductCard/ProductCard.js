@@ -47,7 +47,7 @@ const ProductCard = ({ product }) => {
 
   useEffect(() => {
     setTotal(amount * product.price);
-  }, [amount, setTotal]);
+  }, [amount, product.price, setTotal]);
 
   useEffect(() => {
     const addTotal = () => {
