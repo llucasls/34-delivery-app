@@ -96,7 +96,6 @@ const ProductsCheckout = () => {
               };
             }) }
           title="Finalizar Pedido"
-          onClick={ () => handleRemoveToCart(data.id) }
           total={
             <StyledText style={ { color: '#FFF' } }>
               {currencyBrl(total)}
