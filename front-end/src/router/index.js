@@ -17,9 +17,9 @@ const MainRoute = () => (
       <Route path="/login" exact element={ <Login /> } />
       <Route path="/register" exact element={ <Register /> } />
       <Route path="/customer/checkout" exact element={ <ProductsCheckout /> } />
+      <Route path="/customer/products" element={ <Products /> } />
       <Route path="/seller/orders" exact element={ <SellerOrders /> } />
       <Route path="/seller/orders/:id" exact element={ <SellerDetails /> } />
-      <Route path="/customer/products" element={ <Products /> } />
       <Route path="/admin" exact element={ <Admin /> } />
     </Switch>
   </BrowserRouter>

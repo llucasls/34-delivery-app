@@ -50,7 +50,7 @@ const SellerRequest = () => {
 
   return (
     <>
-      <Header />
+      <Header type="seller" />
       <StyledContainer>
         { !orders
           ? <StyledText>Carregando...</StyledText>

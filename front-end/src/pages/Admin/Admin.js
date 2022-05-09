@@ -73,7 +73,7 @@ const Admin = () => {
 
   return (
     <>
-      <Header />
+      <Header type="admin" />
       <StyledContainer>
         <StyledText
           style={ { alignSelf: 'flex-start', marginLeft: '10%', marginBottom: 20 } }

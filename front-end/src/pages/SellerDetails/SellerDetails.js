@@ -83,7 +83,7 @@ const SellerDetails = () => {
 
   return (
     <>
-      <Header />
+      <Header type="seller" />
       <StyledContainer>
         { !order
           ? <StyledText>Carregando...</StyledText>
