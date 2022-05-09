@@ -21,19 +21,33 @@ const ProductCard = ({ product }) => {
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
 
-  const increaseAmount = () => {
-    const newAmount = amount + 1;
-    setAmount(newAmount);
-    setTotal((newAmount) * product.price);
+  // transforma o valor em 0 caso não seja um número
+  const handleChange = ({ target }) => {
+    if (Number.isNaN(Number(target.value))) {
+      target.value = 0;
+    }
+    setAmount(Number(target.value));
+  };
+
+  // aumenta a quantidade em 1 e chama o handleChange
+  const increaseAmount = ({ target }) => {
+    const input = target.previousSibling;
+    input.value = Number(input.value) + 1;
+    handleChange({ target: input });
     handleAddToCart(product);
   };
 
-  const decreaseAmount = () => {
-    const newAmount = amount - 1;
-    setAmount(Math.max(0, newAmount));
-    setTotal((newAmount) * product.price);
+  // diminui a quantidade em 1 e chama o handleChange
+  const decreaseAmount = ({ target }) => {
+    const input = target.nextSibling;
+    input.value = Math.max(Number(input.value) - 1, 0);
+    handleChange({ target: input });
     handleRemoveToCart(product);
   };
+
+  useEffect(() => {
+    setTotal(amount * product.price);
+  }, [amount, setTotal]);
 
   useEffect(() => {
     const addTotal = () => {
@@ -59,9 +73,8 @@ const ProductCard = ({ product }) => {
       <StyledSpan
         data-testid={ `customer_products__element-card-price-${id}` }
       >
-        {`${currencyBrl(Number(product.price))}`}
+        { `${currencyBrl(Number(product.price))}` }
       </StyledSpan>
-
       <StyledInputContainer>
         <StyledButton
           type="button"
@@ -72,9 +85,10 @@ const ProductCard = ({ product }) => {
         </StyledButton>
         <StyledAmount
           data-testid={ `customer_products__input-card-quantity-${id}` }
-          value={ amount }
           name="amount"
+          defaultValue="0"
           type="text"
+          onChange={ handleChange }
         />
         <StyledButton
           type="button"

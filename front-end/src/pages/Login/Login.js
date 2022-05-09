@@ -42,12 +42,14 @@ const Login = () => {
     try {
       const { data } = await api.post('/login', dataForm);
 
+      localStorage.clear();
       // salva o token no localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify({
         name: data.name,
         email: data.email,
         role: data.role,
+        token: data.token,
       }));
 
       handleNavigate(data.role);
