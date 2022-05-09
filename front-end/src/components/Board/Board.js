@@ -42,7 +42,7 @@ const Board = ({
                 width: indexColumn === 1 && '40%',
               } }
             >
-              { row === 'excluir'
+              { row === 'excluir' || typeof row === 'function'
                 ? (
                   <Button
                     style={ {
@@ -52,7 +52,8 @@ const Board = ({
                       fontWeight: 600,
                     } }
                     size={ 16 }
-                    title={ row }
+                    title="Remover"
+                    onClick={ row }
                   />
                 )
                 : row }

@@ -10,6 +10,8 @@ const colorColumnBoard = (index) => {
     return '#421981';
   case '4':
     return '#056CF9';
+  case '5':
+    return '#2FC18C';
   default:
   }
 };
