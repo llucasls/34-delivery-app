@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import currencyBrl from '../../../helpers/currencyBrl';
-import handleAddToCart,
-{ handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
-import { useAppDispatch } from '../../../store';
+// import handleAddToCart,
+// { handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
+// import { useAppDispatch } from '../../../store';
 
-import { SET_ADD_TO_CART, SET_ADD_AMOUNT } from '../../../store/slices/ProductCartTotal';
+// import { SET_ADD_TO_CART, SET_ADD_AMOUNT } from '../../../store/slices/ProductCartTotal';
 
 import {
   StyledCard,
@@ -21,6 +21,7 @@ const ProductCard = ({ product }) => {
   // const dispatch = useAppDispatch();
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
+  console.log(total);
 
   // transforma o valor em 0 caso não seja um número
   const handleChange = ({ target }) => {
@@ -90,6 +91,7 @@ const ProductCard = ({ product }) => {
         <StyledAmount
           data-testid={ `customer_products__input-card-quantity-${id}` }
           name="amount"
+          defaultValue="0"
           type="text"
           onChange={ handleChange }
         />
