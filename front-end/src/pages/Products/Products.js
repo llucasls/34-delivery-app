@@ -4,13 +4,14 @@ import { StyledPage, StyledProducts, StyledButton, StyledText } from './styles';
 import ProductCard from './ProductCard/ProductCard';
 import { api } from '../../service/api';
 import Header from '../../components/Header/Header';
-import { cartTotal } from '../../helpers/saveCartLocalStorage';
+// import { cartTotal } from '../../helpers/saveCartLocalStorage';
 import { useAppSelector } from '../../store';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const total = useAppSelector((state) => state.ProductCartTotal.product_cart_total);
-  console.log(total);
+
+  const totalPrice = useAppSelector((state) => state.ProductCartTotal.product_cart_total);
+
   const goTo = useNavigate();
   const productsApi = async () => {
     try {
@@ -44,7 +45,7 @@ const Products = () => {
           data-testid="customer_products__checkout-bottom-value"
         >
           Ver Carrinho: R$
-          {cartTotal().toFixed(2)}
+          {totalPrice.toFixed(2)}
         </StyledText>
       </StyledButton>
     </StyledPage>

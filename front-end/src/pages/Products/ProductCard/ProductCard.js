@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import currencyBrl from '../../../helpers/currencyBrl';
-// import handleAddToCart,
-// { handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
-// import { useAppDispatch } from '../../../store';
-
-// import { SET_ADD_TO_CART, SET_ADD_AMOUNT } from '../../../store/slices/ProductCartTotal';
+import handleAddToCart,
+{ handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
+import { SET_ADD_TO_CART } from '../../../store/slices/ProductCartTotal';
+import { useAppDispatch } from '../../../store';
 
 import {
   StyledCard,
@@ -36,6 +35,7 @@ const ProductCard = ({ product }) => {
     const input = target.previousSibling;
     input.value = Number(input.value) + 1;
     handleChange({ target: input });
+    handleAddToCart(product);
   };
 
   // diminui a quantidade em 1 e chama o handleChange
@@ -43,21 +43,19 @@ const ProductCard = ({ product }) => {
     const input = target.nextSibling;
     input.value = Math.max(Number(input.value) - 1, 0);
     handleChange({ target: input });
+    handleRemoveToCart(product);
   };
 
   useEffect(() => {
     if (amount !== 0) setTotal(amount * product.price);
   }, [amount, setTotal]);
 
-  // const handleChange = ({ target }) => {
-  //   const { name, value } = target;
-  //   dispatch(SET_ADD_AMOUNT({ amount: { [name]: Number(value) } }));
-  // };
-
-  // useEffect(() => {
-  //   dispatch(SET_ADD_AMOUNT({ amount }));
-  //   dispatch(SET_ADD_TO_CART({ total }));
-  // }, [amount, dispatch, total]);
+  useEffect(() => {
+    const addTotal = () => {
+      dispatch(SET_ADD_TO_CART({ product_cart_total: total }));
+    };
+    addTotal();
+  }, [dispatch, total]);
 
   const { id } = product;
 
@@ -78,8 +76,6 @@ const ProductCard = ({ product }) => {
       >
         { `${currencyBrl(Number(product.price))}` }
       </StyledSpan>
-      <StyledSpan>{ currencyBrl(amount * Number(product.price)) }</StyledSpan>
-
       <StyledInputContainer>
         <StyledButton
           type="button"

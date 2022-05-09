@@ -8,7 +8,7 @@ const ProductCartTotal = createSlice({
   },
   reducers: {
     SET_ADD_TO_CART: (state, { payload }) => {
-      state.product_cart_total = payload;
+      state.product_cart_total = payload.product_cart_total;
     },
     SET_ADD_AMOUNT: (state, { payload }) => {
       state.amount = payload;
