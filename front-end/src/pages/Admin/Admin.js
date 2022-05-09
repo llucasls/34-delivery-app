@@ -82,8 +82,8 @@ const Admin = () => {
         </StyledText>
         {renderRegisterUser()}
         <Board
-          tableColuns={ ['item', 'nome', 'email', 'tipo', 'excluir'] }
-          tableRows={ allUsers
+          boardColoumns={ ['Item', 'Nome', 'Email', 'Tipo', 'Excluir'] }
+          board={ allUsers
             .map((item, index) => {
               const { name, email, role } = item;
 

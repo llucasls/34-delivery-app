@@ -1,4 +1,4 @@
-const getDateFormated = (dataUnformated) => {
+const formatedData = (dataUnformated) => {
   const data = new Date(dataUnformated);
 
   const day = data.getDay() + 1;
@@ -12,4 +12,4 @@ const getDateFormated = (dataUnformated) => {
     ${yaer}`;
 };
 
-export default getDateFormated;
+export default formatedData;

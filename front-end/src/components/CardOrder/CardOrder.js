@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import colorStatusOrder from '../../helpers/colorStatusOrder';
-import idWithFourDigits from '../../helpers/idWithFourDigits';
-import getDateFormated from '../../helpers/getDataFormated';
+import formatedId from '../../helpers/formatedId';
+import formatedData from '../../helpers/formatedData';
 import formatedCurrencyBRL from '../../helpers/formatedCurrencyBRL';
 
 import { StyledContainer, StyledRow, StyledColumn, StyledText } from './styles';
@@ -14,7 +14,7 @@ const CardOrder = ({ data, ...rest }) => {
         width: '20%', backgroundColor: '#fff', justifyContent: 'center' } }
     >
       <StyledText>pedido</StyledText>
-      <StyledText>{idWithFourDigits(data.id)}</StyledText>
+      <StyledText>{formatedId(data.id)}</StyledText>
     </StyledColumn>
   );
 
@@ -49,7 +49,7 @@ const CardOrder = ({ data, ...rest }) => {
         backgroundColor: '#fff', width: '100%', height: '46%', borderRadius: 5 } }
     >
       <StyledText>
-        {getDateFormated(data.saleDate)}
+        {formatedData(data.saleDate)}
       </StyledText>
     </StyledRow>
   );
