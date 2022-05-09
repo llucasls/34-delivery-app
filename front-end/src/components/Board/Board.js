@@ -12,12 +12,14 @@ import {
   StyledContainerTableHeader,
   StyledContainerTableRow,
   StyledContainerTableColumn,
+  StyledColumn,
 } from './styles';
 
 const Board = ({
-  board = [],
-  boardColoumns = [],
   boardHeader = null,
+  boardColoumns = [],
+  board = [],
+  total = null,
   title,
 }) => {
   const renderTable = () => (
@@ -65,11 +67,31 @@ const Board = ({
     <StyledContainer>
       <StyledTitle>{title}</StyledTitle>
       <StyledContainerBoard>
-        <StyledHeaderBoard>
-          {boardHeader}
-        </StyledHeaderBoard>
+        { boardHeader
+          && (
+            <StyledHeaderBoard>
+              {boardHeader}
+            </StyledHeaderBoard>
+          ) }
         {renderTable()}
-        {/* {useMemo(returnTotal, [total])} */}
+        { total
+          && (
+            <StyledColumn
+              style={ {
+                position: 'absolute',
+                bottom: '20%',
+                right: '15%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#036B52',
+                height: 60,
+                width: 200,
+                borderRadius: 5 } }
+            >
+              { total }
+            </StyledColumn>
+          )}
       </StyledContainerBoard>
     </StyledContainer>
   );
@@ -81,5 +103,6 @@ Board.propTypes = {
   board: PropTypes.arrayOf().isRequired,
   boardColoumns: PropTypes.arrayOf().isRequired,
   boardHeader: PropTypes.element.isRequired,
+  total: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
 };

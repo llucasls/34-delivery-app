@@ -4,12 +4,15 @@ import { StyledRow as Row, StyledColumn as Column } from '../CardOrder/styles';
 
 export const StyledContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  `;
+  align-self: flex-start;
+  margin-top: 40px;
+`;
+
 export const StyledTitle = styled.h3`
   align-self: flex-start;
   font-size: 1.5rem;
@@ -26,7 +29,7 @@ export const StyledText = styled.p`
 
 export const StyledContainerBoard = styled.div`
   width: 80%;
-  height: 50%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   border-radius: 5px;

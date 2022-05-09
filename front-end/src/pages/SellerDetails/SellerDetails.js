@@ -11,6 +11,7 @@ import { StyledContainer, StyledText, StyledRow, StyledColumn } from './styles';
 
 const SellerDetails = () => {
   const [order, setOrder] = useState(null);
+  const [total, setTotal] = useState(0);
   const location = useLocation();
 
   const getOrder = async () => {
@@ -22,6 +23,16 @@ const SellerDetails = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const getTotal = () => {
+    const result = order.products
+      .reduce((acc, curr) => acc + Number(curr.price)
+        * Number(curr.SalesProducts.quantity), 0);
+
+    console.log(result);
+
+    setTotal(result);
   };
 
   const renderHeaderBoard = () => (
@@ -81,6 +92,13 @@ const SellerDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (order) {
+      getTotal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [order]);
+
   return (
     <>
       <Header type="seller" />
@@ -109,7 +127,9 @@ const SellerDetails = () => {
                     formatedCurrencyBRL(Number(price) * Number(SalesProducts.quantity)),
                 };
               }) }
-            />)}
+              total={ <StyledText style={ { color: '#FFF' } }>{total}</StyledText> }
+            />
+          )}
       </StyledContainer>
     </>
   );
