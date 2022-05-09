@@ -1,18 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Header } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { Board, Header } from '../../components';
 import currencyBrl from '../../helpers/currencyBrl';
 
 import {
   StyledContainer,
   StyledTitle,
   StyledText,
-  StyledContainerBoard,
-  StyledHeaderBoard,
-  StyledContainerTable,
-  StyledContainerTableHeader,
-  StyledContainerTableRow,
-  StyledContainerTableColumn,
-  StyledColumn,
   StyledContainerAdress,
   StyledContainerAdressBoard,
 } from './styles';
@@ -40,117 +33,76 @@ const ProductsCheckout = () => {
     setTotal(result);
   }, [data]);
 
-  const renderTable = () => (
-    <StyledContainerTable>
-      <StyledContainerTableHeader>
-        <StyledContainerTableColumn style={ { width: '5%' } }>
-          Item
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '50%' } }>
-          Descrição
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '10%' } }>
-          Quantidade
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '10%' } }>
-          Valor únitario
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '10%' } }>
-          Sub-total
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '15%' } }>
-          Remover-item
-        </StyledContainerTableColumn>
-      </StyledContainerTableHeader>
-      {data.map((item, index) => (
-        <StyledContainerTableRow key={ index }>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#2FC18C',
-              borderTopLeftRadius: 5,
-              borderBottomLeftRadius: 5,
-            } }
-          >
-            {item.id}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              textAlign: 'left', backgroundColor: '#EAF1EF',
-            } }
-          >
-            {item.name}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#036B52',
-              color: '#FFF',
-            } }
-          >
-            {item.amount}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#421981', color: '#FFF',
-            } }
-          >
-            {currencyBrl(`${item.price}`)}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#056CF9',
-              color: '#FFF',
-            } }
-          >
-            {currencyBrl(total / item.amount)}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#2FC18C',
-              borderTopRightRadius: 5,
-              borderBottomRightRadius: 5,
-              color: '#FFF',
-            } }
-            onClick={ () => handleRemoveToCart(item) }
-          >
-            Remover
-          </StyledContainerTableColumn>
-        </StyledContainerTableRow>
-      ))}
-    </StyledContainerTable>
-  );
+  //         </StyledContainerTableColumn>
+  //         <StyledContainerTableColumn
+  //           style={ {
+  //             backgroundColor: '#2FC18C',
+  //             borderTopRightRadius: 5,
+  //             borderBottomRightRadius: 5,
+  //             color: '#FFF',
+  //           } }
+  //           onClick={ () => handleRemoveToCart(item) }
+  //         >
+  //           Remover
+  //         </StyledContainerTableColumn>
+  //       </StyledContainerTableRow>
+  //     ))}
+  //   </StyledContainerTable>
+  // );
 
-  const returnTotal = () => (
-    <StyledColumn
-      style={ {
-        position: 'absolute',
-        bottom: '35%',
-        right: '15%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#036B52',
-        height: 60,
-        width: 200,
-        borderRadius: 5,
-      } }
-    >
-      <StyledText style={ { color: '#FFF' } }>
-        {`TOTAL: ${currencyBrl(`${total}`)} `}
-      </StyledText>
-    </StyledColumn>
-  );
+  // const returnTotal = () => (
+  //   <StyledColumn
+  //     style={ {
+  //       position: 'absolute',
+  //       bottom: '35%',
+  //       right: '15%',
+  //       display: 'flex',
+  //       alignItems: 'center',
+  //       justifyContent: 'center',
+  //       backgroundColor: '#036B52',
+  //       height: 60,
+  //       width: 200,
+  //       borderRadius: 5,
+  //     } }
+  //   />
+  // );
 
+  /* <StyledContainerBoard>
+    <StyledHeaderBoard>
+      {useMemo(renderTable, [data, total])}
+      {useMemo(returnTotal, [total])}
+    </StyledHeaderBoard>
+  </StyledContainerBoard> */
   return (
     <>
       <Header />
       <StyledContainer>
-        <StyledTitle>Finalizar Pedido</StyledTitle>
-        <StyledContainerBoard>
-          <StyledHeaderBoard>
-            {useMemo(renderTable, [data, total])}
-            {useMemo(returnTotal, [total])}
-          </StyledHeaderBoard>
-        </StyledContainerBoard>
+        <Board
+          boardColoumns={ ['Item',
+            'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
+          board={ data
+            .map((item, index) => {
+              const { name, amount, price } = item;
+
+              return {
+                item: index + 1,
+                name,
+                amount,
+                price: currencyBrl(`${price}`),
+                subTotal: currencyBrl(price * amount),
+                // remover: 'Remover',
+                remover: () => handleRemoveToCart(item),
+
+              };
+            }) }
+          title="Finalizar Pedido"
+          onClick={ () => handleRemoveToCart(data.id) }
+          total={
+            <StyledText style={ { color: '#FFF' } }>
+              {currencyBrl(total)}
+            </StyledText>
+          }
+        />
       </StyledContainer>
       <StyledContainerAdress>
         <StyledContainerAdressBoard>
