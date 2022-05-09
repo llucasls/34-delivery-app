@@ -27,28 +27,30 @@ const Products = () => {
   }, []);
 
   return (
-    <StyledPage>
+    <>
       <Header />
-      <StyledProducts>
-        {
-          products.slice(0, Number('11')).map((product) => (
-            <ProductCard key={ product.id } product={ product } />
-          ))
-        }
-      </StyledProducts>
-      <StyledButton
-        type="button"
-        onClick={ () => goTo('/customer/checkout') }
-        data-testid="customer_products__button-cart"
-      >
-        <StyledText
-          data-testid="customer_products__checkout-bottom-value"
+      <StyledPage>
+        <StyledProducts>
+          {
+            products.slice(0, Number('11')).map((product) => (
+              <ProductCard key={ product.id } product={ product } />
+            ))
+          }
+        </StyledProducts>
+        <StyledButton
+          type="button"
+          onClick={ () => goTo('/customer/checkout') }
+          data-testid="customer_products__button-cart"
         >
-          Ver Carrinho: R$
-          {totalPrice.toFixed(2)}
-        </StyledText>
-      </StyledButton>
-    </StyledPage>
+          <StyledText
+            data-testid="customer_products__checkout-bottom-value"
+          >
+            Ver Carrinho: R$
+            {totalPrice ? totalPrice.toFixed(2) : ' 0,00'}
+          </StyledText>
+        </StyledButton>
+      </StyledPage>
+    </>
   );
 };
 
