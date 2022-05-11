@@ -11,7 +11,7 @@ const Select = ({ name, error = '', options, ...rest }) => {
   return (
     <>
       {error && <StyledTextError>{error}</StyledTextError>}
-      <StyledSelectInput name={ name } { ...rest }>
+      <StyledSelectInput error={ !!error } name={ name } { ...rest }>
         <StyledOption value="">Selecione</StyledOption>
         {options.map((option, index) => renderOption(option, index))}
       </StyledSelectInput>
