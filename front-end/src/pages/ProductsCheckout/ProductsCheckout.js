@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 import { Board, Header, Input, Label, Select } from '../../components';
 import currencyBrl from '../../helpers/currencyBrl';
+import schemaProductCheckout from '../../schemas/product.checkout';
 import { api } from '../../service/api';
 
 import {
@@ -14,30 +17,69 @@ import {
 } from './styles';
 
 const ProductsCheckout = () => {
+  const navigate = useNavigate();
   const [total, setTotal] = useState(0);
+  const [sellerData, setSellerDate] = useState([]);
   const [dataStorage, setDataStorage] = useState([]);
   const [write, setWrite] = useState({
-    name: '',
-    address: '',
-    number: '',
+    name: { field: '', error: '' },
+    address: { field: '', error: '' },
+    number: { field: '', error: '' },
   });
 
+  const getSellers = async () => {
+    try {
+      const { data } = await api.get('/users/sellers');
+      setSellerDate(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const postOrder = async () => {
+    const productsRender = dataStorage.map((data) => {
+      const { amount, id } = data;
+      return { quantity: amount, productId: id };
+    });
     const orders = {
-      userId: 1,
-      sellerId: write.name = 1,
+      sellerId: sellerData.find((salleInd) => salleInd.name === write.name).id,
       totalPrice: total,
       deliveryAddress: write.address,
       deliveryNumber: write.number,
       saleDate: new Date(),
-      products: dataStorage,
+      products: productsRender,
     };
     try {
       const { data } = await api.post('/sales', orders);
 
-      console.log(data);
+      localStorage.removeItem('cart');
+
+      navigate(`/customer/orders/${String(data.id)}`);
     } catch (error) {
       console.log(error.response.data);
+    }
+  };
+
+  const validate = async () => {
+    try {
+      await schemaProductCheckout.validate({
+        name: write.name.field,
+        address: write.address.field,
+        number: write.number.field,
+      }, { abortEarly: false });
+      await postOrder();
+    } catch (error) {
+      const errorMessages = {};
+      if (error instanceof Yup.ValidationError) {
+        error.inner.forEach((err) => {
+          errorMessages[err.path] = err.message;
+        });
+      }
+      setWrite({
+        name: { ...write.name, error: errorMessages.name },
+        address: { ...write.address, error: errorMessages.address },
+        number: { ...write.number, error: errorMessages.number },
+      });
     }
   };
 
@@ -50,19 +92,23 @@ const ProductsCheckout = () => {
   };
 
   useEffect(() => {
+    getSellers();
+  }, []);
+
+  useEffect(() => {
     const products = JSON.parse(localStorage.getItem('cart'));
     setDataStorage(products);
   }, []);
 
   useEffect(() => {
-    const result = dataStorage
-      .reduce((acc, curr) => acc + Number(curr.price) * curr.amount, 0);
-    setTotal(result);
+    const result = dataStorage?.reduce((acc, curr) => acc
+     + Number(curr.price) * curr.amount, 0);
+    setTotal(result || 0);
   }, [dataStorage]);
 
   const handleInput = (event) => {
     const { title, value } = event.target;
-    setWrite({ ...write, [title]: value });
+    setWrite({ ...write, [title]: { field: value, error: '' } });
   };
 
   const renderAdress = () => (
@@ -72,8 +118,11 @@ const ProductsCheckout = () => {
         <Select
           name="name"
           title="name"
-          options={ ['Fulana Pereira'] }
+          options={ sellerData.map((seller) => seller.name) }
           onChange={ handleInput }
+          error={ write.name.error }
+          style={ { width: '300px' } }
+          data-testid="customer_checkout__select-seller"
         />
       </Label>
       <Label style={ { width: '100%' } }>
@@ -83,16 +132,29 @@ const ProductsCheckout = () => {
           type="text"
           title="address"
           name="address"
+          error={ write.address.error }
+          style={ { width: '400px' } }
+          data-testid="customer_checkout__input-address"
+
         />
       </Label>
       <Label style={ { width: '100%' } }>
         Número
-        <Input onChange={ handleInput } type="number" title="number" name="number" />
+        <Input
+          onChange={ handleInput }
+          type="number"
+          title="number"
+          name="number"
+          error={ write.number.error }
+          style={ { width: '300px' } }
+          data-testid="customer_checkout__input-addressNumber"
+        />
       </Label>
       <StyledButtomSubmit
         size="20"
         type="submit"
-        onClick={ postOrder }
+        onClick={ async () => validate() }
+        data-testid="customer_checkout__button-submit-order"
       >
         FINALIZAR PEDIDO
       </StyledButtomSubmit>
@@ -106,7 +168,16 @@ const ProductsCheckout = () => {
         <Board
           boardColoumns={ ['Item',
             'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
-          board={ dataStorage
+          boardDataTestId={ [
+            'customer_checkout__element-order-table-item-number-',
+            'customer_checkout__element-order-table-name-',
+            'customer_checkout__element-order-table-quantity-',
+            'customer_checkout__element-order-table-unit-price-',
+            'customer_checkout__element-order-table-sub-total-',
+            'customer_checkout__element-order-table-remove-',
+          ] }
+          board={ dataStorage ? dataStorage
+
             .map((item, index) => {
               const { name, amount, price } = item;
 
@@ -120,10 +191,13 @@ const ProductsCheckout = () => {
                 remover: () => handleRemoveToCart(item),
 
               };
-            }) }
+            }) : [] }
           title="Finalizar Pedido"
           total={
-            <StyledText style={ { color: '#FFF' } }>
+            <StyledText
+              style={ { color: '#FFF' } }
+              data-testid="customer_checkout__element-order-total-price"
+            >
               {currencyBrl(total)}
             </StyledText>
           }
