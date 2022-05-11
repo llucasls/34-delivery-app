@@ -80,7 +80,7 @@ const Board = ({
             <StyledColumn
               style={ {
                 position: 'absolute',
-                bottom: '20%',
+                bottom: '30%',
                 right: '15%',
                 display: 'flex',
                 alignItems: 'center',
