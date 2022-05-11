@@ -42,7 +42,7 @@ const ProductsCheckout = () => {
       return { quantity: amount, productId: id };
     });
     const orders = {
-      sellerId: sellerData.find((salleInd) => salleInd.name === write.name).id,
+      sellerId: sellerData.find((salleInd) => salleInd.name === write.name.field).id,
       totalPrice: total,
       deliveryAddress: write.address,
       deliveryNumber: write.number,
