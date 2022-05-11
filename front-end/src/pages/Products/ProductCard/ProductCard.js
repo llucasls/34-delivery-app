@@ -6,6 +6,7 @@ import handleAddToCart,
   handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
 import { SET_ADD_TO_CART } from '../../../store/slices/ProductCartTotal';
 import { useAppDispatch } from '../../../store';
+import { bound } from '../../../helpers/math';
 
 import {
   StyledCard,
@@ -27,9 +28,9 @@ const ProductCard = ({ product }) => {
     if (Number.isNaN(Number(target.value))) {
       target.value = 0;
     }
-
-    handleInputAddToCart(product, Number(target.value));
-    setAmount(Number(target.value));
+    target.value = bound(Number(target.value));
+    handleInputAddToCart(product, bound(Number(target.value)));
+    setAmount(target.value);
   };
 
   // useEffect(() => {
@@ -40,7 +41,7 @@ const ProductCard = ({ product }) => {
   // aumenta a quantidade em 1 e chama o handleChange
   const increaseAmount = ({ target }) => {
     const input = target.previousSibling;
-    input.value = Number(input.value) + 1;
+    input.value = bound(Number(input.value) + 1);
     handleChange({ target: input });
     handleAddToCart(product);
   };
@@ -48,7 +49,7 @@ const ProductCard = ({ product }) => {
   // diminui a quantidade em 1 e chama o handleChange
   const decreaseAmount = ({ target }) => {
     const input = target.nextSibling;
-    input.value = Math.max(Number(input.value) - 1, 0);
+    input.value = bound(Number(input.value) - 1);
     handleChange({ target: input });
     handleRemoveToCart(product);
   };

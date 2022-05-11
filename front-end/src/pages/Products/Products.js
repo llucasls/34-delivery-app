@@ -46,7 +46,7 @@ const Products = () => {
             data-testid="customer_products__checkout-bottom-value"
           >
             Ver Carrinho: R$
-            {totalPrice ? totalPrice.toFixed(2) : ' 0,00'}
+            {totalPrice ? totalPrice.toFixed(2).replace('.', ',') : ' 0,00'}
           </StyledText>
         </StyledButton>
       </StyledPage>
