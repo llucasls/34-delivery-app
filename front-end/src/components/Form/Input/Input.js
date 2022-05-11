@@ -6,7 +6,7 @@ import { StyledInput, StyledTextError } from './styles';
 const Input = ({ name, error = '', ...rest }) => (
   <>
     {error && <StyledTextError>{error}</StyledTextError>}
-    <StyledInput { ...rest } />
+    <StyledInput error={ !!error } { ...rest } />
   </>
 );
 
