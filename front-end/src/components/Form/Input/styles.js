@@ -10,4 +10,7 @@ export const StyledInput = styled.input`
   margin:5px 0 10px 0;
 `;
 
-export const StyledTextError = styled.span``;
+export const StyledTextError = styled.span`
+  margin-top: 3px;
+  color: red;
+`;
