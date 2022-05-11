@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Board, Header } from '../../components';
+import { Board, Header, Input, Label, Select } from '../../components';
 import currencyBrl from '../../helpers/currencyBrl';
+import { api } from '../../service/api';
 
 import {
   StyledContainer,
@@ -8,71 +9,96 @@ import {
   StyledText,
   StyledContainerAdress,
   StyledContainerAdressBoard,
+  StyledButtomSubmit,
+  StyledForm,
 } from './styles';
 
 const ProductsCheckout = () => {
   const [total, setTotal] = useState(0);
-  const [data, setData] = useState([]);
+  const [dataStorage, setDataStorage] = useState([]);
+  const [write, setWrite] = useState({
+    name: '',
+    address: '',
+    number: '',
+  });
+
+  const postOrder = async () => {
+    const orders = {
+      userId: 1,
+      sellerId: write.name = 1,
+      totalPrice: total,
+      deliveryAddress: write.address,
+      deliveryNumber: write.number,
+      saleDate: new Date(),
+      products: dataStorage,
+    };
+    try {
+      const { data } = await api.post('/sales', orders);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
 
   const handleRemoveToCart = (product) => {
     const cartStorage = JSON.parse(localStorage.getItem('cart'));
     const deleteProduct = cartStorage
       .filter((cartProduct) => cartProduct.id !== product.id);
     localStorage.setItem('cart', JSON.stringify(deleteProduct));
-    setData(deleteProduct);
+    setDataStorage(deleteProduct);
   };
 
   useEffect(() => {
     const products = JSON.parse(localStorage.getItem('cart'));
-    setData(products);
+    setDataStorage(products);
   }, []);
 
   useEffect(() => {
-    const result = data
+    const result = dataStorage
       .reduce((acc, curr) => acc + Number(curr.price) * curr.amount, 0);
     setTotal(result);
-  }, [data]);
+  }, [dataStorage]);
 
-  //         </StyledContainerTableColumn>
-  //         <StyledContainerTableColumn
-  //           style={ {
-  //             backgroundColor: '#2FC18C',
-  //             borderTopRightRadius: 5,
-  //             borderBottomRightRadius: 5,
-  //             color: '#FFF',
-  //           } }
-  //           onClick={ () => handleRemoveToCart(item) }
-  //         >
-  //           Remover
-  //         </StyledContainerTableColumn>
-  //       </StyledContainerTableRow>
-  //     ))}
-  //   </StyledContainerTable>
-  // );
+  const handleInput = (event) => {
+    const { title, value } = event.target;
+    setWrite({ ...write, [title]: value });
+  };
 
-  // const returnTotal = () => (
-  //   <StyledColumn
-  //     style={ {
-  //       position: 'absolute',
-  //       bottom: '35%',
-  //       right: '15%',
-  //       display: 'flex',
-  //       alignItems: 'center',
-  //       justifyContent: 'center',
-  //       backgroundColor: '#036B52',
-  //       height: 60,
-  //       width: 200,
-  //       borderRadius: 5,
-  //     } }
-  //   />
-  // );
+  const renderAdress = () => (
+    <StyledForm>
+      <Label style={ { width: '100%' } }>
+        P.Vendedora Responsável:
+        <Select
+          name="name"
+          title="name"
+          options={ ['Fulana Pereira'] }
+          onChange={ handleInput }
+        />
+      </Label>
+      <Label style={ { width: '100%' } }>
+        Endereço
+        <Input
+          onChange={ handleInput }
+          type="text"
+          title="address"
+          name="address"
+        />
+      </Label>
+      <Label style={ { width: '100%' } }>
+        Número
+        <Input onChange={ handleInput } type="number" title="number" name="number" />
+      </Label>
+      <StyledButtomSubmit
+        size="20"
+        type="submit"
+        onClick={ postOrder }
+      >
+        FINALIZAR PEDIDO
+      </StyledButtomSubmit>
+    </StyledForm>
+  );
 
-  /* <StyledContainerBoard>
-    <StyledHeaderBoard>
-      {useMemo(renderTable, [data, total])}
-      {useMemo(returnTotal, [total])}
-    </StyledHeaderBoard>
-  </StyledContainerBoard> */
   return (
     <>
       <Header />
@@ -80,7 +106,7 @@ const ProductsCheckout = () => {
         <Board
           boardColoumns={ ['Item',
             'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
-          board={ data
+          board={ dataStorage
             .map((item, index) => {
               const { name, amount, price } = item;
 
@@ -104,8 +130,9 @@ const ProductsCheckout = () => {
         />
       </StyledContainer>
       <StyledContainerAdress>
+        <StyledTitle>Detalhes e Endereço para Entrega</StyledTitle>
         <StyledContainerAdressBoard>
-          <StyledTitle>Endereço de entrega</StyledTitle>
+          {renderAdress()}
         </StyledContainerAdressBoard>
       </StyledContainerAdress>
     </>
