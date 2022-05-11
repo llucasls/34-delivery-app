@@ -9,6 +9,7 @@ import SellerDetails from '../pages/SellerDetails/SellerDetails';
 import Products from '../pages/Products/Products';
 import ProductsCheckout from '../pages/ProductsCheckout/ProductsCheckout';
 import Admin from '../pages/Admin/Admin';
+import ProductsDetails from '../pages/ProductsDetails/ProductsDetails';
 
 const MainRoute = () => (
   <BrowserRouter>
@@ -20,6 +21,7 @@ const MainRoute = () => (
       <Route path="/customer/products" element={ <Products /> } />
       <Route path="/seller/orders" exact element={ <SellerOrders /> } />
       <Route path="/seller/orders/:id" exact element={ <SellerDetails /> } />
+      <Route path="/customer/orders/:id" exact element={ <ProductsDetails /> } />
       <Route path="/admin" exact element={ <Admin /> } />
     </Switch>
   </BrowserRouter>
