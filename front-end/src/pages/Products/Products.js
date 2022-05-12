@@ -40,6 +40,7 @@ const Products = () => {
         type="button"
         onClick={ () => goTo('/customer/checkout') }
         data-testid="customer_products__button-cart"
+        disabled={ totalPrice === 0 }
       >
         <StyledText
           data-testid="customer_products__checkout-bottom-value"
