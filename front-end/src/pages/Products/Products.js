@@ -9,6 +9,7 @@ import { useAppSelector } from '../../store';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const totalPrice = useAppSelector((state) => state.ProductCartTotal.product_cart_total);
 
@@ -24,7 +25,10 @@ const Products = () => {
 
   useEffect(() => {
     productsApi();
+    setLoading(false);
   }, []);
+
+  if (loading) return <div>Loading Page...</div>;
 
   return (
     <>
@@ -41,12 +45,17 @@ const Products = () => {
           type="button"
           onClick={ () => goTo('/customer/checkout') }
           data-testid="customer_products__button-cart"
+          disabled={ totalPrice === 0 }
         >
           <StyledText
             data-testid="customer_products__checkout-bottom-value"
           >
-            Ver Carrinho: R$
-            {totalPrice ? totalPrice.toFixed(2).replace('.', ',') : ' 0,00'}
+            <StyledText
+              data-testid="customer_products__checkout-bottom-value"
+            >
+              Ver Carrinho: R$
+              {totalPrice ? totalPrice.toFixed(2).replace('.', ',') : ' 0,00'}
+            </StyledText>
           </StyledText>
         </StyledButton>
       </StyledPage>
