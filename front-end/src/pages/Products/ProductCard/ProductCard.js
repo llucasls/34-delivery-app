@@ -21,6 +21,7 @@ const ProductCard = ({ product }) => {
   const dispatch = useAppDispatch();
   const [amount, setAmount] = useState(0);
   const [total, setTotal] = useState(0);
+  const cart = JSON.parse(localStorage.getItem('cart'));
 
   // transforma o valor em 0 caso não seja um número
   const handleChange = ({ target }) => {
@@ -47,9 +48,15 @@ const ProductCard = ({ product }) => {
     handleRemoveToCart(product);
   };
 
+  // useEffect(() => {
+  //   setTotal(amount * product.price);
+  // }, [amount, setTotal]);
+
   useEffect(() => {
-    setTotal(amount * product.price);
-  }, [amount, setTotal]);
+    const result = cart?.reduce((acc, curr) => acc
+     + Number(curr.price) * curr.amount, 0);
+    setTotal(result || 0);
+  }, [cart]);
 
   useEffect(() => {
     const addTotal = () => {
@@ -88,7 +95,7 @@ const ProductCard = ({ product }) => {
         <StyledAmount
           data-testid={ `customer_products__input-card-quantity-${id}` }
           name="amount"
-          defaultValue="0"
+          value={ amount || 0 }
           type="text"
           onChange={ handleChange }
         />
