@@ -45,4 +45,10 @@ export const handleRemoveToCart = (product) => {
   }
 };
 
+export const getProductById = (id) => {
+  const cart = JSON.parse(localStorage.getItem('cart'));
+  const [product] = cart.filter((cartItem) => cartItem.id === id);
+  return product;
+};
+
 export default handleAddToCart;
