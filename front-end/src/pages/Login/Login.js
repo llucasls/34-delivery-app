@@ -94,7 +94,7 @@ const Login = () => {
         <Label size={ 18 }>
           <StyledText style={ { marginLeft: 5 } } size={ 12 }>Email</StyledText>
           <Input
-            data-testid="common_login__input-email"
+            testid="common_login__input-email"
             style={ { width: 300, height: 40 } }
             name="email"
             title="email"
@@ -105,7 +105,7 @@ const Login = () => {
         <Label size={ 18 }>
           <StyledText style={ { marginLeft: 5 } } size={ 12 }>Senha</StyledText>
           <Input
-            data-testid="common_login__input-password"
+            testid="common_login__input-password"
             style={ { width: 300, height: 40 } }
             name="password"
             type="password"
@@ -116,7 +116,7 @@ const Login = () => {
         </Label>
 
         <Button
-          data-testid="common_login__button-login"
+          testid="common_login__button-login"
           type="submit"
           title="LOGIN"
           size={ 20 }
@@ -133,7 +133,7 @@ const Login = () => {
             border: '1px solid #036B52',
           } }
           type="button"
-          data-testid="common_login__button-register"
+          testid="common_login__button-register"
           onClick={ () => {
             goTo('/register');
           } }

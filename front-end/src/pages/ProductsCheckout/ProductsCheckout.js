@@ -134,7 +134,7 @@ const ProductsCheckout = () => {
           name="address"
           error={ write.address.error }
           style={ { width: '400px' } }
-          data-testid="customer_checkout__input-address"
+          testid="customer_checkout__input-address"
 
         />
       </Label>
@@ -147,14 +147,14 @@ const ProductsCheckout = () => {
           name="number"
           error={ write.number.error }
           style={ { width: '300px' } }
-          data-testid="customer_checkout__input-addressNumber"
+          testid="customer_checkout__input-addressNumber"
         />
       </Label>
       <StyledButtomSubmit
         size="20"
         type="submit"
         onClick={ async () => validate() }
-        data-testid="customer_checkout__button-submit-order"
+        testid="customer_checkout__button-submit-order"
       >
         FINALIZAR PEDIDO
       </StyledButtomSubmit>

@@ -100,7 +100,7 @@ const Register = () => {
             </StyledText>
             <Input
               style={ { width: 300, height: 40 } }
-              data-testid="common_register__input-name"
+              testid="common_register__input-name"
               name="name"
               title="name"
               placeholder="Seu nome"
@@ -112,7 +112,7 @@ const Register = () => {
               Email
             </StyledText>
             <Input
-              data-testid="common_register__input-email"
+              testid="common_register__input-email"
               style={ { width: 300, height: 40 } }
               name="email"
               title="email"
@@ -125,7 +125,7 @@ const Register = () => {
               Senha
             </StyledText>
             <Input
-              data-testid="common_register__input-password"
+              testid="common_register__input-password"
               style={ { width: 300, height: 40 } }
               name="password"
               type="password"
@@ -135,7 +135,7 @@ const Register = () => {
             />
           </Label>
           <Button
-            data-testid="common_register__button-register"
+            testid="common_register__button-register"
             type="submit"
             title="CADASTRAR"
             className="button"
