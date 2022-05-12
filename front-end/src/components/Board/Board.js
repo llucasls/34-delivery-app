@@ -19,7 +19,7 @@ const Board = ({
   boardHeader = null,
   boardColoumns = [],
   board = [],
-  boardDataTestId = [],
+  // boardDataTestId = [],
   total = null,
   title,
 }) => {
@@ -36,7 +36,7 @@ const Board = ({
         <StyledContainerTableRow key={ indexRow }>
           {Object.values(column).map((row, indexColumn) => (
             <StyledContainerTableColumn
-              data-testid={ `${boardDataTestId[indexColumn]}${String(indexRow)}` }
+              // data-testid={ `${boardDataTestId[indexColumn]}${String(indexRow)}` }
               key={ indexColumn }
               style={ {
                 backgroundColor: colorColumnBoard(indexColumn),
@@ -108,5 +108,5 @@ Board.propTypes = {
   boardHeader: PropTypes.element.isRequired,
   total: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
-  boardDataTestId: PropTypes.arrayOf().isRequired,
+  // boardDataTestId: PropTypes.arrayOf().isRequired,
 };
