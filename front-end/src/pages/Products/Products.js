@@ -9,6 +9,7 @@ import { useAppSelector } from '../../store';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const totalPrice = useAppSelector((state) => state.ProductCartTotal.product_cart_total);
 
@@ -24,7 +25,10 @@ const Products = () => {
 
   useEffect(() => {
     productsApi();
+    setLoading(false);
   }, []);
+
+  if (loading) return <div>Loading Page...</div>;
 
   return (
     <StyledPage>
