@@ -10,7 +10,7 @@ import {
   StyledBaseButton,
 } from './styles';
 
-const SellerRequest = () => {
+const SellerOrders = () => {
   const [orders, setOrders] = useState(null);
   const navigate = useNavigate();
 
@@ -64,4 +64,4 @@ const SellerRequest = () => {
   );
 };
 
-export default SellerRequest;
+export default SellerOrders;

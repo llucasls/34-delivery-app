@@ -38,7 +38,6 @@ const Login = () => {
     try {
       const { data } = await api.post('/login', login);
 
-      localStorage.clear();
       // salva o token no localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify({
