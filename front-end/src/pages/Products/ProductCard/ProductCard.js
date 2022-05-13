@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import currencyBrl from '../../../helpers/currencyBrl';
-import handleAddToCart,
-{ handleRemoveToCart,
+import {
   handleSetAmountToCart,
   getProductById,
 } from '../../../helpers/saveCartLocalStorage';
