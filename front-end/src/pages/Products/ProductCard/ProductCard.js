@@ -57,10 +57,6 @@ const ProductCard = ({ product }) => {
     handleSetAmountToCart(product, input.value);
   };
 
-  // useEffect(() => {
-  //   setTotal(amount * product.price);
-  // }, [amount, setTotal]);
-
   useEffect(() => {
     const result = cart?.reduce((acc, curr) => acc
      + Number(curr.price) * curr.amount, 0);
@@ -106,7 +102,6 @@ const ProductCard = ({ product }) => {
           data-testid={ `customer_products__input-card-quantity-${id}` }
           name="amount"
           value={ amount || 0 }
-          // defaultValue="0"
           type="text"
           onChange={ handleChange }
         />
