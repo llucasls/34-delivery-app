@@ -29,7 +29,7 @@ const ProductCard = ({ product }) => {
     const cartProduct = getProductById(product.id);
     const initialAmount = cartProduct ? cartProduct.amount : 0;
     setAmount(initialAmount);
-  }, []);
+  }, [product.id]);
 
   // transforma o valor em 0 caso não seja um número
   const handleChange = ({ target }) => {
