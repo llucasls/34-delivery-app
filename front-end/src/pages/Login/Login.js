@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../service/api';
-import loginSchema from '../../schemas/login';
 
 import { Input, Button, Label } from '../../components';
 import { StyledContainer, StyledContainerForm, StyledText } from './styles';
 
 const Login = () => {
   const [axiosError, setAxiosError] = useState(null);
-  const [disableButton, setDisableButton] = useState(true);
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -53,19 +51,10 @@ const Login = () => {
     }
   };
 
-  const validate = async () => {
-    const isValid = await loginSchema.validate(login, { abortEarly: false });
-
-    if (isValid) {
-      setDisableButton(false);
-    } else {
-      setDisableButton(true);
-    }
-  };
-
-  useEffect(() => {
-    validate();
-  });
+  const emailRegex = /\S+@\S+\.\S+/;
+  const validationPass = 6;
+  const dsb = !(emailRegex
+    .test(login.email) && login.password.length >= validationPass);
 
   useEffect(() => {
     const FIVE_THOUSAND_MILLISECONDS = 5000;
@@ -122,7 +111,7 @@ const Login = () => {
           onClick={ async () => {
             await handleLogin();
           } }
-          disabled={ disableButton }
+          disabled={ dsb }
         />
         <Button
           style={ {

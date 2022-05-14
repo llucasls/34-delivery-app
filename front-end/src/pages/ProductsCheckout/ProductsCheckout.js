@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 import { Board, Header, Input, Label, Select } from '../../components';
 import currencyBrl from '../../helpers/currencyBrl';
-import schemaProductCheckout from '../../schemas/product.checkout';
 import { api } from '../../service/api';
 
 import {
@@ -57,29 +55,6 @@ const ProductsCheckout = () => {
       navigate(`/customer/orders/${String(data.id)}`);
     } catch (error) {
       console.log(error.response.data);
-    }
-  };
-
-  const validate = async () => {
-    try {
-      await schemaProductCheckout.validate({
-        name: write.name.field,
-        address: write.address.field,
-        number: write.number.field,
-      }, { abortEarly: false });
-      await postOrder();
-    } catch (error) {
-      const errorMessages = {};
-      if (error instanceof Yup.ValidationError) {
-        error.inner.forEach((err) => {
-          errorMessages[err.path] = err.message;
-        });
-      }
-      setWrite({
-        name: { ...write.name, error: errorMessages.name },
-        address: { ...write.address, error: errorMessages.address },
-        number: { ...write.number, error: errorMessages.number },
-      });
     }
   };
 
@@ -153,7 +128,7 @@ const ProductsCheckout = () => {
       <StyledButtomSubmit
         size="20"
         type="submit"
-        onClick={ async () => validate() }
+        onClick={ postOrder }
         data-testid="customer_checkout__button-submit-order"
       >
         FINALIZAR PEDIDO
