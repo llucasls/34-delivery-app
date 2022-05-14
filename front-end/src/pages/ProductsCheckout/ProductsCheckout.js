@@ -40,7 +40,7 @@ const ProductsCheckout = () => {
       return { quantity: amount, productId: id };
     });
     const orders = {
-      sellerId: sellerData.find((salleInd) => salleInd.name === write.name).id,
+      sellerId: sellerData.find((salleInd) => salleInd.name === write.name.field).id,
       totalPrice: total,
       deliveryAddress: write.address,
       deliveryNumber: write.number,
@@ -109,7 +109,7 @@ const ProductsCheckout = () => {
           name="address"
           error={ write.address.error }
           style={ { width: '400px' } }
-          data-testid="customer_checkout__input-address"
+          testid="customer_checkout__input-address"
 
         />
       </Label>
@@ -122,7 +122,7 @@ const ProductsCheckout = () => {
           name="number"
           error={ write.number.error }
           style={ { width: '300px' } }
-          data-testid="customer_checkout__input-addressNumber"
+          testid="customer_checkout__input-addressNumber"
         />
       </Label>
       <StyledButtomSubmit
@@ -143,14 +143,14 @@ const ProductsCheckout = () => {
         <Board
           boardColoumns={ ['Item',
             'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
-          boardDataTestId={ [
-            'customer_checkout__element-order-table-item-number-',
-            'customer_checkout__element-order-table-name-',
-            'customer_checkout__element-order-table-quantity-',
-            'customer_checkout__element-order-table-unit-price-',
-            'customer_checkout__element-order-table-sub-total-',
-            'customer_checkout__element-order-table-remove-',
-          ] }
+          // boardDataTestId={ [
+          //   'customer_checkout__element-order-table-item-number-',
+          //   'customer_checkout__element-order-table-name-',
+          //   'customer_checkout__element-order-table-quantity-',
+          //   'customer_checkout__element-order-table-unit-price-',
+          //   'customer_checkout__element-order-table-sub-total-',
+          //   'customer_checkout__element-order-table-remove-',
+          // ] }
           board={ dataStorage ? dataStorage
 
             .map((item, index) => {

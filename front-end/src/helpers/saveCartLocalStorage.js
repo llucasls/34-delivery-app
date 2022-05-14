@@ -25,26 +25,6 @@ const handleAddToCart = (product) => {
   }
 };
 
-export const handleInputAddToCart = (product, quantity) => {
-  const NOT_FOUND = -1;
-  product.amount = 1;
-  const cart = JSON.parse(localStorage.getItem('cart'));
-
-  if (cart !== null) {
-    const productIndex = cart
-      .findIndex((cartProduct) => cartProduct.id === product.id);
-
-    if (productIndex !== NOT_FOUND) {
-      cart[productIndex].amount += quantity;
-      localStorage.setItem('cart', JSON.stringify([...cart]));
-    } else {
-      localStorage.setItem('cart', JSON.stringify([...cart, product]));
-    }
-  } else {
-    localStorage.setItem('cart', JSON.stringify([product]));
-  }
-};
-
 export const handleRemoveToCart = (product) => {
   const NOT_FOUND = -1;
   product.amount = -1;
@@ -62,6 +42,32 @@ export const handleRemoveToCart = (product) => {
       localStorage.setItem('cart',
         JSON.stringify([...cart.filter((cartProduct) => cartProduct.id !== product.id)]));
     }
+  }
+};
+
+export const getProductById = (id) => {
+  const cart = JSON.parse(localStorage.getItem('cart'));
+  const product = cart?.find((cartItem) => cartItem.id === id);
+  return product;
+};
+
+export const handleInputAddToCart = (product, quantity) => {
+  const NOT_FOUND = -1;
+  product.amount = 1;
+  const cart = JSON.parse(localStorage.getItem('cart'));
+
+  if (cart !== null) {
+    const productIndex = cart
+      .findIndex((cartProduct) => cartProduct.id === product.id);
+
+    if (productIndex !== NOT_FOUND) {
+      cart[productIndex].amount += quantity;
+      localStorage.setItem('cart', JSON.stringify([...cart]));
+    } else {
+      localStorage.setItem('cart', JSON.stringify([...cart, product]));
+    }
+  } else {
+    localStorage.setItem('cart', JSON.stringify([product]));
   }
 };
 
