@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import currencyBrl from '../../../helpers/currencyBrl';
-import handleAddToCart,
-{ handleInputAddToCart,
-  handleRemoveToCart } from '../../../helpers/saveCartLocalStorage';
+import {
+  handleSetAmountToCart,
+  getProductById,
+} from '../../../helpers/saveCartLocalStorage';
 import { SET_ADD_TO_CART } from '../../../store/slices/ProductCartTotal';
 import { useAppDispatch } from '../../../store';
 import { bound } from '../../../helpers/math';
@@ -24,13 +25,20 @@ const ProductCard = ({ product }) => {
   const [total, setTotal] = useState(0);
   const cart = JSON.parse(localStorage.getItem('cart'));
 
+  useEffect(() => {
+    const cartProduct = getProductById(product.id);
+    const initialAmount = cartProduct ? cartProduct.amount : 0;
+    setAmount(initialAmount);
+  }, [product.id]);
+
   // transforma o valor em 0 caso não seja um número
   const handleChange = ({ target }) => {
     if (Number.isNaN(Number(target.value))) {
       target.value = 0;
     }
     target.value = bound(Number(target.value));
-    handleInputAddToCart(product, bound(Number(target.value)));
+
+    handleSetAmountToCart(product, target.value);
     setAmount(target.value);
   };
 
@@ -44,7 +52,7 @@ const ProductCard = ({ product }) => {
     const input = target.previousSibling;
     input.value = bound(Number(input.value) + 1);
     handleChange({ target: input });
-    handleAddToCart(product);
+    handleSetAmountToCart(product, input.value);
   };
 
   // diminui a quantidade em 1 e chama o handleChange
@@ -52,12 +60,8 @@ const ProductCard = ({ product }) => {
     const input = target.nextSibling;
     input.value = bound(Number(input.value) - 1);
     handleChange({ target: input });
-    handleRemoveToCart(product);
+    handleSetAmountToCart(product, input.value);
   };
-
-  // useEffect(() => {
-  //   setTotal(amount * product.price);
-  // }, [amount, setTotal]);
 
   useEffect(() => {
     const result = cart?.reduce((acc, curr) => acc
@@ -80,6 +84,7 @@ const ProductCard = ({ product }) => {
         data-testid={ `customer_products__img-card-bg-image-${id}` }
         src={ product.url_image }
         alt={ product.name }
+        loading="lazy"
       />
       <StyledLabel
         data-testid={ `customer_products__element-card-title-${id}` }
