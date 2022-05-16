@@ -42,15 +42,14 @@ const ProductsCheckout = () => {
     const orders = {
       sellerId: sellerData.find((salleInd) => salleInd.name === write.name.field).id,
       totalPrice: total,
-      deliveryAddress: write.address,
-      deliveryNumber: write.number,
+      deliveryAddress: String(write.address),
+      deliveryNumber: String(write.number),
       saleDate: new Date(),
       products: productsRender,
     };
     try {
       const { data } = await api.post('/sales', orders);
-
-      localStorage.removeItem('cart');
+      // localStorage.removeItem('cart');
 
       navigate(`/customer/orders/${String(data.id)}`);
     } catch (error) {
@@ -109,8 +108,7 @@ const ProductsCheckout = () => {
           name="address"
           error={ write.address.error }
           style={ { width: '400px' } }
-          testid="customer_checkout__input-address"
-
+          data-testid="customer_checkout__input-address"
         />
       </Label>
       <Label style={ { width: '100%' } }>
@@ -122,7 +120,7 @@ const ProductsCheckout = () => {
           name="number"
           error={ write.number.error }
           style={ { width: '300px' } }
-          testid="customer_checkout__input-addressNumber"
+          data-testid="customer_checkout__input-addressNumber"
         />
       </Label>
       <StyledButtomSubmit
@@ -143,14 +141,14 @@ const ProductsCheckout = () => {
         <Board
           boardColoumns={ ['Item',
             'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
-          // boardDataTestId={ [
-          //   'customer_checkout__element-order-table-item-number-',
-          //   'customer_checkout__element-order-table-name-',
-          //   'customer_checkout__element-order-table-quantity-',
-          //   'customer_checkout__element-order-table-unit-price-',
-          //   'customer_checkout__element-order-table-sub-total-',
-          //   'customer_checkout__element-order-table-remove-',
-          // ] }
+          boardDataTestId={ [
+            'customer_checkout__element-order-table-item-number-',
+            'customer_checkout__element-order-table-name-',
+            'customer_checkout__element-order-table-quantity-',
+            'customer_checkout__element-order-table-unit-price-',
+            'customer_checkout__element-order-table-sub-total-',
+            'customer_checkout__element-order-table-remove-',
+          ] }
           board={ dataStorage ? dataStorage
 
             .map((item, index) => {
@@ -164,7 +162,6 @@ const ProductsCheckout = () => {
                 subTotal: currencyBrl(price * amount),
                 // remover: 'Remover',
                 remover: () => handleRemoveToCart(item),
-
               };
             }) : [] }
           title="Finalizar Pedido"
@@ -173,7 +170,7 @@ const ProductsCheckout = () => {
               style={ { color: '#FFF' } }
               data-testid="customer_checkout__element-order-total-price"
             >
-              {currencyBrl(total)}
+              {total ? total.toFixed(2).replace('.', ',') : ' 0,00'}
             </StyledText>
           }
         />
