@@ -71,7 +71,7 @@ const ProductCard = ({ product }) => {
 
   useEffect(() => {
     const addTotal = () => {
-      dispatch(SET_ADD_TO_CART({ product_cart_total: Math.floor(total) }));
+      dispatch(SET_ADD_TO_CART({ product_cart_total: total }));
     };
     addTotal();
   }, [dispatch, total]);
