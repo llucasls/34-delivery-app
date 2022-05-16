@@ -57,10 +57,10 @@ const ProductsCheckout = () => {
     }
   };
 
-  const handleRemoveToCart = (product) => {
+  const handleRemoveToCart = (productIndex) => {
     const cartStorage = JSON.parse(localStorage.getItem('cart'));
     const deleteProduct = cartStorage
-      .filter((cartProduct) => cartProduct.id !== product.id);
+      .filter((cartProduct) => cartProduct.id !== productIndex);
     localStorage.setItem('cart', JSON.stringify(deleteProduct));
     setDataStorage(deleteProduct);
   };
@@ -161,7 +161,7 @@ const ProductsCheckout = () => {
                 price: currencyBrl(`${price}`),
                 subTotal: currencyBrl(price * amount),
                 // remover: 'Remover',
-                remover: () => handleRemoveToCart(item),
+                remover: () => handleRemoveToCart(index),
               };
             }) : [] }
           title="Finalizar Pedido"
