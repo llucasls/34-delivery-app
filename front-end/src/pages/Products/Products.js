@@ -31,28 +31,30 @@ const Products = () => {
   if (loading) return <div>Loading Page...</div>;
 
   return (
-    <StyledPage>
+    <>
       <Header />
-      <StyledProducts>
-        {
-          products.slice(0, Number('11')).map((product) => (
-            <ProductCard key={ product.id } product={ product } />
-          ))
-        }
-      </StyledProducts>
-      <StyledButton
-        type="button"
-        onClick={ () => goTo('/customer/checkout') }
-        data-testid="customer_products__button-cart"
-        disabled={ totalPrice === 0 }
-      >
-        <StyledText
-          data-testid="customer_products__checkout-bottom-value"
+      <StyledPage>
+        <StyledProducts>
+          {
+            products.slice(0, Number('11')).map((product) => (
+              <ProductCard key={ product.id } product={ product } />
+            ))
+          }
+        </StyledProducts>
+        <StyledButton
+          type="button"
+          onClick={ () => goTo('/customer/checkout') }
+          data-testid="customer_products__button-cart"
+          disabled={ totalPrice === 0 }
         >
-          { totalPrice.toFixed(2).replace('.', ',') }
-        </StyledText>
-      </StyledButton>
-    </StyledPage>
+          <StyledText
+            data-testid="customer_products__checkout-bottom-value"
+          >
+            {totalPrice ? totalPrice.toFixed(2).replace('.', ',') : ' 0,00'}
+          </StyledText>
+        </StyledButton>
+      </StyledPage>
+    </>
   );
 };
 

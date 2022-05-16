@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import * as Yup from 'yup';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store';
@@ -8,7 +7,6 @@ import { SET_USER, SET_IS_LOGGED } from '../../store/slices/user';
 import { Input, Button, Label } from '../../components';
 
 import { StyledContainer, StyledTitle, StyledContainerForm, StyledText } from './styles';
-import schemaRegister from '../../schemas/register.user';
 
 const Register = () => {
   const formRef = useRef(null);
@@ -16,12 +14,18 @@ const Register = () => {
   const goTo = useNavigate();
 
   const [axiosError, setAxiosError] = useState(null);
-  const [dsb, setDsb] = useState(true);
   const [register, setRegister] = useState({
     name: '',
     email: '',
     password: '',
   });
+
+  const twelve = 12;
+  const emailRegex = /\S+@\S+\.\S+/;
+  const validationPass = 6;
+  const dsb = !(emailRegex
+    .test(register.email) && register.password.length
+     >= validationPass && register.name.length >= twelve);
 
   const handleChange = (event) => {
     const { title, value } = event.target;
@@ -49,27 +53,6 @@ const Register = () => {
   const handleSubmit = async (dataForm) => {
     await handleRegister(dataForm);
   };
-
-  const validate = useCallback(async () => {
-    const errorMessages = {};
-    try {
-      await schemaRegister.validate(register, { abortEarly: false });
-      formRef.current.setErrors(errorMessages);
-      setDsb(false);
-      return;
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        error.inner.forEach((err) => {
-          errorMessages[err.path] = err.message;
-        });
-      }
-      setDsb(true);
-    }
-  }, [register]);
-
-  useEffect(() => {
-    validate();
-  });
 
   useEffect(() => {
     const FIVE_THOUSAND_MILLISECONDS = 5000;

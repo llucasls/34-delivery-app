@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledViewButton = styled.div`
-  width: 100%;
-`;
-
-export const StyledButton = styled.button`
+const StyledButton = styled.button`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -24,3 +20,5 @@ export const StyledButton = styled.button`
     cursor: not-allowed;
   }
 `;
+
+export default StyledButton;

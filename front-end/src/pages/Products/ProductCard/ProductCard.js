@@ -37,9 +37,15 @@ const ProductCard = ({ product }) => {
       target.value = 0;
     }
     target.value = bound(Number(target.value));
+
     handleSetAmountToCart(product, target.value);
     setAmount(target.value);
   };
+
+  // useEffect(() => {
+  //   const result = cart?.reduce((acc, curr) => acc + Number(curr.price) * curr.amount, 0);
+  //   setTotal(result);
+  // }, [cart]);
 
   // aumenta a quantidade em 1 e chama o handleChange
   const increaseAmount = ({ target }) => {

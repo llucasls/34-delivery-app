@@ -1,138 +1,189 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Header } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Board, Header, Input, Label, Select } from '../../components';
 import currencyBrl from '../../helpers/currencyBrl';
+import { api } from '../../service/api';
 
 import {
   StyledContainer,
   StyledTitle,
   StyledText,
-  StyledContainerBoard,
-  StyledHeaderBoard,
-  StyledContainerTable,
-  StyledContainerTableHeader,
-  StyledContainerTableRow,
-  StyledContainerTableColumn,
-  StyledColumn,
+  StyledContainerAdress,
+  StyledContainerAdressBoard,
+  StyledButtomSubmit,
+  StyledForm,
 } from './styles';
 
 const ProductsCheckout = () => {
+  const navigate = useNavigate();
   const [total, setTotal] = useState(0);
-  const [data, setData] = useState([]);
+  const [sellerData, setSellerDate] = useState([]);
+  const [dataStorage, setDataStorage] = useState([]);
+  const [write, setWrite] = useState({
+    name: { field: '', error: '' },
+    address: { field: '', error: '' },
+    number: { field: '', error: '' },
+  });
+
+  const getSellers = async () => {
+    try {
+      const { data } = await api.get('/users/sellers');
+      setSellerDate(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const postOrder = async () => {
+    const productsRender = dataStorage.map((data) => {
+      const { amount, id } = data;
+      return { quantity: amount, productId: id };
+    });
+    const orders = {
+      sellerId: sellerData.find((salleInd) => salleInd.name === write.name.field).id,
+      totalPrice: total,
+      deliveryAddress: write.address,
+      deliveryNumber: write.number,
+      saleDate: new Date(),
+      products: productsRender,
+    };
+    try {
+      const { data } = await api.post('/sales', orders);
+
+      localStorage.removeItem('cart');
+
+      navigate(`/customer/orders/${String(data.id)}`);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
+  const handleRemoveToCart = (product) => {
+    const cartStorage = JSON.parse(localStorage.getItem('cart'));
+    const deleteProduct = cartStorage
+      .filter((cartProduct) => cartProduct.id !== product.id);
+    localStorage.setItem('cart', JSON.stringify(deleteProduct));
+    setDataStorage(deleteProduct);
+  };
 
   useEffect(() => {
-    const products = JSON.parse(localStorage.getItem('cart'));
-    setData(products);
+    getSellers();
   }, []);
 
   useEffect(() => {
-    const result = data
-      .reduce((acc, curr) => acc + Number(curr.price) * curr.amount, 0);
-    setTotal(result);
-  }, [data]);
+    const products = JSON.parse(localStorage.getItem('cart'));
+    setDataStorage(products);
+  }, []);
 
-  const renderTable = () => (
-    <StyledContainerTable>
-      <StyledContainerTableHeader>
-        <StyledContainerTableColumn style={ { width: '5%' } }>
-          Item
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '50%' } }>
-          Descrição
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '10%' } }>
-          Quantidade
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '10%' } }>
-          Valor únitario
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '10%' } }>
-          Sub-total
-        </StyledContainerTableColumn>
-        <StyledContainerTableColumn style={ { width: '15%' } }>
-          Remover-item
-        </StyledContainerTableColumn>
-      </StyledContainerTableHeader>
-      {data.map((item, index) => (
-        <StyledContainerTableRow key={ index }>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#2FC18C',
-              borderTopLeftRadius: 5,
-              borderBottomLeftRadius: 5 } }
-          >
-            {item.id}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              textAlign: 'left', backgroundColor: '#EAF1EF' } }
-          >
-            {item.name}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#036B52',
-              color: '#FFF' } }
-          >
-            {item.quantity}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#421981', color: '#FFF' } }
-          >
-            {currencyBrl(`${item.price}`)}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ { backgroundColor: '#056CF9',
-              color: '#FFF' } }
-          >
-            {currencyBrl(total)}
-          </StyledContainerTableColumn>
-          <StyledContainerTableColumn
-            style={ {
-              backgroundColor: '#2FC18C',
-              borderTopRightRadius: 5,
-              borderBottomRightRadius: 5,
-              color: '#FFF' } }
-          >
-            Remover
-          </StyledContainerTableColumn>
-        </StyledContainerTableRow>
-      ))}
-    </StyledContainerTable>
-  );
+  useEffect(() => {
+    const result = dataStorage?.reduce((acc, curr) => acc
+     + Number(curr.price) * curr.amount, 0);
+    setTotal(result || 0);
+  }, [dataStorage]);
 
-  const returnTotal = () => (
-    <StyledColumn
-      style={ {
-        position: 'absolute',
-        bottom: '35%',
-        right: '15%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#036B52',
-        height: 60,
-        width: 200,
-        borderRadius: 5 } }
-    >
-      <StyledText style={ { color: '#FFF' } }>
-        {`TOTAL: ${currencyBrl(`${total}`)} `}
-      </StyledText>
-    </StyledColumn>
+  const handleInput = (event) => {
+    const { title, value } = event.target;
+    setWrite({ ...write, [title]: { field: value, error: '' } });
+  };
+
+  const renderAdress = () => (
+    <StyledForm>
+      <Label style={ { width: '100%' } }>
+        P.Vendedora Responsável:
+        <Select
+          name="name"
+          title="name"
+          options={ sellerData.map((seller) => seller.name) }
+          onChange={ handleInput }
+          error={ write.name.error }
+          style={ { width: '300px' } }
+          data-testid="customer_checkout__select-seller"
+        />
+      </Label>
+      <Label style={ { width: '100%' } }>
+        Endereço
+        <Input
+          onChange={ handleInput }
+          type="text"
+          title="address"
+          name="address"
+          error={ write.address.error }
+          style={ { width: '400px' } }
+          testid="customer_checkout__input-address"
+
+        />
+      </Label>
+      <Label style={ { width: '100%' } }>
+        Número
+        <Input
+          onChange={ handleInput }
+          type="number"
+          title="number"
+          name="number"
+          error={ write.number.error }
+          style={ { width: '300px' } }
+          testid="customer_checkout__input-addressNumber"
+        />
+      </Label>
+      <StyledButtomSubmit
+        size="20"
+        type="submit"
+        onClick={ postOrder }
+        data-testid="customer_checkout__button-submit-order"
+      >
+        FINALIZAR PEDIDO
+      </StyledButtomSubmit>
+    </StyledForm>
   );
 
   return (
     <>
       <Header />
       <StyledContainer>
-        <StyledTitle>Finalizar Pedido</StyledTitle>
-        <StyledContainerBoard>
-          <StyledHeaderBoard>
-            {useMemo(renderTable, [data])}
-            {useMemo(returnTotal, [total])}
-          </StyledHeaderBoard>
-        </StyledContainerBoard>
+        <Board
+          boardColoumns={ ['Item',
+            'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
+          // boardDataTestId={ [
+          //   'customer_checkout__element-order-table-item-number-',
+          //   'customer_checkout__element-order-table-name-',
+          //   'customer_checkout__element-order-table-quantity-',
+          //   'customer_checkout__element-order-table-unit-price-',
+          //   'customer_checkout__element-order-table-sub-total-',
+          //   'customer_checkout__element-order-table-remove-',
+          // ] }
+          board={ dataStorage ? dataStorage
+
+            .map((item, index) => {
+              const { name, amount, price } = item;
+
+              return {
+                item: index + 1,
+                name,
+                amount,
+                price: currencyBrl(`${price}`),
+                subTotal: currencyBrl(price * amount),
+                // remover: 'Remover',
+                remover: () => handleRemoveToCart(item),
+
+              };
+            }) : [] }
+          title="Finalizar Pedido"
+          total={
+            <StyledText
+              style={ { color: '#FFF' } }
+              data-testid="customer_checkout__element-order-total-price"
+            >
+              {currencyBrl(total)}
+            </StyledText>
+          }
+        />
       </StyledContainer>
+      <StyledContainerAdress>
+        <StyledTitle>Detalhes e Endereço para Entrega</StyledTitle>
+        <StyledContainerAdressBoard>
+          {renderAdress()}
+        </StyledContainerAdressBoard>
+      </StyledContainerAdress>
     </>
   );
 };
