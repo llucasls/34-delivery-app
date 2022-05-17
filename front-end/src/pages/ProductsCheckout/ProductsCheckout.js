@@ -143,14 +143,14 @@ const ProductsCheckout = () => {
         <Board
           boardColoumns={ ['Item',
             'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
-          // boardDataTestId={ [
-          //   'customer_checkout__element-order-table-item-number-',
-          //   'customer_checkout__element-order-table-name-',
-          //   'customer_checkout__element-order-table-quantity-',
-          //   'customer_checkout__element-order-table-unit-price-',
-          //   'customer_checkout__element-order-table-sub-total-',
-          //   'customer_checkout__element-order-table-remove-',
-          // ] }
+          boardDataTestId={ [
+            'customer_checkout__element-order-table-item-number-',
+            'customer_checkout__element-order-table-name-',
+            'customer_checkout__element-order-table-quantity-',
+            'customer_checkout__element-order-table-unit-price-',
+            'customer_checkout__element-order-table-sub-total-',
+            'customer_checkout__element-order-table-remove-',
+          ] }
           board={ dataStorage ? dataStorage
 
             .map((item, index) => {
