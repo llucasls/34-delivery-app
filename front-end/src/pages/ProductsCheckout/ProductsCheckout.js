@@ -40,8 +40,9 @@ const ProductsCheckout = () => {
       return { quantity: amount, productId: id };
     });
     const orders = {
-      sellerId: sellerData.find((salleInd) => salleInd.name === write.name.field).id,
-      totalPrice: total,
+      sellerId: Number(sellerData.find((salleInd) => salleInd
+        .name === write.name.field).id),
+      totalPrice: Number(total),
       deliveryAddress: String(write.address),
       deliveryNumber: String(write.number),
       saleDate: new Date(),
@@ -57,10 +58,10 @@ const ProductsCheckout = () => {
     }
   };
 
-  const handleRemoveToCart = (productIndex) => {
+  const handleRemoveToCart = (item) => {
     const cartStorage = JSON.parse(localStorage.getItem('cart'));
     const deleteProduct = cartStorage
-      .filter((cartProduct) => cartProduct.id !== productIndex);
+      .filter((cartProduct) => cartProduct.id !== item.id);
     localStorage.setItem('cart', JSON.stringify(deleteProduct));
     setDataStorage(deleteProduct);
   };
@@ -161,7 +162,7 @@ const ProductsCheckout = () => {
                 price: currencyBrl(`${price}`),
                 subTotal: currencyBrl(price * amount),
                 // remover: 'Remover',
-                remover: () => handleRemoveToCart(index),
+                remover: () => handleRemoveToCart(item),
               };
             }) : [] }
           title="Finalizar Pedido"
@@ -170,7 +171,9 @@ const ProductsCheckout = () => {
               style={ { color: '#FFF' } }
               data-testid="customer_checkout__element-order-total-price"
             >
-              {total ? total.toFixed(2).replace('.', ',') : ' 0,00'}
+              {
+                currencyBrl(total)
+              }
             </StyledText>
           }
         />
