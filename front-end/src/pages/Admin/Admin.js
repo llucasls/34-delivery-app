@@ -83,6 +83,13 @@ const Admin = () => {
         {renderRegisterUser()}
         <Board
           boardColoumns={ ['Item', 'Nome', 'Email', 'Tipo', 'Excluir'] }
+          boardDataTestId={ [
+            'admin_manage__element-user-table-item-number-',
+            'admin_manage__element-user-table-name-',
+            'admin_manage__element-user-table-email-',
+            'admin_manage__element-user-table-role-',
+            'admin_manage__element-user-table-remove-',
+          ] }
           board={ allUsers
             .map((item, index) => {
               const { name, email, role } = item;

@@ -109,6 +109,14 @@ const SellerDetails = () => {
             <Board
               title="Lista de usuários"
               boardHeader={ renderHeaderBoard() }
+              boardDataTestId={ [
+                'seller_order_details__element-order-table-item-number-',
+                'seller_order_details__element-order-table-name-',
+                'seller_order_details__element-order-table-quantity-',
+                'seller_order_details__element-order-table-unit-price-',
+                'seller_order_details__element-order-table-sub-total-',
+                'seller_order_details__element-order-total-price-',
+              ] }
               boardColoumns={ [
                 'Item',
                 'Descrição',
