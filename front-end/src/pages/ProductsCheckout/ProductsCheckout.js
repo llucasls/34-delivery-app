@@ -130,7 +130,6 @@ const ProductsCheckout = () => {
           <tr key={ item.id }>
             <td
               data-testid={
-                
                 `customer_checkout__element-order-table-item-number-${index}`
               }
             >
