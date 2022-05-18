@@ -7,7 +7,7 @@ const getAll = async (req, res) => {
   const user = await usersService.getUser({ email });
 
   const sales = await salesService.getAll(user.id);
-  
+
   if (!sales) {
     return res.status(HTTPCodes.NOT_FOUND).json({
       error: 'No sales found',
@@ -37,7 +37,7 @@ const create = async (req, res) => {
 
   const sale = await salesService.create({ ...req.body, userId: user.id });
 
-  res.status(HTTPCodes.OK).json(sale);
+  res.status(HTTPCodes.CREATED).json(sale);
 };
 
 const update = async (req, res) => {
