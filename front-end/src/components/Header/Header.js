@@ -47,7 +47,7 @@ const Header = ({ type = 'consumer' }) => {
           <button
             type="button"
             data-testid="customer_products__element-navbar-link-orders"
-            onClick={ () => goTo('/customer/checkout') }
+            onClick={ () => goTo('/customer/orders') }
           >
             MEUS PEDIDOS
           </button>
