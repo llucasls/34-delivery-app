@@ -33,10 +33,29 @@ const ProductsDetails = () => {
         className="container-order"
         onClick={ () => navigate(`/customer/orders/${data.id}`) }
       >
-        <span>{`Pedido ${formatedOrder(index + 1)}`}</span>
-        <span>{`${data.status}`}</span>
-        <span>{`${formatedData(data.saleDate)}`}</span>
-        <span>{`${currencyBrl(data.totalPrice)}`}</span>
+        <span
+          data-testid={ `customer_orders__element-order-id-${index}` }
+        >
+          {`Pedido ${formatedOrder(index + 1)}`}
+
+        </span>
+        <span
+          data-testid={ `customer_orders__element-delivery-status-${index}` }
+        >
+          {`${data.status}`}
+        </span>
+        <span
+          data-testid={ `customer_orders__element-order-date-${index}` }
+        >
+          {`${formatedData(data.saleDate)}`}
+
+        </span>
+        <span
+          data-testid={ `customer_orders__element-card-price-${index}` }
+        >
+          {`${currencyBrl(data.totalPrice)}`}
+
+        </span>
       </button>
     ))
   );
