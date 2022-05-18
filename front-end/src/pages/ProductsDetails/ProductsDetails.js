@@ -4,7 +4,6 @@ import { Header } from '../../components';
 import currencyBrl from '../../helpers/currencyBrl';
 import formatedData from '../../helpers/formatedData';
 import { api } from '../../service/api';
-import './ProductsDetails.css';
 
 const ProductsDetails = () => {
   const [dataSales, setDataSales] = useState([]);
