@@ -36,8 +36,8 @@ const Board = ({
         <StyledContainerTableRow key={ indexRow }>
           {Object.values(column).map((row, indexColumn) => (
             <StyledContainerTableColumn
-              data-testid={ `${boardDataTestId[indexColumn]}${indexRow + 1}` }
               key={ indexColumn }
+              data-testid={ `${boardDataTestId[indexColumn]}${indexRow + 1}` }
               style={ {
                 backgroundColor: colorColumnBoard(indexColumn),
                 color: indexColumn === 1 ? '#262626' : '#FFF',

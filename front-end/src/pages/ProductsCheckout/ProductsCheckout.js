@@ -1,29 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Board, Header, Input, Label, Select } from '../../components';
-import currencyBrl from '../../helpers/currencyBrl';
+import { Header } from '../../components';
 import { api } from '../../service/api';
-
-import {
-  StyledContainer,
-  StyledTitle,
-  StyledText,
-  StyledContainerAdress,
-  StyledContainerAdressBoard,
-  StyledButtomSubmit,
-  StyledForm,
-} from './styles';
 
 const ProductsCheckout = () => {
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
   const [sellerData, setSellerDate] = useState([]);
   const [dataStorage, setDataStorage] = useState([]);
-  const [write, setWrite] = useState({
-    name: { field: '', error: '' },
-    address: { field: '', error: '' },
-    number: { field: '', error: '' },
-  });
+  const [sellerId, setSellerId] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [deliveryNumber, setDeliveryNumber] = useState('');
 
   const getSellers = async () => {
     try {
@@ -35,22 +22,21 @@ const ProductsCheckout = () => {
   };
 
   const postOrder = async () => {
-    const productsRender = dataStorage.map((data) => {
-      const { amount, id } = data;
-      return { quantity: amount, productId: id };
-    });
-    const orders = {
-      sellerId: Number(sellerData.find((salleInd) => salleInd
-        .name === write.name.field).id),
-      totalPrice: Number(total),
-      deliveryAddress: String(write.address),
-      deliveryNumber: String(write.number),
-      saleDate: new Date(),
-      products: productsRender,
-    };
     try {
+      const orders = {
+        sellerId: Number(sellerId),
+        totalPrice: Number(total),
+        deliveryAddress,
+        deliveryNumber,
+        saleDate: new Date(),
+        products: dataStorage.map((data) => {
+          const { amount, id } = data;
+
+          return { quantity: amount, productId: id };
+        }),
+      };
+
       const { data } = await api.post('/sales', orders);
-      // localStorage.removeItem('cart');
 
       navigate(`/customer/orders/${String(data.id)}`);
     } catch (error) {
@@ -81,110 +67,126 @@ const ProductsCheckout = () => {
     setTotal(result || 0);
   }, [dataStorage]);
 
-  const handleInput = (event) => {
-    const { title, value } = event.target;
-    setWrite({ ...write, [title]: { field: value, error: '' } });
-  };
-
-  const renderAdress = () => (
-    <StyledForm>
-      <Label style={ { width: '100%' } }>
-        P.Vendedora Responsável:
-        <Select
+  const renderForm = () => (
+    <form>
+      <label htmlFor="name">
+        <select
+          id="name"
           name="name"
-          title="name"
-          options={ sellerData.map((seller) => seller.name) }
-          onChange={ handleInput }
-          error={ write.name.error }
-          style={ { width: '300px' } }
+          placeholder="Nome"
+          onChange={ ({ target }) => setSellerId(target.value) }
           data-testid="customer_checkout__select-seller"
-        />
-      </Label>
-      <Label style={ { width: '100%' } }>
-        Endereço
-        <Input
-          onChange={ handleInput }
-          type="text"
-          title="address"
+        >
+          <option value="">Selecione...</option>
+          {sellerData.map((seller) => (
+            <option key={ seller.id } value={ seller.id }>
+              { seller.name }
+            </option>
+          ))}
+        </select>
+      </label>
+      <label htmlFor="address">
+        <input
+          id="address"
           name="address"
-          error={ write.address.error }
-          style={ { width: '400px' } }
+          type="text"
+          placeholder="Endereço"
+          onChange={ ({ target }) => setDeliveryAddress(target.value) }
           data-testid="customer_checkout__input-address"
         />
-      </Label>
-      <Label style={ { width: '100%' } }>
-        Número
-        <Input
-          onChange={ handleInput }
-          type="number"
-          title="number"
+      </label>
+      <label htmlFor="number">
+        <input
+          type="text"
           name="number"
-          error={ write.number.error }
-          style={ { width: '300px' } }
-          data-testid="customer_checkout__input-addressNumber"
+          id="number"
+          placeholder="Número"
+          onChange={ ({ target }) => setDeliveryNumber(target.value) }
         />
-      </Label>
-      <StyledButtomSubmit
-        size="20"
-        type="submit"
-        onClick={ postOrder }
+      </label>
+      <button
         data-testid="customer_checkout__button-submit-order"
+        type="button"
+        onClick={ postOrder }
       >
-        FINALIZAR PEDIDO
-      </StyledButtomSubmit>
-    </StyledForm>
+        Finalizar Compra
+      </button>
+    </form>
+  );
+
+  const renderTable = () => (
+    <table border={ 1 }>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Preço</th>
+          <th>Quantidade</th>
+          <th>Subtotal</th>
+          <th>Remover</th>
+        </tr>
+      </thead>
+      <tbody>
+        { dataStorage.map((item, index) => (
+          <tr key={ item.id }>
+            <td
+              data-testid={
+                `customer_checkout__element-order-table-item-number-${index}`
+              }
+            >
+              { index + 1 }
+            </td>
+            <td
+              data-testid={ `customer_checkout__element-order-table-name-${index}` }
+            >
+              { item.name }
+            </td>
+            <td
+              data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
+            >
+              { item.amount }
+            </td>
+            <td
+              data-testid={ `customer_checkout__element-order-table-unit-price-${index}` }
+            >
+              { item.price }
+            </td>
+            <td
+              data-testid={ `customer_checkout__element-order-table-sub-total-${index}` }
+            >
+              { item.price * item.amount }
+            </td>
+            <td
+              data-testid={ `customer_checkout__element-order-table-remove-${index}` }
+            >
+              <button type="button" onClick={ () => handleRemoveToCart(item) }>
+                Remover
+              </button>
+            </td>
+          </tr>
+        )) }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colSpan={ 4 }>Total</td>
+          <td
+            data-test-id="customer_checkout__element-order-total-price"
+            colSpan={ 1 }
+          >
+            { total }
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   );
 
   return (
-    <>
-      <Header />
-      <StyledContainer>
-        <Board
-          boardColoumns={ ['Item',
-            'Descrição', 'Quantidade', 'Valor Unitário', 'Sub-total', 'Remover Item'] }
-          boardDataTestId={ [
-            'customer_checkout__element-order-table-item-number-',
-            'customer_checkout__element-order-table-name-',
-            'customer_checkout__element-order-table-quantity-',
-            'customer_checkout__element-order-table-unit-price-',
-            'customer_checkout__element-order-table-sub-total-',
-            'customer_checkout__element-order-table-remove-',
-          ] }
-          board={ dataStorage ? dataStorage
-
-            .map((item, index) => {
-              const { name, amount, price } = item;
-
-              return {
-                item: index + 1,
-                name,
-                amount,
-                price: currencyBrl(`${price}`),
-                subTotal: currencyBrl(price * amount),
-                // remover: 'Remover',
-                remover: () => handleRemoveToCart(item),
-              };
-            }) : [] }
-          title="Finalizar Pedido"
-          total={
-            <StyledText
-              style={ { color: '#FFF' } }
-              data-testid="customer_checkout__element-order-total-price"
-            >
-              {
-                currencyBrl(total)
-              }
-            </StyledText>
-          }
-        />
-      </StyledContainer>
-      <StyledContainerAdress>
-        <StyledTitle>Detalhes e Endereço para Entrega</StyledTitle>
-        <StyledContainerAdressBoard>
-          {renderAdress()}
-        </StyledContainerAdressBoard>
-      </StyledContainerAdress>
-    </>
+    <section>
+      <Header type='consumer' />
+      <h2>Finalizar pedido</h2>
+      {renderTable()}
+      <h2>Detalhes e Endereço para Entrega</h2>
+      {renderForm()}
+    </section>
   );
 };
 
