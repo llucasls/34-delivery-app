@@ -120,11 +120,12 @@ const ProductsCheckout = () => {
     <table border={ 1 }>
       <thead>
         <tr>
-          <th>Produto</th>
-          <th>Preço</th>
+          <th>Item</th>
+          <th>Descrição</th>
           <th>Quantidade</th>
-          <th>Subtotal</th>
-          <th>Remover</th>
+          <th>Valor Unitário</th>
+          <th>Sub-total</th>
+          <th>Remover Item</th>
         </tr>
       </thead>
       <tbody>
