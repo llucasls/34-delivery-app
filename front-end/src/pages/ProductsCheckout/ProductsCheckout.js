@@ -130,6 +130,7 @@ const ProductsCheckout = () => {
           <tr key={ item.id }>
             <td
               data-testid={
+                
                 `customer_checkout__element-order-table-item-number-${index}`
               }
             >
@@ -169,7 +170,7 @@ const ProductsCheckout = () => {
         <tr>
           <td colSpan={ 4 }>Total</td>
           <td
-            data-test-id="customer_checkout__element-order-total-price"
+            data-testid="customer_checkout__element-order-total-price"
             colSpan={ 1 }
           >
             { total }
