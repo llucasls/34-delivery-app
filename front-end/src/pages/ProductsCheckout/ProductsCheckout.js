@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components';
+import currencyBrl from '../../helpers/currencyBrl';
 import { api } from '../../service/api';
 
 const ProductsCheckout = () => {
@@ -102,6 +103,7 @@ const ProductsCheckout = () => {
           id="number"
           placeholder="Número"
           onChange={ ({ target }) => setDeliveryNumber(target.value) }
+          data-testid="customer_checkout__input-addressNumber"
         />
       </label>
       <button
@@ -148,12 +150,12 @@ const ProductsCheckout = () => {
             <td
               data-testid={ `customer_checkout__element-order-table-unit-price-${index}` }
             >
-              { item.price }
+              { currencyBrl(item.price).split('R$') }
             </td>
             <td
               data-testid={ `customer_checkout__element-order-table-sub-total-${index}` }
             >
-              { item.price * item.amount }
+              { currencyBrl(item.price * item.amount).split('R$') }
             </td>
             <td
               data-testid={ `customer_checkout__element-order-table-remove-${index}` }
@@ -172,7 +174,7 @@ const ProductsCheckout = () => {
             data-testid="customer_checkout__element-order-total-price"
             colSpan={ 1 }
           >
-            { total }
+            { total ? currencyBrl(total).split('R$') : '0,00' }
           </td>
         </tr>
       </tfoot>
