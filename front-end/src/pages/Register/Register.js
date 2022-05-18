@@ -30,7 +30,7 @@ const Register = () => {
   const handleChange = (event) => {
     const { title, value } = event.target;
 
-    setRegister({ ...register, [title]: value });
+    setRegister((prevRegister) => ({ ...prevRegister, [title]: value }));
   };
 
   const handleRegister = async (dataForm) => {
@@ -75,7 +75,7 @@ const Register = () => {
           style={ {
             display: 'flex',
             flexDirection: 'column' } }
-          onSubmit={ handleSubmit }
+          onSubmit={ () => handleSubmit(register) }
         >
           <Label size={ 18 }>
             <StyledText>
