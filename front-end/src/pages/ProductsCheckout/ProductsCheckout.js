@@ -181,7 +181,7 @@ const ProductsCheckout = () => {
 
   return (
     <section>
-      <Header type='consumer' />
+      <Header type="consumer" />
       <h2>Finalizar pedido</h2>
       {renderTable()}
       <h2>Detalhes e Endereço para Entrega</h2>
