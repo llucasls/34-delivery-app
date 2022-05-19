@@ -33,7 +33,7 @@ const ProductsOrders = () => {
         onClick={ () => navigate(`/customer/orders/${data.id}`) }
         style={ { display: 'flex',
           justifyContent: 'space-between',
-          width: '22%',
+          width: '30%',
           padding: '20px',
           alignItems: 'center',
         } }

@@ -39,7 +39,7 @@ const OrderDetails = () => {
 
   const renderSellerStatus = () => (
     <div
-      style={ { display: 'flex', justifyContent: 'space-between', width: '45%' } }
+      style={ { display: 'flex', justifyContent: 'space-between', width: '35%' } }
     >
       <span
         data-testid="customer_order_details__element-order-details-label-order-id"
