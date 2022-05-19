@@ -37,8 +37,6 @@ const OrderDetails = () => {
     getSalesDetails();
   }, [location.pathname, location.state]);
 
-  console.log(dataSalesDetails);
-
   const renderSellerStatus = () => (
     <div
       style={ { display: 'flex', justifyContent: 'space-between', width: '45%' } }
