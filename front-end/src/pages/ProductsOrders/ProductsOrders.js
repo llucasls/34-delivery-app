@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components';
+import colorStatusOrder from '../../helpers/colorStatusOrder';
 import currencyBrl from '../../helpers/currencyBrl';
 import formatedData from '../../helpers/formatedData';
+import formatedOrder from '../../helpers/formatedOrder';
 import { api } from '../../service/api';
 
 const ProductsOrders = () => {
@@ -22,8 +24,6 @@ const ProductsOrders = () => {
     getSales();
   }, []);
 
-  const formatedOrder = (order) => String(order).padStart(Number('4'), 0);
-
   const renderSales = () => (
     dataSales.map((data, index) => (
       <button
@@ -31,6 +31,12 @@ const ProductsOrders = () => {
         key={ String(data.id) }
         className="container-order"
         onClick={ () => navigate(`/customer/orders/${data.id}`) }
+        style={ { display: 'flex',
+          justifyContent: 'space-between',
+          width: '22%',
+          padding: '20px',
+          alignItems: 'center',
+        } }
       >
         <span
           data-testid={ `customer_orders__element-order-id-${index}` }
@@ -39,11 +45,20 @@ const ProductsOrders = () => {
         </span>
         <span
           data-testid={ `customer_orders__element-delivery-status-${index}` }
+          style={ {
+            backgroundColor: colorStatusOrder(data.status),
+            padding: '20px',
+            fontWeight: 'bolder',
+          } }
         >
-          {`${data.status}`}
+          {`${(data.status).toUpperCase()}`}
         </span>
         <span
           data-testid={ `customer_orders__element-order-date-${index}` }
+          style={ {
+            display: 'flex',
+            alignItems: 'center',
+          } }
         >
           {`${formatedData(data.saleDate)}`}
         </span>
