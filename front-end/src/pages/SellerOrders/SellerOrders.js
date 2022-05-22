@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../service/api';
 
-import { Header, CardOrder } from '../../components';
-import {
-  StyledContainer,
-  StyledText,
-  StyledContainerOrders,
-  StyledBaseButton,
-} from './styles';
+import { Header } from '../../components';
 
 const SellerOrders = () => {
   const [orders, setOrders] = useState(null);
@@ -35,15 +29,31 @@ const SellerOrders = () => {
   const renderOrders = () => {
     if (!orders.length) {
       return (
-        <StyledText>Ainda não foi gerado nenhum pedido</StyledText>
+        <h2>Ainda não foi gerado nenhum pedido</h2>
       );
     }
 
     return (
       orders.map((order, index) => (
-        <StyledBaseButton key={ index } onClick={ () => handleNavigate(order.id) }>
-          <CardOrder data={ order } />
-        </StyledBaseButton>
+        <button key={ index } onClick={ () => handleNavigate(order.id) }>
+          <div>
+            <p data-testid={`seller_orders__element-order-id-${order.id}`}>
+              {order.id}
+            </p>
+            <p data-testid={`seller_orders__element-delivery-status-${order.id}`}>
+              {order.status}
+            </p>
+            <p data-testid={`seller_orders__element-card-price-${order.id}`}>
+              {order.totalPrice}
+            </p>
+            <p data-testid={`seller_orders__element-order-date-${order.id}`}>
+              {order.saleDate}
+            </p>
+            <p data-testid={`seller_orders__element-card-address-${order.id}`}>
+              {`${order.deliveryAddress}, ${order.deliveryNumber}`}
+            </p>
+          </div>
+        </button>
       ))
     );
   };
@@ -51,15 +61,15 @@ const SellerOrders = () => {
   return (
     <>
       <Header type="seller" />
-      <StyledContainer>
+      <div>
         { !orders
-          ? <StyledText>Carregando...</StyledText>
+          ? <h2>Carregando...</h2>
           : (
-            <StyledContainerOrders>
+            <div>
               {renderOrders()}
-            </StyledContainerOrders>
+            </div>
           )}
-      </StyledContainer>
+      </div>
     </>
   );
 };
