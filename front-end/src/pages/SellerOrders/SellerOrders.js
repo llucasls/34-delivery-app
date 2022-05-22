@@ -35,21 +35,21 @@ const SellerOrders = () => {
 
     return (
       orders.map((order, index) => (
-        <button key={ index } onClick={ () => handleNavigate(order.id) }>
+        <button type="button" key={ index } onClick={ () => handleNavigate(order.id) }>
           <div>
-            <p data-testid={`seller_orders__element-order-id-${order.id}`}>
+            <p data-testid={ `seller_orders__element-order-id-${order.id}` }>
               {order.id}
             </p>
-            <p data-testid={`seller_orders__element-delivery-status-${order.id}`}>
+            <p data-testid={ `seller_orders__element-delivery-status-${order.id}` }>
               {order.status}
             </p>
-            <p data-testid={`seller_orders__element-card-price-${order.id}`}>
+            <p data-testid={ `seller_orders__element-card-price-${order.id}` }>
               {order.totalPrice}
             </p>
-            <p data-testid={`seller_orders__element-order-date-${order.id}`}>
+            <p data-testid={ `seller_orders__element-order-date-${order.id}` }>
               {order.saleDate}
             </p>
-            <p data-testid={`seller_orders__element-card-address-${order.id}`}>
+            <p data-testid={ `seller_orders__element-card-address-${order.id}` }>
               {`${order.deliveryAddress}, ${order.deliveryNumber}`}
             </p>
           </div>
