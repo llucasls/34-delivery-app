@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { api } from '../../service/api';
-import colorStatusOrder from '../../helpers/colorStatusOrder';
-import formatedCurrencyBRL from '../../helpers/formatedCurrencyBRL';
-import formatedId from '../../helpers/formatedId';
-import formatedData from '../../helpers/formatedData';
+import currencyBrl from '../../helpers/currencyBrl';
 
-import { Header, Board, Button } from '../../components';
-import { StyledContainer, StyledText, StyledRow, StyledColumn } from './styles';
+import { Header } from '../../components';
 
 const SellerDetails = () => {
   const [order, setOrder] = useState(null);
@@ -30,62 +26,20 @@ const SellerDetails = () => {
       .reduce((acc, curr) => acc + Number(curr.price)
         * Number(curr.SalesProducts.quantity), 0);
 
-    console.log(result);
-
     setTotal(result);
   };
 
-  const renderHeaderBoard = () => (
-    <StyledRow>
-      <StyledColumn style={ { width: '19%', justifyContent: 'center' } }>
-        <StyledText upper>{`Pedido ${formatedId(order.id)}`}</StyledText>
-      </StyledColumn>
-      <StyledColumn
-        style={ {
-          width: '19%',
-          height: 40,
-          justifyContent: 'center',
-          backgroundColor: '#fff',
-          borderRadius: 5 } }
-      >
-        <StyledText>{ formatedData(order.saleDate) }</StyledText>
-      </StyledColumn>
+  const statusOrder = async (status) => {
+    try {
+      await api.patch(`/sales/${order.id}`, {
+        status,
+      });
 
-      <StyledColumn
-        style={ {
-          width: '19%',
-          height: 40,
-          justifyContent: 'center',
-          backgroundColor: colorStatusOrder(order.status),
-          borderRadius: 5,
-        } }
-      >
-        <StyledText>{order.status}</StyledText>
-      </StyledColumn>
-      <Button
-        style={ {
-          width: '19%',
-          height: 40,
-          backgroundColor: '#2FC18C',
-          margin: 0,
-          marginLeft: '5%',
-        } }
-        title="PREPARAR PEDIDO"
-        onPress={ () => null }
-      />
-      <Button
-        style={ {
-          width: '19%',
-          height: 40,
-          backgroundColor: '#421981',
-          margin: 0,
-          marginLeft: '5%',
-        } }
-        title="SAIU PARA ENTREGA"
-        onPress={ () => null }
-      />
-    </StyledRow>
-  );
+      getOrder();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getOrder();
@@ -99,46 +53,107 @@ const SellerDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order]);
 
+  const renderTable = () => (
+    <>
+      <div style={ { display: 'flex', flexDirection: 'row' } }>
+        <p data-testid="seller_order_details__element-order-details-label-order-id">
+          {order.id}
+        </p>
+        <p data-testid="seller_order_details__element-order-details-label-order-date">
+          {order.saleDate}
+        </p>
+        <p
+          data-testid="seller_order_details__element-order-details-label-delivery-status"
+        >
+          {order.status}
+        </p>
+        <button
+          type="button"
+          data-testid="seller_order_details__button-preparing-check"
+          onClick={ () => statusOrder('Preparando') }
+        >
+          PREPARAR PEDIDO
+        </button>
+        <button
+          type="button"
+          data-testid="seller_order_details__button-dispatch-check"
+          onClick={ () => statusOrder('Em Trânsito') }
+        >
+          SAIU PARA ENTREGA
+        </button>
+      </div>
+      <table border={ 1 }>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Valor unitário</th>
+            <th>Sub-total</th>
+          </tr>
+        </thead>
+        <tbody>
+          { order.products.map((item, index) => (
+            <tr key={ item.id }>
+              <td
+                data-testid={
+                  `seller_order_details__element-order-table-item-number-${index}`
+                }
+              >
+                { `${index + 1}` }
+              </td>
+              <td
+                data-testid={ `seller_order_details__element-order-table-name-${index}` }
+              >
+                { item.name }
+              </td>
+              <td
+                data-testid={
+                  `seller_order_details__element-order-table-quantity-${index}`
+                }
+              >
+                { `${item.SalesProducts.quantity}` }
+              </td>
+              <td
+                data-testid={
+                  `seller_order_details__element-order-table-unit-price-${index}`
+                }
+              >
+                { currencyBrl(item.price).split('R$') }
+              </td>
+              <td
+                data-testid={
+                  `seller_order_details__element-order-table-sub-total-${index}`
+                }
+              >
+                { currencyBrl(item.price * item.SalesProducts.quantity).split('R$') }
+              </td>
+            </tr>
+          )) }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={ 4 }>Total</td>
+            <td
+              data-testid="seller_order_details__element-order-total-price"
+              colSpan={ 1 }
+            >
+              { currencyBrl(total).split('R$') }
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </>
+  );
+
   return (
     <>
       <Header type="seller" />
-      <StyledContainer>
+      <div>
         { !order
-          ? <StyledText>Carregando...</StyledText>
-          : (
-            <Board
-              title="Lista de usuários"
-              boardHeader={ renderHeaderBoard() }
-              boardDataTestId={ [
-                'seller_order_details__element-order-table-item-number-',
-                'seller_order_details__element-order-table-name-',
-                'seller_order_details__element-order-table-quantity-',
-                'seller_order_details__element-order-table-unit-price-',
-                'seller_order_details__element-order-table-sub-total-',
-                'seller_order_details__element-order-total-price-',
-              ] }
-              boardColoumns={ [
-                'Item',
-                'Descrição',
-                'Quantidade',
-                'Valor unitario',
-                'Sub-total'] }
-              board={ order.products.map((product, index) => {
-                const { name, price, SalesProducts } = product;
-
-                return {
-                  item: index + 1,
-                  descrição: name,
-                  Quantidade: SalesProducts.quantity,
-                  price: formatedCurrencyBRL(price),
-                  total:
-                    formatedCurrencyBRL(Number(price) * Number(SalesProducts.quantity)),
-                };
-              }) }
-              total={ <StyledText style={ { color: '#FFF' } }>{total}</StyledText> }
-            />
-          )}
-      </StyledContainer>
+          ? <h2>Carregando...</h2>
+          : renderTable() }
+      </div>
     </>
   );
 };

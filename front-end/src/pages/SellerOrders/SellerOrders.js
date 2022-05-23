@@ -35,7 +35,11 @@ const SellerOrders = () => {
 
     return (
       orders.map((order, index) => (
-        <button type="button" key={ index } onClick={ () => handleNavigate(order.id) }>
+        <button
+          key={ index }
+          type="button"
+          onClick={ () => handleNavigate(order.id + 1) }
+        >
           <div>
             <p data-testid={ `seller_orders__element-order-id-${order.id}` }>
               {order.id}
