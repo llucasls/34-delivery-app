@@ -69,6 +69,7 @@ const SellerDetails = () => {
         </p>
         <button
           type="button"
+          disabled={ order.status !== 'Pendente' }
           data-testid="seller_order_details__button-preparing-check"
           onClick={ () => statusOrder('Preparando') }
         >
@@ -76,6 +77,7 @@ const SellerDetails = () => {
         </button>
         <button
           type="button"
+          disabled={ order.status !== 'Preparando' }
           data-testid="seller_order_details__button-dispatch-check"
           onClick={ () => statusOrder('Em Trânsito') }
         >

@@ -51,7 +51,7 @@ const ProductsOrders = () => {
             fontWeight: 'bolder',
           } }
         >
-          {`${(data.status).toUpperCase()}`}
+          { data.status}
         </span>
         <span
           data-testid={ `customer_orders__element-order-date-${index}` }
