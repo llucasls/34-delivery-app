@@ -5,25 +5,14 @@ import colorStatusOrder from '../../../helpers/colorStatusOrder';
 import currencyBrl from '../../../helpers/currencyBrl';
 import formatedData from '../../../helpers/formatedData';
 import formatedOrder from '../../../helpers/formatedOrder';
+import useGetSallers from '../../../hooks/useGetSallers';
 import { api } from '../../../service/api';
 
 const OrderDetails = () => {
-  const [sellerData, setSellerDate] = useState([]);
+  const allSallers = useGetSallers();
+  const [delivery, setDelivery] = useState('');
   const [dataSalesDetails, setDataSalesDetails] = useState(null);
   const location = useLocation();
-
-  const getSellers = async () => {
-    try {
-      const { data } = await api.get('/users/sellers');
-      setSellerDate(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getSellers();
-  }, []);
 
   useEffect(() => {
     const getSalesDetails = async () => {
@@ -35,7 +24,24 @@ const OrderDetails = () => {
       }
     };
     getSalesDetails();
-  }, [location.pathname, location.state]);
+  }, [location.pathname]);
+
+  const markAsDelivered = async () => {
+    try {
+      const { data } = await api.patch(`/sales/${location.pathname.split('/')[3]}`, {
+        status: 'Entregue',
+      });
+      setDelivery(data.sale.status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (dataSalesDetails) {
+      setDelivery(dataSalesDetails.sale?.status);
+    }
+  }, [dataSalesDetails]);
 
   const renderSellerStatus = () => (
     <div
@@ -49,7 +55,7 @@ const OrderDetails = () => {
       <span
         data-testid="customer_order_details__element-order-details-label-seller-name"
       >
-        {`P. Vend: ${dataSalesDetails.sellerId ? sellerData.map((data) => data.name)
+        {`P. Vend: ${dataSalesDetails.sellerId ? allSallers.map((data) => data.name)
           : 'Parece que deu algum erro'}`}
       </span>
       <span
@@ -58,17 +64,20 @@ const OrderDetails = () => {
         {formatedData(dataSalesDetails.saleDate)}
       </span>
       <span
-        style={ { backgroundColor: colorStatusOrder(dataSalesDetails.status),
-          fontWeight: 'bolder' } }
+        style={ { backgroundColor: delivery ? colorStatusOrder(delivery)
+          : colorStatusOrder((dataSalesDetails.status)),
+        fontWeight: 'bolder' } }
         data-testid="customer_order_details__element-order-details-label-delivery-status"
       >
-        {(dataSalesDetails.status).toUpperCase()}
+        {delivery ? delivery.toUpperCase() : (dataSalesDetails.status).toUpperCase()}
       </span>
-      <span
+      <button
+        type="button"
         data-testid="customer_order_details__button-delivery-check"
+        onClick={ markAsDelivered }
       >
         Marcar como entregue
-      </span>
+      </button>
     </div>
   );
 
