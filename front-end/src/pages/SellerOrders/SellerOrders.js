@@ -38,7 +38,7 @@ const SellerOrders = () => {
         <button
           key={ index }
           type="button"
-          onClick={ () => handleNavigate(order.id + 1) }
+          onClick={ () => handleNavigate(order.id) }
         >
           <div>
             <p data-testid={ `seller_orders__element-order-id-${order.id}` }>
