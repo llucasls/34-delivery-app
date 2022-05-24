@@ -1,110 +1,174 @@
-import React, { useState } from 'react';
-import useGetUsers from '../../hooks/useGetUsers';
+import React, { useEffect, useState } from 'react';
+import { api } from '../../service/api';
 
-import { Header, Input, Select, Button, Label, Board } from '../../components';
-import {
-  StyledContainer,
-  StyledText,
-  StyledRow,
-  StyledContainerRegisterForm,
-} from './styles';
+import { Header } from '../../components';
 
 const Admin = () => {
-  const allUsers = useGetUsers();
-  const [registerForm, setRegisterForm] = useState({
-    name: { field: '', error: '' },
-    email: { field: '', error: '' },
-    password: { field: '', error: '' },
-    role: { field: '', error: '' },
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
+  const [users, setUsers] = useState([]);
+  const TWELVE = 12;
+  const SIX = 6;
+  const dsb = !(
+    (/\S+@\S+\.\S+/).test(email)
+    && password.length >= SIX
+    && name.length >= TWELVE
+    && role !== '');
 
-  const handleInput = (event) => {
-    const { title, value } = event.target;
-    setRegisterForm({ ...registerForm, [title]: { field: value, error: '' } });
+  const getUsers = async () => {
+    try {
+      const { data } = await api.get('/users');
+
+      setUsers(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  const register = async () => {
+    console.log(role);
+
+    try {
+      await api.post('/register', {
+        name,
+        email,
+        password,
+        role,
+      });
+
+      getUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteUser = async (emaildelete) => {
+    try {
+      await api.delete(`/users/${emaildelete}`);
+
+      getUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   const renderRegisterUser = () => (
-    <StyledContainerRegisterForm>
-      <StyledRow>
-        <Label style={ { width: '100%' } }>
-          Nome
-          <Input
-            name="name"
-            title="name"
-            placeholder="Nome e Sobrenome"
-            onChange={ handleInput }
-          />
-        </Label>
-        <Label style={ { width: '100%' } }>
-          Email
-          <Input
-            name="email"
-            title="name"
-            placeholder="seu-email@site.com.br"
-            onChange={ handleInput }
-          />
-        </Label>
-        <Label style={ { width: '100%' } }>
-          Senha
-          <Input
-            name="password"
-            title="name"
-            placeholder="Senha"
-            onChange={ handleInput }
-          />
-        </Label>
-        <Label style={ { width: '100%' } }>
-          Tipo
-          <Select
-            name="role"
-            title="role"
-            options={ ['Consumidor', 'Vendedor'] }
-            onChange={ handleInput }
-          />
-        </Label>
-        <Button
-          style={ {
-            padding: 10, width: '10%', margin: 0, marginBottom: -10 } }
-          title="Cadastrar"
+    <form>
+      <label htmlFor="name">
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Nome e sobrenome"
+          onChange={ ({ target }) => setName(target.value) }
+          data-testid="admin_manage__input-name"
         />
-      </StyledRow>
-    </StyledContainerRegisterForm>
+      </label>
+      <label htmlFor="email">
+        <input
+          id="email"
+          name="email"
+          type="text"
+          placeholder="Email"
+          onChange={ ({ target }) => setEmail(target.value) }
+          data-testid="admin_manage__input-email"
+        />
+      </label>
+      <label htmlFor="password">
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Senha"
+          onChange={ ({ target }) => setPassword(target.value) }
+          data-testid="admin_manage__input-password"
+        />
+      </label>
+      <label htmlFor="role">
+        <select
+          id="role"
+          name="role"
+          onChange={ ({ target }) => setRole(target.value) }
+          data-testid="admin_manage__select-role"
+        >
+          <option value="seller">Vendedor</option>
+          <option value="customer">Cliente</option>
+        </select>
+      </label>
+      <button
+        type="button"
+        disabled={ dsb }
+        onClick={ register }
+        data-testid="admin_manage__button-register"
+      >
+        Cadastrar
+      </button>
+    </form>
+  );
+
+  const renderTable = () => (
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Tipo</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user, index) => (
+          <tr key={ index }>
+            <td
+              data-testid={ `admin_manage__element-user-table-item-number-${index}` }
+            >
+              {index + 1}
+            </td>
+            <td
+              data-testid={ `admin_manage__element-user-table-name-${index}` }
+            >
+              {user.name}
+            </td>
+            <td
+              data-testid={ `admin_manage__element-user-table-email-${index}` }
+            >
+              {user.email}
+            </td>
+            <td
+              data-testid={ `admin_manage__element-user-table-role-${index}` }
+            >
+              {user.role}
+            </td>
+            <td>
+              <button
+                type="button"
+                onClick={ () => deleteUser(user.email) }
+                data-testid={ `admin_manage__element-user-table-remove-${index}` }
+              >
+                Excluir
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 
   return (
     <>
       <Header type="admin" />
-      <StyledContainer>
-        <StyledText
-          style={ { alignSelf: 'flex-start', marginLeft: '10%', marginBottom: 20 } }
-        >
-          Cadastrar novo usuário
-        </StyledText>
+      <div>
+        <h2>Cadastrar novo usuário</h2>
         {renderRegisterUser()}
-        <Board
-          boardColoumns={ ['Item', 'Nome', 'Email', 'Tipo', 'Excluir'] }
-          boardDataTestId={ [
-            'admin_manage__element-user-table-item-number-',
-            'admin_manage__element-user-table-name-',
-            'admin_manage__element-user-table-email-',
-            'admin_manage__element-user-table-role-',
-            'admin_manage__element-user-table-remove-',
-          ] }
-          board={ allUsers
-            .map((item, index) => {
-              const { name, email, role } = item;
-
-              return {
-                item: index,
-                nome: name,
-                email,
-                tipo: role,
-                excluir: 'excluir',
-              };
-            }) }
-          title="Lista de usuários"
-        />
-      </StyledContainer>
+        {renderTable()}
+      </div>
     </>
   );
 };

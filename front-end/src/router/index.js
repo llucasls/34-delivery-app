@@ -24,7 +24,7 @@ const MainRoute = () => (
       <Route path="/seller/orders/:id" exact element={ <SellerDetails /> } />
       <Route path="/customer/orders/" exact element={ <ProductsOrders /> } />
       <Route path="/customer/orders/:id" exact element={ <OrderDetails /> } />
-      <Route path="/admin" exact element={ <Admin /> } />
+      <Route path="/admin/manage" exact element={ <Admin /> } />
     </Switch>
   </BrowserRouter>
 );
