@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header } from '../../../components';
-import colorStatusOrder from '../../../helpers/colorStatusOrder';
 import currencyBrl from '../../../helpers/currencyBrl';
-import formatedData from '../../../helpers/formatedData';
-import formatedOrder from '../../../helpers/formatedOrder';
 import { api } from '../../../service/api';
 
 const OrderDetails = () => {
-  const [sellerData, setSellerDate] = useState([]);
   const [dataSalesDetails, setDataSalesDetails] = useState(null);
   const location = useLocation();
 
-  const getSellers = async () => {
+  const statusOrder = async (status) => {
     try {
-      const { data } = await api.get('/users/sellers');
-      setSellerDate(data);
+      await api.patch(`/sales/${order.id}`, {
+        status,
+      });
+
+      getOrder();
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    getSellers();
-  }, []);
 
   useEffect(() => {
     const getSalesDetails = async () => {
@@ -41,34 +36,34 @@ const OrderDetails = () => {
     <div
       style={ { display: 'flex', justifyContent: 'space-between', width: '35%' } }
     >
-      <span
+      <p
         data-testid="customer_order_details__element-order-details-label-order-id"
       >
-        {formatedOrder(dataSalesDetails.id)}
-      </span>
-      <span
+        { dataSalesDetails.id }
+      </p>
+      <p
         data-testid="customer_order_details__element-order-details-label-seller-name"
       >
-        {`P. Vend: ${dataSalesDetails.sellerId ? sellerData.map((data) => data.name)
-          : 'Parece que deu algum erro'}`}
-      </span>
-      <span
+        { dataSalesDetails.sellerId }
+      </p>
+      <p
         data-testid="customer_order_details__element-order-details-label-order-date"
       >
-        {formatedData(dataSalesDetails.saleDate)}
-      </span>
-      <span
-        style={ { backgroundColor: colorStatusOrder(dataSalesDetails.status),
-          fontWeight: 'bolder' } }
+        { dataSalesDetails.saleDate }
+      </p>
+      <p
         data-testid="customer_order_details__element-order-details-label-delivery-status"
       >
-        {(dataSalesDetails.status).toUpperCase()}
-      </span>
-      <span
+        { dataSalesDetails.status }
+      </p>
+      <button
+        type="button"
+        onClick={ () => statusOrder('Entregue') }
+        disabled={ dataSalesDetails.status !== 'Em Trânsito' }
         data-testid="customer_order_details__button-delivery-check"
       >
         Marcar como entregue
-      </span>
+      </button>
     </div>
   );
 
@@ -128,7 +123,7 @@ const OrderDetails = () => {
               data-testid="customer_checkout__element-order-total-price"
               colSpan={ 1 }
             >
-              { currencyBrl(dataSalesDetails.totalPrice) }
+              { currencyBrl(dataSalesDetails.totalPrice).split('R$') }
             </td>
           </tr>
         </tfoot>
