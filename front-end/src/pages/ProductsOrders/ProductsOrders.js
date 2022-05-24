@@ -39,22 +39,22 @@ const ProductsOrders = () => {
         } }
       >
         <span
-          data-testid={ `customer_orders__element-order-id-${index}` }
+          data-testid={ `customer_orders__element-order-id-${data.id}` }
         >
           {`Pedido ${formatedOrder(index + 1)}`}
         </span>
         <span
-          data-testid={ `customer_orders__element-delivery-status-${index}` }
+          data-testid={ `customer_orders__element-delivery-status-${data.id}` }
           style={ {
             backgroundColor: colorStatusOrder(data.status),
             padding: '20px',
             fontWeight: 'bolder',
           } }
         >
-          {`${(data.status).toUpperCase()}`}
+          {`${(data.status)}`}
         </span>
         <span
-          data-testid={ `customer_orders__element-order-date-${index}` }
+          data-testid={ `customer_orders__element-order-date-${data.id}` }
           style={ {
             display: 'flex',
             alignItems: 'center',
@@ -63,7 +63,7 @@ const ProductsOrders = () => {
           {`${formatedData(data.saleDate)}`}
         </span>
         <span
-          data-testid={ `customer_orders__element-card-price-${index}` }
+          data-testid={ `customer_orders__element-card-price-${data.id}` }
         >
           {`${currencyBrl(data.totalPrice)}`}
         </span>

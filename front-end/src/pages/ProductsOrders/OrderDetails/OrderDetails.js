@@ -69,12 +69,14 @@ const OrderDetails = () => {
         fontWeight: 'bolder' } }
         data-testid="customer_order_details__element-order-details-label-delivery-status"
       >
-        {delivery ? delivery.toUpperCase() : (dataSalesDetails.status).toUpperCase()}
+        {delivery || (dataSalesDetails.status)}
       </span>
       <button
         type="button"
         data-testid="customer_order_details__button-delivery-check"
         onClick={ markAsDelivered }
+        disabled={ dataSalesDetails.status === 'Pendente'
+        || dataSalesDetails.status === 'Preparando' }
       >
         Marcar como entregue
       </button>
@@ -99,30 +101,32 @@ const OrderDetails = () => {
             <tr key={ item.id }>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-item-number-${index}`
+                  `customer_order_details__element-order-table-item-number-${item.id}`
                 }
               >
                 { index + 1 }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-name-${index}` }
+                data-testid={ `customer_order_details__element-order
+                -table-name-${item.id}` }
               >
                 { item.name }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
+                data-testid={ `customer_order_details__element-order
+                -table-quantity-${item.id}` }
               >
                 { item.SalesProducts.quantity }
               </td>
               <td
-                data-testid={ `customer_checkout__element-
-                order-table-unit-price-${index}` }
+                data-testid={ `customer_order_details__element-order-table
+                -unit-price-${item.id}` }
               >
                 { currencyBrl(item.price).split('R$') }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order
-                -table-sub-total-${index}` }
+                data-testid={ `customer_order_details__element-order
+                -table-sub-total-${item.id}` }
               >
                 { currencyBrl(item.price
                 * item.SalesProducts.quantity).split('R$') }
@@ -134,7 +138,7 @@ const OrderDetails = () => {
           <tr>
             <td colSpan={ 4 }>Total</td>
             <td
-              data-testid="customer_checkout__element-order-total-price"
+              data-testid="customer_order_details__element-order-total-price"
               colSpan={ 1 }
             >
               { currencyBrl(dataSalesDetails.totalPrice) }
