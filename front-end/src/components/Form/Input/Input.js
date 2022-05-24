@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { StyledInput, StyledTextError } from './styles';
+import { StyledInput } from './styles';
 
-const Input = ({ name, error = '', ...rest }) => (
-  <>
-    {error && <StyledTextError>{error}</StyledTextError>}
-    <StyledInput error={ !!error } { ...rest } />
-  </>
+const Input = ({ name, ...rest }) => (
+  <StyledInput { ...rest } />
 );
 
 export default Input;
