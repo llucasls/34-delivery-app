@@ -6,29 +6,48 @@ import { api } from '../../../service/api';
 
 const OrderDetails = () => {
   const [dataSalesDetails, setDataSalesDetails] = useState(null);
+  const [seller, setSeller] = useState([]);
   const location = useLocation();
+
+  const getSellers = async () => {
+    try {
+      const { data } = await api.get('/users/sellers');
+
+      setSeller(data.filter((item) => item.id === dataSalesDetails.sellerId)[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getSalesDetails = async () => {
+    try {
+      const { data } = await api.get(`/sales/${location.pathname.split('/')[3]}`);
+
+      setDataSalesDetails(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const statusOrder = async (status) => {
     try {
-      await api.patch(`/sales/${order.id}`, {
+      await api.patch(`/sales/${location.pathname.split('/')[3]}`, {
         status,
       });
 
-      getOrder();
+      getSalesDetails();
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    const getSalesDetails = async () => {
-      try {
-        const { data } = await api.get(`/sales/${location.pathname.split('/')[3]}`);
-        setDataSalesDetails(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    if (dataSalesDetails) {
+      getSellers();
+    }
+  }, [dataSalesDetails]);
+
+  useEffect(() => {
     getSalesDetails();
   }, [location.pathname, location.state]);
 
@@ -44,7 +63,7 @@ const OrderDetails = () => {
       <p
         data-testid="customer_order_details__element-order-details-label-seller-name"
       >
-        { dataSalesDetails.sellerId }
+        {`P. Vend: ${seller.name || 'Parece que deu algum erro'}`}
       </p>
       <p
         data-testid="customer_order_details__element-order-details-label-order-date"

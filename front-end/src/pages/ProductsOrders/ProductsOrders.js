@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components';
-import colorStatusOrder from '../../helpers/colorStatusOrder';
-import currencyBrl from '../../helpers/currencyBrl';
-import formatedData from '../../helpers/formatedData';
-import formatedOrder from '../../helpers/formatedOrder';
 import { api } from '../../service/api';
+import currencyBrl from '../../helpers/currencyBrl';
 
 const ProductsOrders = () => {
   const [dataSales, setDataSales] = useState([]);
@@ -24,60 +21,56 @@ const ProductsOrders = () => {
     getSales();
   }, []);
 
-  const renderSales = () => (
-    dataSales.map((data, index) => (
-      <button
-        type="button"
-        key={ String(data.id) }
-        className="container-order"
-        onClick={ () => navigate(`/customer/orders/${data.id}`) }
-        style={ { display: 'flex',
-          justifyContent: 'space-between',
-          width: '30%',
-          padding: '20px',
-          alignItems: 'center',
-        } }
-      >
-        <span
-          data-testid={ `customer_orders__element-order-id-${index}` }
+  const renderSales = () => {
+    if (!dataSales.length) {
+      return (
+        <h2>Ainda não foi gerado nenhum pedido</h2>
+      );
+    }
+
+    return (
+      dataSales.map((sale, index) => (
+        <button
+          key={ index }
+          type="button"
+          onClick={ () => navigate(`/customer/orders/${sale.id}`) }
+          style={ { width: 200, display: 'flex', flexDirection: 'column' } }
         >
-          {`Pedido ${formatedOrder(index + 1)}`}
-        </span>
-        <span
-          data-testid={ `customer_orders__element-delivery-status-${index}` }
-          style={ {
-            backgroundColor: colorStatusOrder(data.status),
-            padding: '20px',
-            fontWeight: 'bolder',
-          } }
-        >
-          { data.status}
-        </span>
-        <span
-          data-testid={ `customer_orders__element-order-date-${index}` }
-          style={ {
-            display: 'flex',
-            alignItems: 'center',
-          } }
-        >
-          {`${formatedData(data.saleDate)}`}
-        </span>
-        <span
-          data-testid={ `customer_orders__element-card-price-${index}` }
-        >
-          {`${currencyBrl(data.totalPrice)}`}
-        </span>
-      </button>
-    ))
-  );
+          <span
+            data-testid={ `customer_orders__element-order-id-${index}` }
+          >
+            { `${sale.id}` }
+          </span>
+          <span
+            data-testid={ `customer_orders__element-delivery-status-${index}` }
+          >
+            { sale.status }
+          </span>
+          <span
+            data-testid={ `customer_orders__element-order-date-${index}` }
+          >
+            { sale.saleDate }
+          </span>
+          <span
+            data-testid={ `customer_orders__element-card-price-${index}` }
+          >
+            {`${currencyBrl(sale.totalPrice)}`}
+          </span>
+        </button>
+      )));
+  };
 
   return (
     <>
       <Header />
       <div>
-        <div>
-          {renderSales()}
-        </div>
+        { !dataSales
+          ? <h2>Carregando...</h2>
+          : (
+            <div>
+              { renderSales() }
+            </div>
+          )}
       </div>
     </>
   );
