@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { StyledSelectInput, StyledOption, StyledTextError } from './styles';
 
-const Select = ({ name, error = '', options, ...rest }) => {
+const Select = ({ name, options, ...rest }) => {
   const renderOption = (option, index) => (
     <StyledOption key={ index } value={ option }>{option}</StyledOption>
   );
@@ -11,7 +11,7 @@ const Select = ({ name, error = '', options, ...rest }) => {
   return (
     <>
       {error && <StyledTextError>{error}</StyledTextError>}
-      <StyledSelectInput error={ !!error } name={ name } { ...rest }>
+      <StyledSelectInput name={ name } { ...rest }>
         <StyledOption value="">Selecione</StyledOption>
         {options.map((option, index) => renderOption(option, index))}
       </StyledSelectInput>
