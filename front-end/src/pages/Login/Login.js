@@ -6,12 +6,13 @@ import { Input, Button, Label } from '../../components';
 import { StyledContainer, StyledContainerForm, StyledText } from './styles';
 
 const Login = () => {
-  // const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user'));
   const [axiosError, setAxiosError] = useState(null);
   const [login, setLogin] = useState({
     email: '',
     password: '',
   });
+
   const goTo = useNavigate();
 
   const handleChange = (event) => {
@@ -32,25 +33,28 @@ const Login = () => {
       break;
     }
   };
-  // useEffect(() => {
-  //   if (user) {
-  //     handleNavigate(user.role);
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      handleNavigate(user.role);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const handleLogin = async () => {
     try {
       const { data } = await api.post('/login', login);
 
-      // salva o token no localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify({
-        name: data.name,
-        email: data.email,
-        role: data.role,
-        token: data.token,
-      }));
+      if (data) {
+        // salva o token no localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify({
+          name: data.name,
+          email: data.email,
+          role: data.role,
+          token: data.token,
+        }));
+      }
 
       handleNavigate(data.role);
     } catch (error) {
@@ -137,6 +141,7 @@ const Login = () => {
         />
 
       </StyledContainerForm>
+
     </StyledContainer>
 
   );

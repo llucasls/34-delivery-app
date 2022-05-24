@@ -1,41 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header } from '../../../components';
+import colorStatusOrder from '../../../helpers/colorStatusOrder';
 import currencyBrl from '../../../helpers/currencyBrl';
+import formatedData from '../../../helpers/formatedData';
+import formatedOrder from '../../../helpers/formatedOrder';
+import useGetSallers from '../../../hooks/useGetSallers';
 import { api } from '../../../service/api';
 
 const OrderDetails = () => {
+  const allSallers = useGetSallers();
+  const [delivery, setDelivery] = useState('');
   const [dataSalesDetails, setDataSalesDetails] = useState(null);
-  const [seller, setSeller] = useState([]);
   const location = useLocation();
 
-  const getSellers = async () => {
+  useEffect(() => {
+    const getSalesDetails = async () => {
+      try {
+        const { data } = await api.get(`/sales/${location.pathname.split('/')[3]}`);
+        setDataSalesDetails(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSalesDetails();
+  }, [location.pathname]);
+
+  const markAsDelivered = async () => {
     try {
-      const { data } = await api.get('/users/sellers');
-
-      setSeller(data.filter((item) => item.id === dataSalesDetails.sellerId)[0]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getSalesDetails = async () => {
-    try {
-      const { data } = await api.get(`/sales/${location.pathname.split('/')[3]}`);
-
-      setDataSalesDetails(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const statusOrder = async (status) => {
-    try {
-      await api.patch(`/sales/${location.pathname.split('/')[3]}`, {
-        status,
+      const { data } = await api.patch(`/sales/${location.pathname.split('/')[3]}`, {
+        status: 'Entregue',
       });
-
-      getSalesDetails();
+      setDelivery(data.sale.status);
     } catch (error) {
       console.log(error);
     }
@@ -43,43 +39,44 @@ const OrderDetails = () => {
 
   useEffect(() => {
     if (dataSalesDetails) {
-      getSellers();
+      setDelivery(dataSalesDetails.sale?.status);
     }
   }, [dataSalesDetails]);
-
-  useEffect(() => {
-    getSalesDetails();
-  }, [location.pathname, location.state]);
 
   const renderSellerStatus = () => (
     <div
       style={ { display: 'flex', justifyContent: 'space-between', width: '35%' } }
     >
-      <p
+      <span
         data-testid="customer_order_details__element-order-details-label-order-id"
       >
-        { dataSalesDetails.id }
-      </p>
-      <p
+        {formatedOrder(dataSalesDetails.id)}
+      </span>
+      <span
         data-testid="customer_order_details__element-order-details-label-seller-name"
       >
-        {`P. Vend: ${seller.name || 'Parece que deu algum erro'}`}
-      </p>
-      <p
+        {`P. Vend: ${dataSalesDetails.sellerId ? allSallers.map((data) => data.name)
+          : 'Parece que deu algum erro'}`}
+      </span>
+      <span
         data-testid="customer_order_details__element-order-details-label-order-date"
       >
-        { dataSalesDetails.saleDate }
-      </p>
-      <p
+        {formatedData(dataSalesDetails.saleDate)}
+      </span>
+      <span
+        style={ { backgroundColor: delivery ? colorStatusOrder(delivery)
+          : colorStatusOrder((dataSalesDetails.status)),
+        fontWeight: 'bolder' } }
         data-testid="customer_order_details__element-order-details-label-delivery-status"
       >
-        { dataSalesDetails.status }
-      </p>
+        {delivery || (dataSalesDetails.status)}
+      </span>
       <button
         type="button"
-        onClick={ () => statusOrder('Entregue') }
-        disabled={ dataSalesDetails.status !== 'Em Trânsito' }
         data-testid="customer_order_details__button-delivery-check"
+        onClick={ markAsDelivered }
+        disabled={ dataSalesDetails.status === 'Pendente'
+        || dataSalesDetails.status === 'Preparando' }
       >
         Marcar como entregue
       </button>
@@ -104,30 +101,32 @@ const OrderDetails = () => {
             <tr key={ item.id }>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-item-number-${index}`
+                  `customer_order_details__element-order-table-item-number-${item.id}`
                 }
               >
                 { index + 1 }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-name-${index}` }
+                data-testid={ `customer_order_details__element-order
+                -table-name-${item.id}` }
               >
                 { item.name }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
+                data-testid={ `customer_order_details__element-order
+                -table-quantity-${item.id}` }
               >
                 { item.SalesProducts.quantity }
               </td>
               <td
-                data-testid={ `customer_checkout__element-
-                order-table-unit-price-${index}` }
+                data-testid={ `customer_order_details__element-order-table
+                -unit-price-${item.id}` }
               >
                 { currencyBrl(item.price).split('R$') }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order
-                -table-sub-total-${index}` }
+                data-testid={ `customer_order_details__element-order
+                -table-sub-total-${item.id}` }
               >
                 { currencyBrl(item.price
                 * item.SalesProducts.quantity).split('R$') }
@@ -139,10 +138,10 @@ const OrderDetails = () => {
           <tr>
             <td colSpan={ 4 }>Total</td>
             <td
-              data-testid="customer_checkout__element-order-total-price"
+              data-testid="customer_order_details__element-order-total-price"
               colSpan={ 1 }
             >
-              { currencyBrl(dataSalesDetails.totalPrice).split('R$') }
+              { currencyBrl(dataSalesDetails.totalPrice) }
             </td>
           </tr>
         </tfoot>
