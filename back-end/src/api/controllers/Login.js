@@ -25,20 +25,21 @@ const Login = async (req, res) => {
 };
 
 const Register = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, role } = req.body;
   const userTest = await userService.getUser({ name }) || await userService.getUser({ email });
 
-  if (userTest) {
-    return res.status(HTTPCodes.CONFLICT).json({
-      error: 'email or user already exists',
-    });
-  }
+  if (userTest) res.status(HTTPCodes.CONFLICT).json({ error: 'email or user already exists' });
 
   const hash = crypto.createHash('md5').update(password).digest('hex');
-  const user = await userService.createUser({ email, password: hash, name, role: 'customer' });
+  const user = await userService.createUser({
+    email,
+    password: hash,
+    name,
+    role: role || 'customer',
+  });
 
   return res.status(HTTPCodes.CREATED).json({
-    token: sign({ email, role: 'customer' }),
+    token: sign({ email, role: role || 'customer' }),
     name: user.name,
     role: user.role,
   });
