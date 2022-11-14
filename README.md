@@ -17,3 +17,22 @@ The complete list of technologies used:
 - Express.js
 - MySQL
 - Sequelize (ORM)
+
+## Run Project
+
+In order to run this project, you're going to need git, node and npm installed
+locally.
+First of all, clone the project, and cd into the new directory:
+```sh
+git clone https://github.com/llucasls/34-delivery-app.git delivery-app
+cd delivery-app
+```
+Then install the dependencies:
+```sh
+npm install
+```
+Finally, run the application:
+```sh
+npm start
+```
+Now you can make requests to the API through the URL `localhost:3000`.
